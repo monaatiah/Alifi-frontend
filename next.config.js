@@ -49,7 +49,7 @@ module.exports = withBundleAnalyzer({
 
   images: {
     domains: IMG_DOMAINS,
-    remotePatterns: [{ protocol: "https", hostname: "" }],
+    remotePatterns: [{ protocol: "https", hostname: "google.com" }],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 86400,
   },

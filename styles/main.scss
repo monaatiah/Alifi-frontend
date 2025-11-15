@@ -3,57 +3,57 @@
 /* ********************* */
 
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-Light.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-Light.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-Light.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-Regular.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-Regular.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-Regular.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-Medium.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-Medium.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-Medium.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-SemiBold.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-SemiBold.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-SemiBold.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-Bold.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-Bold.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-Bold.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-ExtraBold.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-ExtraBold.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-ExtraBold.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-ExtraBold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "noto-kufi-arabic";
-  src: url("/fonts/NotoKufiArabic-Black.woff2") format("woff2"),
-    url("/fonts/NotoKufiArabic-Black.ttf") format("truetype");
+  font-family: "noto-sans";
+  src: url("/fonts/NotoSansArabic-Black.woff2") format("woff2"),
+    url("/fonts/NotoSansArabic-Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -62,7 +62,7 @@
 /* ******************* */
 
 html {
-  font-family: "noto-kufi-arabic", Arial, sans-serif;
+  font-family: "noto-sans", Arial, sans-serif;
   transition: $transition;
   margin: 0;
   padding: 0;
@@ -72,8 +72,7 @@ html {
   background: transparent;
   height: 100%;
   scroll-behavior: smooth;
-  text-transform: capitalize;
-  font-size: 14px;
+  font-size: 15px;
   color: #121921;
 
   body {
@@ -369,8 +368,8 @@ input[type="checkbox"] {
     transition: $transition;
   }
   &:checked {
-    background-color: $logo-color !important;
-    border-color: $logo-color !important;
+    background-color: $primary-color !important;
+    border-color: $primary-color !important;
     &::before {
       opacity: 1;
     }
@@ -519,35 +518,31 @@ input[type="radio"] {
 }
 
 .btn {
-  height: 45px;
-  border-radius: 6px;
-  min-width: 150px;
-  background: $primary-color;
-  color: #fff;
+  height: 50px;
+  border-radius: 50px;
+  min-width: 180px;
+  background: $secondary-color;
+  color: #000;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  border: 1px solid $primary-color;
+  padding: 0 20px;
+  border: 2px solid $secondary-color;
   transition: $transition;
   line-height: 1;
   text-transform: capitalize;
   gap: 5px;
-  font-size: 14px;
+  font-weight: 700;
   @media (max-width: 768px) {
     min-width: 80px;
     height: 40px;
     font-size: 13px;
   }
 
-  svg {
-    transition: $transition;
-  }
-
   &.btn-outline {
     background-color: transparent;
-    border: 2px solid $primary-color;
-    color: $primary-color;
+    border: 2px solid $secondary-color;
+    color: $secondary-color;
   }
 
   &.btn-white {
@@ -561,8 +556,9 @@ input[type="radio"] {
   }
 
   &:hover {
-    background-color: #fff;
-    border-color: $primary-color;
+    border-color: $secondary-color !important;
+    background-color: transparent !important;
+    color: $secondary-color;
   }
 }
 
@@ -768,60 +764,19 @@ input {
 .section-title {
   margin-bottom: 50px;
   text-align: center;
-  position: relative;
   @media (max-width: 768px) {
     margin-bottom: 30px;
   }
-  span {
-    font-weight: 700;
-    font-size: 18px;
-    @media (max-width: 768px) {
-      font-size: 14px;
-    }
-  }
   h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-block: 15px;
-    @media (max-width: 768px) {
-      font-size: 20px;
-      margin-block: 10px;
-    }
-    @media (max-width: 500px) {
-      font-size: 18px;
-    }
+    font-size: 50px;
+    font-weight: 600;
+    color: #000;
+    margin-top: 5px;
   }
   p {
-    color: #999999;
+    font-weight: 600;
     font-size: 15px;
-    @media (max-width: 768px) {
-      font-size: 13px;
-    }
-  }
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    width: 35%;
-    height: 12px;
-    background-image: url("../src/assets/images/line.svg");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    right: 0;
-    top: 50%;
-    translate: 0 -50%;
-    opacity: 0.2;
-    z-index: -1;
-    @media (max-width: 768px) {
-      display: none;
-    }
-  }
-
-  &::after {
-    left: 0;
-    right: auto;
-    scale: -1;
+    color: $primary-color;
   }
 }
 
@@ -835,5 +790,33 @@ input {
   @media (max-width: 768px) {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+.swiper-pagination {
+  bottom: 10px !important;
+  .swiper-pagination-bullet {
+    width: 40px;
+    height: 4px;
+    margin: 0 5px !important;
+    background-color: #999;
+    opacity: 1;
+    border-radius: 0;
+    transition: $transition;
+
+    &.swiper-pagination-bullet-active {
+      background-color: $secondary-color;
+    }
+  }
+}
+
+.load-more {
+  text-align: center;
+  margin-top: 40px;
+  .btn {
+    &:hover {
+      border-color: $primary-color !important;
+      color: $primary-color;
+    }
   }
 }

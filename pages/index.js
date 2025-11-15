@@ -8,9 +8,21 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { handleImageLink } from "@/helpers/functions";
 
-// const Header = dynamic(() => import("@/components/header/Index"), {
-//   ssr: false,
-// });
+const Header = dynamic(() => import("@/components/header/Index"), {
+  ssr: false,
+});
+
+const HeroSection = dynamic(() => import("@/components/hero-section/Index"), {
+  ssr: false,
+});
+
+const AboutSection = dynamic(() => import("@/components/about-section/Index"), {
+  ssr: false,
+});
+
+const ShopSection = dynamic(() => import("@/components/shop-section/Index"), {
+  ssr: false,
+});
 
 const Home = () => {
   const { locale, asPath } = useRouter();
@@ -46,7 +58,10 @@ const Home = () => {
           image: handleImageLink(settings?.appLogo),
         }}
       /> */}
-      {/* <Header /> */}
+      <Header />
+      <HeroSection />
+      <AboutSection />
+      <ShopSection />
     </>
   );
 };

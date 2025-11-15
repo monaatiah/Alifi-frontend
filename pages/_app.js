@@ -66,26 +66,6 @@ function MyApp({ Component, pageProps }) {
         <title>Alifi</title>
         <link rel="shortcut icon" href={"/favicon.png"} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/NotoKufiArabic-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/NotoKufiArabic-Bold.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
       </Head>
       {Progress && <TopBarProgress />}
       <IntlProvider
