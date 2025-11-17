@@ -7,6 +7,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const IMG_DOMAINS = ["localhost"];
 
 const isDev = process.env.NODE_ENV === "development";
+const isNetlify = process.env.NETLIFY === "true";
 
 const ContentSecurityPolicy = `
   default-src 'self';
@@ -53,7 +54,7 @@ module.exports = withBundleAnalyzer({
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 86400,
     loader: "default",
-    unoptimized: true,
+    unoptimized: isNetlify,
   },
 
   i18n: {
