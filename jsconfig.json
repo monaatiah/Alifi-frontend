@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "types": [],
     "paths": {
       "@/styles/*": ["styles/*"],
       "@/themes/*": ["src/themes/*"],
@@ -12,5 +14,9 @@
       "@/content/*": ["src/content/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "pages", "next.config.js"],
+  "exclude": ["node_modules", ".next", "out", "build"],
+  "typeAcquisition": {
+    "enable": false
+  }
 }

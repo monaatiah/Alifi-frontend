@@ -52,6 +52,8 @@ module.exports = withBundleAnalyzer({
     remotePatterns: [{ protocol: "https", hostname: "google.com" }],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 86400,
+    loader: "default",
+    unoptimized: true,
   },
 
   i18n: {
