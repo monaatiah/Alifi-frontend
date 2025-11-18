@@ -1,0 +1,29 @@
+@import "@/styles/variables.scss";
+
+.products-section {
+  background-color: #f8a4f9;
+  position: relative;
+  padding-block: 70px;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url(../assets/pattern.png) center center/cover no-repeat;
+  }
+  :global {
+    .sec-head {
+      text-align: center;
+      margin-bottom: 70px;
+      h3 {
+        font-weight: 700;
+        font-size: 35px;
+        color: #121212;
+        margin-bottom: 15px;
+      }
+      p {
+        margin: 0 auto;
+        max-width: 70%;
+      }
+    }
+  }
+}

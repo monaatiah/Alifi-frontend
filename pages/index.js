@@ -24,6 +24,13 @@ const ShopSection = dynamic(() => import("@/components/shop-section/Index"), {
   ssr: false,
 });
 
+const ProductsSection = dynamic(
+  () => import("@/components/products-section/Index"),
+  {
+    ssr: false,
+  }
+);
+
 const Home = () => {
   const { locale, asPath } = useRouter();
 
@@ -62,6 +69,7 @@ const Home = () => {
       <HeroSection />
       <AboutSection />
       <ShopSection />
+      <ProductsSection />
     </>
   );
 };
