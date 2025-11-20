@@ -1,0 +1,20 @@
+@import "@/styles/variables.scss";
+
+.why-section {
+  padding-block: 70px;
+  :global {
+    .block {
+      text-align: center;
+      .img {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 5px;
+      }
+      h3 {
+        font-size: 14px;
+        font-weight: 500;
+        color: $primary-color;
+      }
+    }
+  }
+}

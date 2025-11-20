@@ -31,6 +31,18 @@ const ProductsSection = dynamic(
   }
 );
 
+const ServicesSection = dynamic(() => import("@/components/services/Index"), {
+  ssr: false,
+});
+
+const WhySection = dynamic(() => import("@/components/why-section/Index"), {
+  ssr: false,
+});
+
+const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
+  ssr: false,
+});
+
 const Home = () => {
   const { locale, asPath } = useRouter();
 
@@ -70,6 +82,9 @@ const Home = () => {
       <AboutSection />
       <ShopSection />
       <ProductsSection />
+      <ServicesSection />
+      <WhySection />
+      <JoinUsSection />
     </>
   );
 };

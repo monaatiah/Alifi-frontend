@@ -9,10 +9,16 @@ import "swiper/css/effect-fade";
 
 import HeroImg from "./assets/hero.png";
 import Image from "next/future/image";
+import Pattern1 from "./assets/1.svg";
+import Pattern2 from "./assets/2.svg";
+import Pattern3 from "./assets/3.svg";
 
 const Index = () => {
   return (
     <div className={styles["hero-section"]}>
+      <Pattern1 className="pattern-1" />
+      <Pattern2 className="pattern-2" />
+      <Pattern3 className="pattern-3" />
       <Swiper
         centeredSlides={true}
         pagination={{
