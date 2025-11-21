@@ -3,6 +3,9 @@
 .header {
   :global {
     .top-bar {
+      @media (max-width: 625px) {
+        display: none !important;
+      }
       a {
         transition: $transition;
 
@@ -14,12 +17,23 @@
     .bottom-bar {
       box-shadow: 0px 15px 24px -6px rgba(0, 0, 0, 0.05);
       padding: 20px 30px;
+      @media (max-width: 625px) {
+        padding: 15px 20px;
+        margin-top: 10px;
+      }
       .logo {
         img {
           object-fit: contain;
+          @media (max-width: 625px) {
+            width: 80px;
+            height: 50px;
+          }
         }
       }
       .menu {
+        @media (max-width: 992px) {
+          display: none;
+        }
         li {
           a {
             font-weight: 600;
@@ -54,6 +68,10 @@
           height: 45px;
           border-radius: 50%;
           background-color: $primary-color;
+          @media (max-width: 625px) {
+            width: 35px;
+            height: 35px;
+          }
           .item-count {
             background-color: $secondary-color;
             width: 20px;
@@ -67,6 +85,57 @@
             font-style: normal;
           }
         }
+      }
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      z-index: 9;
+      padding: 20px;
+      translate: -100% 0;
+      transition: $transition;
+      .sidebar-header {
+        button {
+          padding: 0;
+          background-color: #f7f7f7;
+          border: none;
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+        }
+      }
+      .sidebar-menu {
+        ul {
+          li {
+            a {
+              font-weight: 600;
+              color: $primary-color;
+              border-bottom: 2px solid transparent;
+              &.active {
+                border-color: $secondary-color;
+              }
+            }
+          }
+        }
+      }
+      .sidebar-footer {
+        a {
+          &:not(.btn) {
+            font-weight: 600;
+            color: $primary-color;
+          }
+        }
+      }
+      .btn {
+        height: 50px;
+      }
+
+      &.active {
+        translate: 0 0;
       }
     }
   }

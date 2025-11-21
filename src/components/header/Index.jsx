@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/future/image";
 import Link from "next/link";
 
@@ -21,39 +21,50 @@ import InstagramIcon from "./assets/images/instagram.svg";
 import LogoIcon from "./assets/images/logo.png";
 import { Container } from "react-bootstrap";
 import { useRouter } from "next/router";
+import Sidebar from "./Sidebar";
 
 const Index = () => {
   const { asPath } = useRouter();
 
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <>
       <header
-        className={`${styles.header} position-absolute w-100 top-0 start-0 z-2`}
+        className={`${styles.header} position-absolute w-100 start-0 z-2`}
       >
         <Container>
           <div className="top-bar d-flex align-items-center gap-3 justify-content-between py-3">
             <div className="d-flex align-items-center gap-5">
               <Link href={`tel:123456789`}>
                 <a className="d-flex align-items-center gap-2 text-white">
-                  <PhoneIcon />
+                  <PhoneIcon fill="#fff" />
                   123-456-789
                 </a>
               </Link>
               <Link href={`mailto:info@alifi.sa`}>
                 <a className="d-flex align-items-center gap-2 text-white">
-                  <EmailIcon />
+                  <EmailIcon fill="#fff" />
                   info@alifi.sa
                 </a>
               </Link>
             </div>
             <Link href={"/login"}>
               <a className="d-flex align-items-center gap-2 text-white">
-                <UserIcon />
+                <UserIcon fill="#fff" />
                 تسجيل الدخول / إنشاء حساب
               </a>
             </Link>
           </div>
           <div className="bottom-bar d-flex align-items-center gap-4 justify-content-between bg-white">
+            <button
+              type="button"
+              className="menu-btn d-lg-none d-md-block border-0 bg-transparent"
+              onClick={() => setShowSidebar(true)}
+              aria-label="Menu"
+            >
+              <MenuIcon />
+            </button>
             <div className="logo">
               <Link href={"/"}>
                 <a>
@@ -139,17 +150,11 @@ const Index = () => {
                   0
                 </i>
               </button>
-              <button
-                // hide on desktop and show on mobile
-                className="menu-btn border-0 bg-transparent d-lg-none d-md-block"
-                type="button"
-                aria-label="Menu"
-              >
-                <MenuIcon />
-              </button>
             </div>
           </div>
         </Container>
+
+        <Sidebar show={showSidebar} onClose={() => setShowSidebar(false)} />
       </header>
     </>
   );

@@ -30,7 +30,7 @@ const Index = () => {
     <div className={styles["about-section"]}>
       <Container>
         <div className="sec-head">
-          <h3>من نحن</h3>
+          <h1>من نحن</h1>
           <p>
             أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق
             الحيوانات الأليفة. نساعدك على اختيار الأفضل لحيوانك الأليف، من
@@ -49,7 +49,7 @@ const Index = () => {
                     height={70}
                   />
                 </div>
-                <h4>{item?.title}</h4>
+                <h2>{item?.title}</h2>
               </div>
             </Col>
           ))}

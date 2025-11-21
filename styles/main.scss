@@ -58,6 +58,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "anybody";
+  src: url("/fonts/Anybody-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ******************* */
 
@@ -80,6 +87,13 @@ html {
     overflow-x: hidden;
     position: relative;
     z-index: 1;
+    padding: 30px;
+    @media (max-width: 768px) {
+      padding: 15px;
+    }
+    @media (max-width: 480px) {
+      padding: 0;
+    }
     &.modal-open,
     &.swal2-shown {
       padding: 0 !important;
@@ -772,11 +786,20 @@ input {
     font-weight: 600;
     color: #000;
     margin-top: 5px;
+    @media (max-width: 768px) {
+      font-size: 32px;
+    }
+    @media (max-width: 480px) {
+      font-size: 24px;
+    }
   }
   p {
     font-weight: 600;
     font-size: 15px;
     color: $primary-color;
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
   }
 }
 
@@ -817,6 +840,27 @@ input {
     &:hover {
       border-color: $primary-color !important;
       color: $primary-color;
+    }
+  }
+}
+
+.sw-navigation {
+  button {
+    z-index: 6;
+    background: transparent;
+    border: 1px solid #999999;
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition;
+    &.swiper-button-disabled {
+      opacity: 0.3;
+      pointer-events: none;
     }
   }
 }

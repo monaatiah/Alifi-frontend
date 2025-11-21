@@ -2,6 +2,9 @@
 
 .services-section {
   padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-block: 50px 0;
+  }
   :global {
     .block {
       text-align: center;
@@ -12,6 +15,10 @@
         width: 200px;
         height: 200px;
         transition: $transition;
+        @media (max-width: 625px) {
+          width: 140px;
+          height: 140px;
+        }
         &::before {
           content: "";
           position: absolute;
@@ -32,6 +39,9 @@
           font-weight: 700;
           font-size: 25px;
           color: #000;
+          @media (max-width: 625px) {
+            font-size: 20px;
+          }
         }
         p {
           color: #121212;
@@ -39,7 +49,7 @@
           margin-bottom: 5px;
         }
         a {
-          color: #f2782b;
+          color: #000;
           text-decoration: underline;
         }
       }
@@ -50,6 +60,18 @@
           &::before {
             rotate: 100deg;
           }
+        }
+      }
+    }
+    .row {
+      @media (max-width: 625px) {
+        overflow: hidden;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        .col-lg-3 {
+          width: auto;
         }
       }
     }

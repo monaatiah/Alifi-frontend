@@ -1,9 +1,9 @@
 import Image from "next/future/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import CartIcon from "./assets/cart.svg";
 
-const ProductBlock = ({ item }) => {
+const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -15,9 +15,11 @@ const ProductBlock = ({ item }) => {
           width={340}
           height={200}
           loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         />
         <Link href={`/products/${item?.id}`}>
-          <a> </a>
+          <a aria-label={item?.name}> </a>
         </Link>
       </div>
       <div className="info">
@@ -43,13 +45,15 @@ const ProductBlock = ({ item }) => {
           <Link href={`/products/${item?.id}`}>
             <a>مزيد من التفاصيل</a>
           </Link>
-          <button className="add-to-cart">
+          <button className="add-to-cart" aria-label="add to cart">
             <CartIcon />
           </button>
         </div>
       </div>
     </div>
   );
-};
+});
+
+ProductBlock.displayName = "ProductBlock";
 
 export default ProductBlock;

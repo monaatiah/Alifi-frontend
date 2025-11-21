@@ -20,19 +20,21 @@ const Index = () => {
       id: v4(),
       name: "منتجات للقطط",
       subCategories: [
-        { id: v4(), name: "الألعاب والإكسسوارات" },
-        { id: v4(), name: "لوازم" },
-        { id: v4(), name: "طعام" },
+        { id: v4(), name: "الألعاب والإكسسوارات", slug: "games-accessories" },
+        { id: v4(), name: "لوازم", slug: "supplies" },
+        { id: v4(), name: "طعام", slug: "food" },
       ],
+      slug: "cats-products",
     },
     {
       id: v4(),
       name: "منتجات للكلاب",
       subCategories: [
-        { id: v4(), name: "الألعاب والإكسسوارات" },
-        { id: v4(), name: "لوازم" },
-        { id: v4(), name: "طعام" },
+        { id: v4(), name: "الألعاب والإكسسوارات", slug: "games-accessories" },
+        { id: v4(), name: "لوازم", slug: "supplies" },
+        { id: v4(), name: "طعام", slug: "food" },
       ],
+      slug: "dogs-products",
     },
   ];
 
@@ -150,10 +152,8 @@ const Index = () => {
                           <Swiper
                             spaceBetween={30}
                             slidesPerView={4}
-                            navigation={true}
-                            // pagination={{ clickable: true }}
+                            navigation
                             modules={[Pagination, Navigation, Autoplay]}
-                            // autoplay={{ delay: 2500, disableOnInteraction: false }}
                             breakpoints={{
                               320: {
                                 slidesPerView: 1,

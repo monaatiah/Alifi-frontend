@@ -43,6 +43,17 @@ const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
   ssr: false,
 });
 
+const ReviewsSection = dynamic(
+  () => import("@/components/reviews-section/Index"),
+  {
+    ssr: false,
+  }
+);
+
+const BlogsSection = dynamic(() => import("@/components/blogs-section/Index"), {
+  ssr: false,
+});
+
 const Home = () => {
   const { locale, asPath } = useRouter();
 
@@ -85,6 +96,8 @@ const Home = () => {
       <ServicesSection />
       <WhySection />
       <JoinUsSection />
+      <ReviewsSection />
+      <BlogsSection />
     </>
   );
 };
