@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { Container, Nav, Tab } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import Pattern1 from "./assets/1.svg";
@@ -8,101 +8,121 @@ import Pattern3 from "./assets/3.svg";
 import Image1 from "./assets/1.png";
 import Image2 from "./assets/2.png";
 import Image3 from "./assets/3.png";
-import { v4 } from "uuid";
+import Link from "next/link";
 import ProductBlock from "./ProductBlock";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper";
-import Link from "next/link";
+import { Navigation } from "swiper";
 
 const Index = () => {
-  const categories = [
-    {
-      id: v4(),
-      name: "منتجات للقطط",
-      subCategories: [
-        { id: v4(), name: "الألعاب والإكسسوارات", slug: "games-accessories" },
-        { id: v4(), name: "لوازم", slug: "supplies" },
-        { id: v4(), name: "طعام", slug: "food" },
-      ],
-      slug: "cats-products",
-    },
-    {
-      id: v4(),
-      name: "منتجات للكلاب",
-      subCategories: [
-        { id: v4(), name: "الألعاب والإكسسوارات", slug: "games-accessories" },
-        { id: v4(), name: "لوازم", slug: "supplies" },
-        { id: v4(), name: "طعام", slug: "food" },
-      ],
-      slug: "dogs-products",
-    },
-  ];
+  const categories = useMemo(
+    () => [
+      {
+        id: "cats-products",
+        name: "منتجات للقطط",
+        subCategories: [
+          {
+            id: "cats-games",
+            name: "الألعاب والإكسسوارات",
+            slug: "games-accessories",
+          },
+          { id: "cats-supplies", name: "لوازم", slug: "supplies" },
+          { id: "cats-food", name: "طعام", slug: "food" },
+        ],
+        slug: "cats-products",
+      },
+      {
+        id: "dogs-products",
+        name: "منتجات للكلاب",
+        subCategories: [
+          {
+            id: "dogs-games",
+            name: "الألعاب والإكسسوارات",
+            slug: "games-accessories",
+          },
+          { id: "dogs-supplies", name: "لوازم", slug: "supplies" },
+          { id: "dogs-food", name: "طعام", slug: "food" },
+        ],
+        slug: "dogs-products",
+      },
+    ],
+    []
+  );
 
-  const products = [
-    {
-      id: v4(),
-      name: "Rosquillas Caseras para Perros",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image1,
-      price: 12.0,
-      category: { id: v4(), name: "الألعاب والإكسسوارات" },
+  const products = useMemo(
+    () => [
+      {
+        id: "prod-1",
+        name: "Rosquillas Caseras para Perros",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image1,
+        price: 12.0,
+        category: { id: "cat-1", name: "الألعاب والإكسسوارات" },
+      },
+      {
+        id: "prod-2",
+        name: "Juguete Interactivo para Gatos",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image2,
+        price: 18.5,
+        category: { id: "cat-2", name: "لوازم" },
+      },
+      {
+        id: "prod-3",
+        name: "Cama Cómoda para Mascotas",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image3,
+        price: 25.0,
+        category: { id: "cat-3", name: "طعام" },
+      },
+      {
+        id: "prod-4",
+        name: "Alimento Natural para Perros",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image1,
+        price: 30.0,
+        category: { id: "cat-4", name: "الألعاب والإكسسوارات" },
+      },
+      {
+        id: "prod-5",
+        name: "Alimento Natural para Perros",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image1,
+        price: 30.0,
+        category: { id: "cat-5", name: "الألعاب والإكسسوارات" },
+      },
+      {
+        id: "prod-6",
+        name: "Alimento Natural para Perros",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image1,
+        price: 30.0,
+        category: { id: "cat-6", name: "الألعاب والإكسسوارات" },
+      },
+      {
+        id: "prod-7",
+        name: "Alimento Natural para Perros",
+        description:
+          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
+        image: Image1,
+        price: 30.0,
+        category: { id: "cat-7", name: "الألعاب والإكسسوارات" },
+      },
+    ],
+    []
+  );
+
+  const filterProducts = useCallback(
+    (subCategoryName) => {
+      return products.filter((p) => p.category.name === subCategoryName);
     },
-    {
-      id: v4(),
-      name: "Juguete Interactivo para Gatos",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image2,
-      price: 18.5,
-      category: { id: v4(), name: "لوازم" },
-    },
-    {
-      id: v4(),
-      name: "Cama Cómoda para Mascotas",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image3,
-      price: 25.0,
-      category: { id: v4(), name: "طعام" },
-    },
-    {
-      id: v4(),
-      name: "Alimento Natural para Perros",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image1,
-      price: 30.0,
-      category: { id: v4(), name: "الألعاب والإكسسوارات" },
-    },
-    {
-      id: v4(),
-      name: "Alimento Natural para Perros",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image1,
-      price: 30.0,
-      category: { id: v4(), name: "الألعاب والإكسسوارات" },
-    },
-    {
-      id: v4(),
-      name: "Alimento Natural para Perros",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image1,
-      price: 30.0,
-      category: { id: v4(), name: "الألعاب والإكسسوارات" },
-    },
-    {
-      id: v4(),
-      name: "Alimento Natural para Perros",
-      description:
-        "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-      image: Image1,
-      price: 30.0,
-      category: { id: v4(), name: "الألعاب والإكسسوارات" },
-    },
-  ];
+    [products]
+  );
 
   return (
     <div className={styles["products-section"]}>
@@ -121,12 +141,7 @@ const Index = () => {
         {
           //render categories as product rows
           categories.map((category) => (
-            <Tab.Container
-              key={category.id}
-              defaultActiveKey={0}
-              transition={true}
-              timeout={1000}
-            >
+            <Tab.Container key={category.id} defaultActiveKey={0}>
               <div className="product-row-item">
                 <div className="row-head d-flex align-items-center justify-content-between mb-4">
                   <h4 className="category-name">{category.name}</h4>
@@ -152,8 +167,8 @@ const Index = () => {
                           <Swiper
                             spaceBetween={30}
                             slidesPerView={4}
-                            navigation
-                            modules={[Pagination, Navigation, Autoplay]}
+                            navigation={true}
+                            modules={[Navigation]}
                             breakpoints={{
                               320: {
                                 slidesPerView: 1,
@@ -174,19 +189,11 @@ const Index = () => {
                               },
                             }}
                           >
-                            {
-                              //filter products by subcategory
-                              products
-                                .filter(
-                                  (product) =>
-                                    product.category.name === subCategory.name
-                                )
-                                .map((product) => (
-                                  <SwiperSlide key={product.id}>
-                                    <ProductBlock item={product} />
-                                  </SwiperSlide>
-                                ))
-                            }
+                            {filterProducts(subCategory.name).map((product) => (
+                              <SwiperSlide key={product.id}>
+                                <ProductBlock item={product} />
+                              </SwiperSlide>
+                            ))}
                           </Swiper>
                         </div>
                       </Tab.Pane>
