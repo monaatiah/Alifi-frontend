@@ -45,7 +45,7 @@ const Index = () => {
         <Row>
           {data?.map((item) => (
             <Col key={item.id} md={6} lg={3}>
-              <div className="block">
+              <div className="service-block">
                 <div className="img">
                   <Image
                     src={item?.img}
@@ -53,6 +53,9 @@ const Index = () => {
                     width={325}
                     height={325}
                   />
+                  <Link href={`/services/${item?.id}`}>
+                    <a> </a>
+                  </Link>
                 </div>
                 <div className="info">
                   <h3>{item.title}</h3>

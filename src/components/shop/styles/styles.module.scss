@@ -1,0 +1,47 @@
+@import "@/styles/variables.scss";
+
+.shop-wrapper {
+  :global {
+    .price-range-wrap {
+      .thumb {
+        background-color: #fff;
+        width: 16px;
+        height: 16px;
+        border-radius: 100%;
+        border: 4px solid $third-color;
+        box-shadow: 0px 1.74683px 3.49367px rgba(0, 0, 0, 0.08);
+        [data-theme="dark"] & {
+          background-color: #1b1c1c;
+        }
+        .thumb__dot {
+          width: 11px;
+          height: 11px;
+          border-radius: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          transition: $transition;
+        }
+      }
+      .price-text {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 100%;
+        span {
+          font-size: 13px;
+          [data-theme="dark"] & {
+            color: #fff;
+          }
+        }
+      }
+      output {
+        [data-theme="dark"] & {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
