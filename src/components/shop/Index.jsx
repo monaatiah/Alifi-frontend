@@ -1,8 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { GoSearch } from "react-icons/go";
-import { FaListUl } from "react-icons/fa6";
+import { FaArrowRight, FaListUl, FaArrowLeft } from "react-icons/fa6";
+import { BsGrid3X3Gap } from "react-icons/bs";
+
 import { IoMdClose } from "react-icons/io";
 import PriceRange from "./PriceRange";
 import Link from "next/link";
@@ -57,6 +59,8 @@ const Index = () => {
     []
   );
 
+  const [layoutView, setLayoutView] = useState("grid");
+
   return (
     <div className={styles["shop-wrapper"]}>
       <Container>
@@ -66,7 +70,7 @@ const Index = () => {
               <div className="inputs-wrap d-flex align-items-center gap-3">
                 <div className="search">
                   <button type="button" aria-label="search button">
-                    <GoSearch />
+                    <GoSearch color="#fff" />
                   </button>
                   <input
                     type="search"
@@ -75,7 +79,7 @@ const Index = () => {
                   />
                 </div>
                 <select
-                  className="form-select"
+                  className="form-select form-control"
                   aria-label="Default select example"
                 >
                   <option selected>فرز حسب</option>
@@ -90,12 +94,19 @@ const Index = () => {
                 type="button"
                 className="filter-btn"
                 aria-label="filter button"
+                onClick={() => {
+                  setLayoutView(layoutView === "grid" ? "list" : "grid");
+                }}
               >
-                <FaListUl />
+                {layoutView === "list" ? (
+                  <BsGrid3X3Gap color="#fff" size={22} />
+                ) : (
+                  <FaListUl color="#fff" size={22} />
+                )}
               </button>
             </div>
           </Col>
-          <Col xxl={3} lg={4}>
+          <Col lg={3}>
             <div className="shop-sidebar">
               <div className="head d-flex justify-content-between align-items-center gap-3">
                 <button type="button" aria-label="close sidebar">
@@ -115,83 +126,137 @@ const Index = () => {
                 <h3>السعر</h3>
                 <div className="price-range-wrap">
                   <PriceRange />
+                  <button type="button" className="btn">
+                    تصفية
+                  </button>
                 </div>
-                <button type="button" className="btn">
-                  تصفية
-                </button>
               </div>
-            </div>
+              <div className="widget">
+                <h3>العلامة التجارية</h3>
+                <ul>
+                  <li>
+                    <Link href="/">
+                      <a>(4) أبل</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <a>(6) سامسونج</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <a>(3) هواوي</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <a>(2) شاومي</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <a>(1) أوبو</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <a>(2) فيفو</a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-            <div className="widget">
-              <h3>العلامة التجارية</h3>
-              <ul>
-                <li>
-                  <Link href="/">
-                    <a>(4) أبل</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/">
-                    <a>(6) سامسونج</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/">
-                    <a>(3) هواوي</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/">
-                    <a>(2) شاومي</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/">
-                    <a>(1) أوبو</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/">
-                    <a>(2) فيفو</a>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="widget">
-              <h3>المنتجات المميزة</h3>
-              {products.slice(0, 3).map((product) => (
-                <div key={product.id} className="featured-product d-flex gap-3">
-                  <div className="img">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={80}
-                      height={80}
-                    />
-                  </div>
-                  <div className="info">
-                    <h4>
+              <div className="widget">
+                <h3>المنتجات المميزة</h3>
+                {products.slice(0, 3).map((product) => (
+                  <div
+                    key={product.id}
+                    className="featured-product d-flex gap-3"
+                  >
+                    <div className="img">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={80}
+                        height={80}
+                      />
                       <Link href={`/shop/${product.id}`}>
-                        <a>{product.name}</a>
+                        <a></a>
                       </Link>
-                    </h4>
-                    <p>{product.description}</p>
-                    <span className="price">${product.price.toFixed(2)}</span>
+                    </div>
+                    <div className="info">
+                      <h4>
+                        <Link href={`/shop/${product.id}`}>
+                          <a>{product.name}</a>
+                        </Link>
+                      </h4>
+                      {/* <p>{product.description}</p> */}
+                      <span className="price">${product.price.toFixed(2)}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </Col>
 
-          <Col xxl={9} lg={8}>
-            <Row>
+          <Col lg={9}>
+            <Row className={`${layoutView === "list" ? "list" : ""}`}>
               {products.map((item) => (
-                <Col key={item.id} md={6} lg={4}>
+                <Col key={item.id} lg={layoutView === "grid" ? 4 : 12} md={6}>
                   <ProductBlock item={item} />
                 </Col>
               ))}
             </Row>
+
+            <div className="global-pagination">
+              <ul>
+                <li>
+                  <button
+                    type="button"
+                    aria-label="previous page"
+                    className="action-btn"
+                  >
+                    <FaArrowRight />
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className="active" aria-label="page 1">
+                    1
+                  </button>
+                </li>
+                <li>
+                  <button type="button" aria-label="page 2">
+                    2
+                  </button>
+                </li>
+                <li>
+                  <button type="button" aria-label="page 3">
+                    3
+                  </button>
+                </li>
+                <li>
+                  <button type="button" aria-label="page 4">
+                    4
+                  </button>
+                </li>
+                <li>
+                  <button type="button" aria-label="page 5">
+                    5
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    aria-label="next page"
+                    className="action-btn next-btn"
+                  >
+                    <FaArrowLeft />
+                  </button>
+                </li>
+              </ul>
+            </div>
           </Col>
         </Row>
       </Container>

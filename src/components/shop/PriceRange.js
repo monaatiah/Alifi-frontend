@@ -8,19 +8,13 @@ const PriceRange = () => {
   const MAX = 10000;
   const [values, setValues] = useState([MIN, MAX]);
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      <output
-        style={{ marginTop: "20px", width: "100%", fontSize: "12px" }}
-        id="output"
-      >
-        {`السعر : ${values[0]}$ - ${values[1]}$`}
-      </output>
+    <div>
+      <div className="price-text d-flex justify-content-center align-items-center gap-4">
+        <span>السعر</span>
+        <div className="d-flex gap-2">
+          {values[0]} $ - {values[1]} $
+        </div>
+      </div>
       <Range
         values={values}
         min={MIN}
@@ -42,12 +36,12 @@ const PriceRange = () => {
             <div
               ref={props.ref}
               style={{
-                height: "3px",
+                height: "12px",
                 width: "100%",
-                borderRadius: "50px",
+                borderRadius: "5px",
                 background: getTrackBackground({
                   values,
-                  colors: ["#f1f1f1", "#F2782B", "#f1f1f1"],
+                  colors: ["#f2f2f2", "#F2782B", "#f2f2f2"],
                   min: MIN,
                   max: MAX,
                   rtl: locale === "ar" ? true : false,

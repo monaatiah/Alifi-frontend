@@ -2,6 +2,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 import React, { useState, memo } from "react";
 import CartIcon from "./assets/cart.svg";
+import { FaRegHeart } from "react-icons/fa6";
 
 const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
@@ -21,6 +22,9 @@ const ProductBlock = memo(({ item }) => {
         <Link href={`/products/${item?.id}`}>
           <a aria-label={item?.name}> </a>
         </Link>
+        <button className="wishlist-btn" aria-label="add to wishlist">
+          <FaRegHeart size={20} />
+        </button>
       </div>
       <div className="info">
         <div className="title">
