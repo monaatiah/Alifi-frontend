@@ -58,15 +58,19 @@
         max-width: 70%;
         @media (max-width: 768px) {
           font-size: 28px;
+          max-width: 100%;
         }
         @media (max-width: 480px) {
-          font-size: 24px;
+          font-size: 22px;
         }
       }
       p {
         color: #fff;
         font-size: 16px;
         margin-bottom: 20px;
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
       }
       ul {
         li {
@@ -93,6 +97,9 @@
       }
     }
     .img {
+      @media (max-width: 768px) {
+        display: none;
+      }
       img {
         object-fit: contain;
         width: 100%;

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { GoSearch } from "react-icons/go";
-import { FaArrowRight, FaListUl, FaArrowLeft } from "react-icons/fa6";
+import { FaArrowRight, FaListUl, FaArrowLeft, FaFilter } from "react-icons/fa6";
 import { BsGrid3X3Gap } from "react-icons/bs";
 
 import { IoMdClose } from "react-icons/io";
@@ -59,6 +59,7 @@ const Index = () => {
     []
   );
 
+  const [showSidebar, setShowSidebar] = useState(false);
   const [layoutView, setLayoutView] = useState("grid");
 
   return (
@@ -92,6 +93,18 @@ const Index = () => {
 
               <button
                 type="button"
+                className="open-filter"
+                aria-label="open filter"
+                onClick={() => {
+                  setShowSidebar(true);
+                }}
+              >
+                <FaFilter />
+                فلتر المنتجات
+              </button>
+
+              <button
+                type="button"
                 className="filter-btn"
                 aria-label="filter button"
                 onClick={() => {
@@ -107,10 +120,18 @@ const Index = () => {
             </div>
           </Col>
           <Col lg={3}>
-            <div className="shop-sidebar">
+            <div
+              className={showSidebar ? "shop-sidebar active" : "shop-sidebar"}
+            >
               <div className="head d-flex justify-content-between align-items-center gap-3">
-                <button type="button" aria-label="close sidebar">
-                  <IoMdClose />
+                <button
+                  type="button"
+                  aria-label="close sidebar"
+                  onClick={() => {
+                    setShowSidebar(false);
+                  }}
+                >
+                  <IoMdClose size={25} />
                 </button>
 
                 <button

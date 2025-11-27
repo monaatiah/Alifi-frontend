@@ -1,13 +1,30 @@
 @import "@/styles/variables.scss";
 
 .shop-wrapper {
+  padding-top: 50px;
+  @media (max-width: 768px) {
+    padding-top: 30px;
+  }
+  @media (max-width: 625px) {
+    padding-bottom: 50px;
+  }
   :global {
     .shop-filter {
       background-color: $primary-color;
       border-radius: 50px;
       padding: 15px 25px;
       margin-bottom: 50px;
+      @media (max-width: 768px) {
+        flex-direction: column;
+        border-radius: 25px;
+        padding: 15px;
+        margin-bottom: 0;
+      }
       .inputs-wrap {
+        @media (max-width: 768px) {
+          flex-direction: column;
+          width: 100%;
+        }
         .form-control {
           height: 50px;
           border-radius: 50px;
@@ -18,9 +35,18 @@
           color: #999;
           min-width: 300px;
           padding-inline: 30px;
+          @media (max-width: 768px) {
+            min-width: 100%;
+            width: 100%;
+            font-size: 14px;
+          }
         }
         .search {
           position: relative;
+          @media (max-width: 768px) {
+            min-width: 100%;
+            width: 100%;
+          }
           button {
             position: absolute;
             right: 15px;
@@ -34,6 +60,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            @media (max-width: 768px) {
+              right: 5px;
+              top: 5px;
+            }
             svg {
               scale: -1 1;
             }
@@ -41,6 +71,11 @@
           .form-control {
             padding-inline: 70px 20px;
             min-width: 500px;
+            @media (max-width: 768px) {
+              min-width: 100%;
+              width: 100%;
+              padding-inline: 60px 20px;
+            }
             &::placeholder {
               color: inherit;
             }
@@ -56,9 +91,47 @@
         align-items: center;
         justify-content: center;
         border: 0;
+        flex-shrink: 0;
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+      .open-filter {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 0;
+        border-radius: 50px;
+        padding: 0 20px;
+        height: 50px;
+        background-color: $third-color;
+        color: #fff;
+        min-width: 120px;
+        width: 100%;
+        @media (max-width: 768px) {
+          display: flex;
+        }
       }
     }
     .shop-sidebar {
+      @media (max-width: 768px) {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 10;
+        padding: 30px;
+        overflow: hidden;
+        overflow-y: auto;
+        transition: $transition;
+        translate: -120% 0;
+        &.active {
+          translate: 0 0;
+        }
+      }
       .head {
         display: none !important;
         padding-bottom: 30px;
@@ -216,10 +289,17 @@
         display: flex;
         align-items: center;
         gap: 20px;
+        @media (max-width: 625px) {
+          flex-direction: column;
+          text-align: center;
+        }
         .img {
           width: 250px;
           height: 250px;
           padding-top: 0;
+          @media (max-width: 625px) {
+            width: 100%;
+          }
         }
         .info {
           flex-grow: 1;
