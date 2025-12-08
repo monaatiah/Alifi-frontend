@@ -1,5 +1,5 @@
 import React from "react";
-import { wrapper } from "../src/store";
+import { wrapper } from "../../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
 
@@ -7,29 +7,31 @@ const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
 });
 
-const BreadCrumbSection = dynamic(
-  () => import("@/components/breadcrumb-section/Index"),
+const InnerHead = dynamic(() => import("@/components/inner-head/Index"), {
+  ssr: false,
+});
+
+const SingleProduct = dynamic(
+  () => import("../../src/components/single-product/Index"),
   {
     ssr: false,
   }
 );
 
-const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
-  ssr: false,
-});
+const ReviewsSection = dynamic(
+  () => import("@/components/reviews-section/Index"),
+  {
+    ssr: false,
+  }
+);
 
 const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <BreadCrumbSection
-        title="كل ما تحتاجه لقطتك في مكان واحد"
-        description="
-اكتشف المنتجات المختارة للقطط من أغذية، عناية، ألعاب، وإكسسوارات من أفضل البائعين"
-        pageName="القطط"
-      />
-
-      <JoinUsSection />
+      <InnerHead />
+      <SingleProduct />
+      <ReviewsSection />
     </>
   );
 };
