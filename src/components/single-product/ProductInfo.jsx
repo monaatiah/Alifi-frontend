@@ -5,17 +5,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs } from "swiper";
 import Image from "next/future/image";
 
-import { GoHeart, GoShareAndroid, GoStar } from "react-icons/go";
+import { GoHeart, GoShareAndroid, GoStarFill } from "react-icons/go";
 
 const ProductInfo = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="product-info">
       <Container>
         <div className="inner">
           <Row>
-            <Col lg={5} xs={12}>
+            <Col lg={6} xs={12}>
               <div className="product-images">
                 <Swiper
                   thumbs={{ swiper: thumbsSwiper }}
@@ -58,43 +59,52 @@ const ProductInfo = () => {
                 </Swiper>
               </div>
             </Col>
-            <Col lg={7} xs={12}>
+            <Col lg={6} xs={12}>
               <div className="product-details">
                 <div className="title d-flex justify-content-between align-items-center gap-3">
                   <h1>شيزر</h1>
-                  <div className="actions d-flex align-items-center gap-3">
+                  <div className="actions d-flex align-items-center gap-4">
                     <button type="button" aria-label="share button">
-                      <GoShareAndroid />
+                      <GoShareAndroid size={30} />
                     </button>
                     <button type="button" aria-label="favorite button">
-                      <GoHeart />
+                      <GoHeart size={30} />
                     </button>
                   </div>
                 </div>
                 <div className="review d-flex align-items-center gap-3">
-                  <div className="stars">
+                  <div className="stars d-flex align-items-center gap-1">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <span key={index} className="star">
-                        <GoStar />
+                        <GoStarFill color="#000" />
                       </span>
                     ))}
                   </div>
-                  <span>12 تقييم</span>
+                  <span>12 Reviews</span>
                 </div>
-                <div className="price">
-                  $25.00 <span className="old-price">$30.00</span>
+                <div className="price d-flex align-items-center gap-3">
+                  6.50 ر.س
+                  <span className="old-price">8.00 ر.س</span>
                 </div>
                 <div className="description">
                   شوربة تونة برية مع اليقطين للقطط البالغة 85 جرام وجبة رطبة
                   صحية عالية الترطيب مصنوعةمن لحوم تونة طبيعية، تساعد في دعم
                   الهضم.
                 </div>
-                <div className="quantity">
-                  <button type="button" aria-label="increase quantity">
+                <div className="quantity d-flex align-items-center gap-3">
+                  <button
+                    type="button"
+                    aria-label="increase quantity"
+                    onClick={() => setQuantity(quantity + 1)}
+                  >
                     +
                   </button>
-                  <span>1</span>
-                  <button type="button" aria-label="decrease quantity">
+                  <span>{quantity}</span>
+                  <button
+                    type="button"
+                    aria-label="decrease quantity"
+                    onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+                  >
                     -
                   </button>
                 </div>
@@ -106,7 +116,7 @@ const ProductInfo = () => {
                     <li>الدفع عند الاستلام )إن توفر(</li>
                   </ul>
                 </div>
-                <div className="btns d-flex align-items-center gap-2">
+                <div className="btns d-flex align-items-center gap-3">
                   <button type="button" className="btn">
                     أضف إلى السلة
                   </button>
