@@ -328,6 +328,14 @@
       .products-list {
         position: relative;
 
+        .swiper-slide {
+          padding-block: 10px;
+        }
+        .product-block {
+          background-color: #f3f3f3;
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+
         .next-btn,
         .prev-btn {
           position: absolute;

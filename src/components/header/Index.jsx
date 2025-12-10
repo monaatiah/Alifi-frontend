@@ -140,16 +140,14 @@ const Index = () => {
               >
                 <HeartIcon />
               </button>
-              <button
-                className="cart-btn border-0 position-relative"
-                type="button"
-                aria-label="Cart"
-              >
-                <CartIcon />
-                <i className="item-count d-flex align-items-center justify-content-center position-absolute">
-                  0
-                </i>
-              </button>
+              <Link aria-label="Cart" href={"/cart"}>
+                <a className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center">
+                  <CartIcon />
+                  <i className="item-count d-flex align-items-center justify-content-center position-absolute">
+                    0
+                  </i>
+                </a>
+              </Link>
             </div>
           </div>
         </Container>

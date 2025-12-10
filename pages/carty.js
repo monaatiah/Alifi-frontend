@@ -7,10 +7,12 @@ const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
 });
 
-const InnerHead = dynamic(() => import("@/components/inner-head/Index"), {
-  ssr: false,
-});
-
+const BreadCrumbSection = dynamic(
+  () => import("@/components/breadcrumb-section/Index"),
+  {
+    ssr: false,
+  }
+);
 const CartSection = dynamic(() => import("@/components/cart/Index"), {
   ssr: false,
 });
@@ -19,7 +21,7 @@ const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <InnerHead />
+      <BreadCrumbSection title="سلة التسوق" pageName="سلة التسوق" />
       <CartSection />
     </>
   );
