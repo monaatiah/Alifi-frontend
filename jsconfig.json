@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "types": [],
+    "paths": {
+      "@/styles/*": ["styles/*"],
+      "@/themes/*": ["src/themes/*"],
+      "@/helpers/*": ["src/helpers/*"],
+      "@/store/*": ["src/store/*"],
+      "@/api/*": ["src/api/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/content/*": ["src/content/*"]
+    }
+  },
+  "include": ["src", "pages", "next.config.js"],
+  "exclude": ["node_modules", ".next", "out", "build"],
+  "typeAcquisition": {
+    "enable": false
+  }
+}

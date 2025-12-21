@@ -1,0 +1,22 @@
+@import "@/styles/variables.scss";
+
+.services-section {
+  padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-block: 50px 0;
+  }
+  :global {
+    .row {
+      @media (max-width: 625px) {
+        overflow: hidden;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        .col-lg-3 {
+          width: auto;
+        }
+      }
+    }
+  }
+}

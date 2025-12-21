@@ -1,0 +1,43 @@
+@import "@/styles/variables.scss";
+
+.why-section {
+  padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-block: 50px;
+  }
+  :global {
+    .block {
+      text-align: center;
+      .img {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 5px;
+        @media (max-width: 625px) {
+          width: 90px;
+          height: 90px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+      h3 {
+        font-size: 14px;
+        font-weight: 500;
+        color: $primary-color;
+      }
+    }
+    .row {
+      @media (max-width: 625px) {
+        overflow: hidden;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+        .col-lg-3 {
+          width: auto;
+        }
+      }
+    }
+  }
+}

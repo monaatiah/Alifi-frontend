@@ -1,0 +1,109 @@
+@import "@/styles/variables.scss";
+
+.breadcrumb-section {
+  background-color: $primary-color;
+  padding-block: 200px 20px;
+  position: relative;
+  z-index: 1;
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
+  @media (max-width: 625px) {
+    padding-block: 150px 50px;
+  }
+
+  :global {
+    .pattern-1 {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      @media (max-width: 625px) {
+        opacity: 0.5;
+      }
+    }
+    .pattern-2 {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      @media (max-width: 768px) {
+        width: 120px;
+      }
+      @media (max-width: 625px) {
+        width: 80px;
+        bottom: -50px;
+      }
+    }
+    .pattern-3 {
+      position: absolute;
+      left: 0;
+      bottom: 185px;
+      scale: -1 1;
+      @media (max-width: 768px) {
+        width: 150px;
+        bottom: 30%;
+      }
+      @media (max-width: 625px) {
+        width: 100px;
+      }
+    }
+
+    .info {
+      position: relative;
+      z-index: 1;
+      h3 {
+        color: #fff;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        max-width: 70%;
+        @media (max-width: 768px) {
+          font-size: 28px;
+          max-width: 100%;
+        }
+        @media (max-width: 480px) {
+          font-size: 22px;
+        }
+      }
+      p {
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 20px;
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+      ul {
+        li {
+          color: #fff;
+          &::after {
+            content: "/";
+            margin-inline: 10px;
+          }
+          a {
+            color: inherit;
+            transition: $transition;
+
+            &:hover {
+              color: $secondary-color;
+            }
+          }
+
+          &:last-child {
+            &::after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+    .img {
+      @media (max-width: 768px) {
+        display: none;
+      }
+      img {
+        object-fit: contain;
+        width: 100%;
+      }
+    }
+  }
+}

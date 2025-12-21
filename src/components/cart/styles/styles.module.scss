@@ -1,0 +1,353 @@
+@import "@/styles/variables.scss";
+
+.cart-section {
+  :global {
+    .cart-table {
+      padding-block: 50px;
+      @media (max-width: 768px) {
+        padding-block: 50px 30px;
+      }
+      .table {
+        @media (max-width: 768px) {
+          white-space: nowrap;
+        }
+        thead {
+          th {
+            background-color: $primary-color;
+            color: #fff;
+            padding: 20px;
+            @media (max-width: 768px) {
+              font-size: 14px;
+              padding: 15px;
+            }
+            &:first-child {
+              border-radius: 0 50px 50px 0;
+            }
+            &:last-child {
+              border-radius: 50px 0 0 50px;
+            }
+          }
+        }
+        tr {
+          td {
+            vertical-align: middle;
+            border: 1px solid #c1c1c1;
+            padding: 20px;
+            .remove-item {
+              padding: 0;
+              border: none;
+              background: transparent;
+              font-size: 35px;
+              @media (max-width: 768px) {
+                font-size: 28px;
+              }
+            }
+            .product-data {
+              .img {
+                border: 2px solid #c1c1c1;
+                padding: 15px;
+                width: 105px;
+                height: 117px;
+                flex-shrink: 0;
+                @media (max-width: 768px) {
+                  width: 80px;
+                  height: 90px;
+                  padding: 7px;
+                }
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  background-color: #dfdfdf;
+                }
+              }
+              .info {
+                p {
+                  font-weight: 700;
+                  color: #808080;
+                }
+                a {
+                  font-size: 20px;
+                  font-weight: 700;
+                  color: #000;
+                  transition: $transition;
+                  @media (max-width: 768px) {
+                    font-size: 16px;
+                  }
+                  &:hover {
+                    color: $primary-color;
+                  }
+                }
+              }
+            }
+            .price {
+              font-family: "anybody";
+              span {
+                font-size: 22px;
+                font-weight: 700;
+                color: #000;
+                @media (max-width: 768px) {
+                  font-size: 18px;
+                }
+              }
+              strong {
+                font-size: 16px;
+                color: #c1c1c1;
+                text-decoration: line-through;
+                @media (max-width: 768px) {
+                  font-size: 14px;
+                }
+              }
+            }
+            .quantity-control {
+              button {
+                width: 35px;
+                height: 35px;
+                border: 1px solid #37383e;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                border-radius: 100%;
+                flex-shrink: 0;
+                font-size: 30px;
+                color: #37383e;
+                font-weight: 700;
+                @media (max-width: 768px) {
+                  width: 30px;
+                  height: 30px;
+                  font-size: 24px;
+                }
+              }
+              span {
+                font-size: 22px;
+                font-weight: 600;
+                color: #989898;
+                font-family: "anybody";
+                @media (max-width: 768px) {
+                  font-size: 18px;
+                }
+              }
+            }
+            .total {
+              font-size: 20px;
+              font-weight: 700;
+              color: #000;
+              font-family: "anybody";
+              @media (max-width: 768px) {
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .cart-coupon {
+      background-color: #f1f1f1;
+      padding: 45px;
+      border-radius: 35px;
+      @media (max-width: 768px) {
+        padding: 20px;
+        border-radius: 25px;
+      }
+      .head {
+        margin-bottom: 20px;
+        h4 {
+          font-size: 24px;
+          font-weight: 700;
+          @media (max-width: 768px) {
+            font-size: 20px;
+          }
+        }
+        span {
+          color: #444444;
+          font-size: 17px;
+          font-weight: 700;
+          @media (max-width: 768px) {
+            font-size: 15px;
+          }
+        }
+      }
+      .form-group {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        gap: 20px;
+        .form-control {
+          height: 55px;
+          padding: 0 20px;
+          border-radius: 50px;
+          border: 0;
+          box-shadow: none;
+        }
+        .btn {
+          background-color: $third-color;
+          border-color: $third-color;
+          color: #fff;
+          &:hover {
+            background-color: $primary-color !important;
+            border-color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .cart-summary {
+      .cart-total {
+        background-color: $secondary-color;
+        padding: 45px;
+        border-radius: 35px;
+        margin-bottom: 20px;
+        @media (max-width: 768px) {
+          padding: 30px;
+          border-radius: 25px;
+        }
+        h4 {
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 30px;
+          @media (max-width: 768px) {
+            font-size: 20px;
+            margin-bottom: 20px;
+          }
+        }
+        ul {
+          padding-inline: 50px;
+          @media (max-width: 768px) {
+            padding-inline: 20px;
+          }
+          li {
+            font-size: 18px;
+            color: #000;
+            font-weight: 700;
+            @media (max-width: 768px) {
+              font-size: 16px;
+            }
+            &:not(:last-child) {
+              margin-bottom: 15px;
+            }
+
+            &.total {
+              background-color: #fff;
+              border-radius: 50px;
+              padding: 15px 30px;
+              margin-inline: -50px;
+              @media (max-width: 768px) {
+                margin-inline: -20px;
+              }
+            }
+          }
+        }
+      }
+      .btns {
+        .btn {
+          &:first-child {
+            background-color: $third-color;
+            border-color: $third-color;
+            color: #fff;
+            &:hover {
+              background-color: $primary-color !important;
+              border-color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+
+    .best-seller-products {
+      padding-block: 100px;
+      @media (max-width: 768px) {
+        padding-block: 50px;
+      }
+      h3 {
+        position: relative;
+        font-weight: 700;
+        font-size: 40px;
+        margin-bottom: 30px;
+        @media (max-width: 1200px) {
+          font-size: 30px;
+        }
+        @media (max-width: 768px) {
+          font-size: 24px;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          height: 3px;
+          width: 60px;
+          background-color: #fa441d;
+        }
+      }
+      .products-list {
+        position: relative;
+
+        .swiper-slide {
+          padding-block: 10px;
+        }
+        .product-block {
+          background-color: #f3f3f3;
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        .next-btn,
+        .prev-btn {
+          position: absolute;
+          top: 50%;
+          translate: 0 -50%;
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+          border: 0;
+          z-index: 5;
+          padding: 0;
+          background-color: transparent;
+          &.swiper-button-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+        }
+        .prev-btn {
+          left: -70px;
+          @media (max-width: 1200px) {
+            left: 0;
+          }
+        }
+        .next-btn {
+          right: -70px;
+          @media (max-width: 1200px) {
+            right: 0;
+          }
+        }
+      }
+    }
+
+    .empty-cart {
+      padding-block: 100px 0;
+      @media (max-width: 768px) {
+        padding-block: 50px 0;
+      }
+      gap: 30px;
+      h4 {
+        color: $third-color;
+        font-size: 25px;
+        font-weight: 700;
+        @media (max-width: 768px) {
+          font-size: 20px;
+        }
+      }
+      .btn {
+        background-color: $third-color;
+        border-color: $third-color;
+        color: #fff;
+        &:hover {
+          background-color: $primary-color !important;
+          border-color: $primary-color;
+        }
+      }
+    }
+  }
+}

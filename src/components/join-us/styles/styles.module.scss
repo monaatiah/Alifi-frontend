@@ -1,0 +1,139 @@
+@import "@/styles/variables.scss";
+
+.joinus-section {
+  padding-block: 50px;
+  overflow: hidden;
+  @media (max-width: 992px) {
+    margin-inline: -15px;
+  }
+  @media (max-width: 625px) {
+    margin: 0;
+    padding-top: 0;
+  }
+  :global {
+    .inner {
+      background-color: $primary-color;
+      border-radius: 400px;
+      padding: 120px 160px 70px;
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      overflow: hidden;
+      @media (max-width: 992px) {
+        padding: 50px;
+        border-radius: 0 100px 100px 0;
+        margin-inline-end: -50px;
+      }
+      @media (max-width: 625px) {
+        margin-inline-end: -30px;
+      }
+      .pattern-1 {
+        position: absolute;
+        bottom: 50px;
+        right: 400px;
+        z-index: -1;
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+      .pattern-2 {
+        bottom: 0;
+        position: absolute;
+        right: 50px;
+        z-index: -1;
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+      .info {
+        padding-top: 60px;
+        @media (max-width: 768px) {
+          padding-top: 0;
+        }
+        h3 {
+          color: #fff;
+          font-size: 42px;
+          font-weight: 600;
+          margin-bottom: 30px;
+          @media (max-width: 768px) {
+            font-size: 28px;
+          }
+          @media (max-width: 480px) {
+            font-size: 22px;
+          }
+        }
+        p {
+          color: #fff;
+          font-size: 17px;
+          @media (max-width: 768px) {
+            font-size: 15px;
+          }
+          b {
+            width: 100%;
+            display: block;
+            margin-bottom: 5px;
+          }
+        }
+      }
+      .form {
+        .form-group {
+          margin-bottom: 10px;
+          .user-type {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 50px;
+            background-color: $secondary-color;
+            margin-bottom: 20px;
+            button {
+              width: 50%;
+              transition: $transition;
+              height: 40px;
+              border-radius: 50px;
+              border: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 700;
+              font-size: 16px;
+              color: #000;
+              background-color: transparent;
+              @media (max-width: 625px) {
+                font-size: 14px;
+              }
+              &.active {
+                background: #fff;
+                box-shadow: 0px 4px 10px rgba(10, 19, 9, 0.12);
+              }
+            }
+          }
+          .btn {
+            min-width: 100px;
+          }
+          .form-control {
+            height: 60px;
+            border-radius: 50px;
+            border: 0;
+            padding: 0 20px;
+            font-size: 15px;
+            box-shadow: none;
+            @media (max-width: 625px) {
+              height: 50px;
+              font-size: 14px;
+            }
+          }
+
+          textarea {
+            &.form-control {
+              height: 120px;
+              padding: 20px;
+              border-radius: 30px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
