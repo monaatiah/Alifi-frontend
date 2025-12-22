@@ -13,7 +13,7 @@ const BreadCrumbSection = dynamic(
     ssr: false,
   }
 );
-const CartSection = dynamic(() => import("@/components/cart/Index"), {
+const CheckoutSection = dynamic(() => import("@/components/checkout/Index"), {
   ssr: false,
 });
 
@@ -21,8 +21,8 @@ const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <BreadCrumbSection title="سلة التسوق" pageName="سلة التسوق" />
-      <CartSection />
+      <BreadCrumbSection title="الدفع" pageName="الدفع" />
+      <CheckoutSection />
     </>
   );
 };
