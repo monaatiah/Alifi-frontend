@@ -107,3 +107,20 @@
     }
   }
 }
+
+.payment-pages {
+  background: linear-gradient(to bottom, $primary-color 54%, #fff 20%);
+  @media (max-width: 480px) {
+    background: linear-gradient(to bottom, $primary-color 33%, #fff 20%);
+    padding-block: 110px 20px;
+  }
+  :global {
+    .info {
+      h3,
+      p,
+      ul li {
+        color: #000;
+      }
+    }
+  }
+}

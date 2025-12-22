@@ -399,6 +399,7 @@ input[type="radio"] {
   transition: $transition;
   box-shadow: 0 0 0 1px #ced4da !important;
   outline: none;
+  accent-color: $primary-color;
   &:checked {
     background-color: $primary-color !important;
     box-shadow: 0 0 0 1px $primary-color !important;

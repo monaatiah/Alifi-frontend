@@ -21,7 +21,7 @@ const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <BreadCrumbSection title="الدفع" pageName="الدفع" />
+      <BreadCrumbSection title="الدفع" pageName="الدفع" paymentPages />
       <CheckoutSection />
     </>
   );

@@ -10,18 +10,28 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { FormattedMessage } from "react-intl";
 
-const Index = ({ title, description, pageName }) => {
+const Index = ({ title, description, pageName, paymentPages }) => {
   return (
-    <div className={styles["breadcrumb-section"]}>
+    <div
+      className={
+        paymentPages
+          ? `${styles["breadcrumb-section"]} ${styles["payment-pages"]}`
+          : styles["breadcrumb-section"]
+      }
+    >
       <Container>
-        <Pattern1 className="pattern-1" />
-        <Pattern2 className="pattern-2" />
-        <Pattern3 className="pattern-3" />
+        {!paymentPages && (
+          <>
+            <Pattern1 className="pattern-1" />
+            <Pattern2 className="pattern-2" />
+            <Pattern3 className="pattern-3" />
+          </>
+        )}
         <Row className="align-items-center">
           <Col lg={6} xs={12}>
             <div className="info">
               <h3>{title}</h3>
-              <p>{description}</p>
+              {description && <p>{description}</p>}
               <ul className="d-flex align-items-center">
                 <li className="d-flex align-items-center">
                   <Link href="/">
@@ -34,16 +44,18 @@ const Index = ({ title, description, pageName }) => {
               </ul>
             </div>
           </Col>
-          <Col lg={6} xs={12}>
-            <div className="img">
-              <Image
-                src={HeroImg}
-                alt="Breadcrumb Hero"
-                width={500}
-                height={250}
-              />
-            </div>
-          </Col>
+          {!paymentPages && (
+            <Col lg={6} xs={12}>
+              <div className="img">
+                <Image
+                  src={HeroImg}
+                  alt="Breadcrumb Hero"
+                  width={500}
+                  height={250}
+                />
+              </div>
+            </Col>
+          )}
         </Row>
       </Container>
     </div>
