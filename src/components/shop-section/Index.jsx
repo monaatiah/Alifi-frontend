@@ -71,8 +71,14 @@ const Index = () => {
               768: {
                 slidesPerView: 2,
               },
-              1366: {
+              1024: {
                 slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
+              1366: {
+                slidesPerView: 4,
               },
               1920: {
                 slidesPerView: 4,

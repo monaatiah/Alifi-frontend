@@ -8,7 +8,7 @@
   }
   :global {
     .sec-head {
-      margin-bottom: 70px;
+      margin-bottom: 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -37,6 +37,9 @@
       justify-content: center;
       flex-direction: column;
       background: url(../assets/review-bg.png) no-repeat center center/contain;
+      @media (max-width: 1300px) {
+        min-height: 300px;
+      }
       @media (max-width: 768px) {
         min-height: 330px;
         padding: 40px;
@@ -49,6 +52,10 @@
         width: 60px;
         height: 60px;
         background: url(../assets/quote.png) no-repeat center center/contain;
+        @media (max-width: 1300px) {
+          right: 105px;
+          bottom: 25px;
+        }
         @media (max-width: 768px) {
           right: 170px;
           bottom: 30px;
@@ -72,7 +79,7 @@
       }
       .desc {
         max-width: 200px;
-        margin: 0 auto 40px;
+        margin: 0 auto 20px;
         @media (max-width: 768px) {
           max-width: 100%;
           margin-bottom: 20px;
@@ -88,7 +95,7 @@
       }
       .user-info {
         h4 {
-          font-size: 25px;
+          font-size: 20px;
           font-weight: 700;
           color: #121212;
           margin-bottom: 5px;
