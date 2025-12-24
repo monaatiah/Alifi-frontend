@@ -1,0 +1,10 @@
+@import "@/styles/variables.scss";
+
+.notfound-section {
+  padding-block: 100px;
+  :global {
+    h2 {
+      font-weight: 800;
+    }
+  }
+}

@@ -55,10 +55,8 @@
         font-size: 36px;
         font-weight: 700;
         margin-bottom: 10px;
-        max-width: 70%;
         @media (max-width: 768px) {
           font-size: 28px;
-          max-width: 100%;
         }
         @media (max-width: 480px) {
           font-size: 22px;
