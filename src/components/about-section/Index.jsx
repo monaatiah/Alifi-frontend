@@ -1,49 +1,31 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Icon1 from "./assets/1.png";
-import Icon2 from "./assets/2.png";
-import Icon3 from "./assets/3.png";
-import Icon4 from "./assets/4.png";
 import Image from "next/future/image";
+import { useSelector } from "react-redux";
+import { getComponentByIdentifier } from "@/helpers/functions";
 
 const Index = () => {
-  const data = [
-    {
-      title: "سوق شامل لمستلزمات الحيوانات الأليفة",
-      icon: Icon1,
-    },
-    {
-      title: "مقالات ومحتوى تثقيفي موثوق",
-      icon: Icon2,
-    },
-    {
-      title: "مجتمع يهتم بمشاركة الخبرة والمعرفة",
-      icon: Icon3,
-    },
-    {
-      title: "تجربة تصفح سهلة وممتعة",
-      icon: Icon4,
-    },
-  ];
+  const { pageData } = useSelector((state) => state.settings);
+  const aboutData = getComponentByIdentifier(
+    pageData?.page_components,
+    "features_section"
+  );
+
   return (
     <div className={styles["about-section"]}>
       <Container>
         <div className="sec-head">
-          <h1>من نحن</h1>
-          <p>
-            أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق
-            الحيوانات الأليفة. نساعدك على اختيار الأفضل لحيوانك الأليف، من
-            منتجات مضمونة ومحتوى موثوق يقدمها خبراء في العناية والتغذية
-          </p>
+          <h1>{aboutData?.data?.title || ""}</h1>
+          <p>{aboutData?.data?.description || ""}</p>
         </div>
         <Row>
-          {data?.map((item, index) => (
+          {aboutData?.data?.features?.map((item, index) => (
             <Col lg={3} md={6} sm={12} key={index}>
               <div className="item">
                 <div className="icon">
                   <Image
-                    src={item?.icon}
+                    src={item?.image || ""}
                     alt={item?.title}
                     width={100}
                     height={70}

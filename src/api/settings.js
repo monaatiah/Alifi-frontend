@@ -1,33 +1,54 @@
 import server from "./server";
 
 export const getPageDataApi = async ({ cookies, slug }) => {
-  const response = await server({ cookies }).get(`/pages/${slug}`);
-  return response.data;
-};
+  const response = await server({ cookies }).post(
+    `/pages/search`,
 
-export const getSectionDataApi = async ({ cookies, pageSlug, sectionSlug }) => {
-  const response = await server({ cookies }).get(
-    `/pages/${pageSlug}/sections/${sectionSlug}`
+    {
+      search: {
+        filters: [
+          {
+            field: "slug",
+            operator: "=",
+            value: slug,
+          },
+        ],
+        selects: [
+          {
+            field: "id",
+          },
+          {
+            field: "title",
+          },
+          {
+            field: "slug",
+          },
+          {
+            field: "status",
+          },
+          {
+            field: "meta",
+          },
+          {
+            field: "created_at",
+          },
+          {
+            field: "updated_at",
+          },
+        ],
+        includes: [
+          {
+            relation: "pageComponents",
+          },
+        ],
+      },
+    }
   );
+
   return response.data;
 };
 
 export const getSettingsApi = async ({ cookies }) => {
-  const response = await server({ cookies }).get("/settings/siteInfo");
-  return response.data;
-};
-
-export const contactUsApi = async ({ cookies, data }) => {
-  const response = await server({ cookies }).post("/contactUs", data);
-  return response.data;
-};
-
-export const startObjectionApi = async ({ cookies, data }) => {
-  const response = await server({ cookies }).post("/objectionRequests", data);
-  return response.data;
-};
-
-export const developerRequestApi = async ({ cookies, data }) => {
-  const response = await server({ cookies }).post("/developerRequests", data);
+  const response = await server({ cookies }).get("/settings");
   return response.data;
 };

@@ -22,19 +22,13 @@ export const handleImageLink = (image) => {
 
 export const getId = (obj) => obj?._id || obj?.id;
 
-// get time in arabic from timestamp
-export const getTime = (timestamp, locale) => {
-  if (!timestamp) return;
-  return new Date(timestamp).toLocaleTimeString(
-    locale === "ar" ? "ar-EG" : "en-US",
-    {
-      hour: "numeric",
-      minute: "numeric",
-    }
-  );
-};
+// get component data by component_identifier
+export const getComponentByIdentifier = (pageComponents, identifier) => {
+  if (!pageComponents || !Array.isArray(pageComponents)) return null;
 
-// get data depend on slug
-export const getDataBySlug = (data, slug) => {
-  return data?.find((item) => item.slug === slug);
+  const component = pageComponents.find(
+    (comp) => comp?.component_identifier === identifier
+  );
+
+  return component || null;
 };

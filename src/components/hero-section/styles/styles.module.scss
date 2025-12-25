@@ -25,9 +25,10 @@
       position: absolute;
       right: 0;
       bottom: 0;
-      @media (max-width: 768px) {
+      @media (max-width: 1300px) {
         width: 120px;
       }
+
       @media (max-width: 625px) {
         width: 80px;
         bottom: -50px;
@@ -48,6 +49,7 @@
     }
     .item {
       .image {
+        min-height: 500px;
         @media (max-width: 768px) {
           margin: 0 auto;
           height: 400px;
@@ -92,6 +94,13 @@
     .swiper {
       @media (max-width: 768px) {
         padding-bottom: 50px;
+      }
+      .swiper-slide {
+        opacity: 0 !important;
+        transition: opacity 0.5s ease-in-out;
+        &.swiper-slide-active {
+          opacity: 1 !important;
+        }
       }
       .swiper-pagination {
         right: 15%;

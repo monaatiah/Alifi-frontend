@@ -109,6 +109,12 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     //     cookies: {},
     //   })
     // );
+    store.dispatch(
+      getPageData({
+        cookies: {},
+        slug: "home",
+      })
+    );
     store.dispatch(END);
     await store.sagaTask.toPromise();
     return {

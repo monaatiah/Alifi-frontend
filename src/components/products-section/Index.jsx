@@ -12,8 +12,16 @@ import Link from "next/link";
 import ProductBlock from "./ProductBlock";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import { useSelector } from "react-redux";
+import { getComponentByIdentifier } from "@/helpers/functions";
 
 const Index = () => {
+  const { pageData } = useSelector((state) => state.settings);
+  const productsData = getComponentByIdentifier(
+    pageData?.page_components,
+    "product_tabs"
+  );
+
   const categories = useMemo(
     () => [
       {
@@ -131,12 +139,8 @@ const Index = () => {
       <Pattern3 className="pattern-3" />
       <Container>
         <div className="sec-head">
-          <h3>المنتجات</h3>
-          <p>
-            نقدّم لك مجموعة من المنتجات الموصى بها من خبراء الحيوانات الأليفة
-            والمحبّين مثلِك. منتجات عالية الجودة مختارة لتناسب احتياجات حيوانك
-            اليومية
-          </p>
+          <h3>{productsData?.data?.title || ""}</h3>
+          <p>{productsData?.data?.description || ""}</p>
         </div>
         {
           //render categories as product rows
