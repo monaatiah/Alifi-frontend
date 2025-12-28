@@ -74,6 +74,9 @@
           display: flex;
           align-items: stretch;
           height: auto;
+          .product-block {
+            width: 100%;
+          }
         }
       }
       .row-head {
@@ -93,7 +96,7 @@
       }
       .nav-tabs {
         display: flex;
-        gap: 20px;
+        gap: 10px;
         align-items: center;
         border: 0;
         @media (max-width: 625px) {

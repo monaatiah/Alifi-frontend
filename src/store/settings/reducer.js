@@ -59,7 +59,7 @@ const settings = (state = initialState, action) => {
     case GET_SETTINGS_SUCCESS:
       return {
         ...state,
-        settings: action.payload.siteInfos,
+        settings: action.payload,
         loading: false,
       };
 

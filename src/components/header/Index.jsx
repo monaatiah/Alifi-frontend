@@ -13,20 +13,17 @@ import CartIcon from "./assets/images/cart.svg";
 import MenuIcon from "./assets/images/menu.svg";
 import HomeIcon from "./assets/images/home.svg";
 
-import FacebookIcon from "./assets/images/facebook.svg";
-import TwitterIcon from "./assets/images/twitter.svg";
-import GoogleIcon from "./assets/images/google.svg";
-import InstagramIcon from "./assets/images/instagram.svg";
-
-import LogoIcon from "./assets/images/logo.png";
 import { Container } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Sidebar from "./Sidebar";
+import { useSelector } from "react-redux";
 
 const Index = () => {
   const { asPath } = useRouter();
 
   const [showSidebar, setShowSidebar] = useState(false);
+
+  const { settings } = useSelector((state) => state.settings);
 
   return (
     <>
@@ -36,16 +33,16 @@ const Index = () => {
         <Container>
           <div className="top-bar d-flex align-items-center gap-3 justify-content-between py-3">
             <div className="d-flex align-items-center gap-5">
-              <Link href={`tel:123456789`}>
+              <Link href={`tel:${settings?.contact_phone}`}>
                 <a className="d-flex align-items-center gap-2 text-white">
                   <PhoneIcon fill="#fff" />
-                  123-456-789
+                  {settings?.contact_phone}
                 </a>
               </Link>
-              <Link href={`mailto:info@alifi.sa`}>
+              <Link href={`mailto:${settings?.contact_email}`}>
                 <a className="d-flex align-items-center gap-2 text-white">
                   <EmailIcon fill="#fff" />
-                  info@alifi.sa
+                  {settings?.contact_email}
                 </a>
               </Link>
             </div>
@@ -68,7 +65,12 @@ const Index = () => {
             <div className="logo">
               <Link href={"/"}>
                 <a>
-                  <Image src={LogoIcon} alt="Logo" width={107} height={76} />
+                  <Image
+                    src={settings?.logo || ""}
+                    alt="Logo"
+                    width={107}
+                    height={76}
+                  />
                 </a>
               </Link>
             </div>

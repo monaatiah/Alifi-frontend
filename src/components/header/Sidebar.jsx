@@ -3,15 +3,16 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import LogoIcon from "./assets/images/logo.png";
-
 import CloseIcon from "./assets/images/x.svg";
 import PhoneIcon from "./assets/images/mobile.svg";
 import EmailIcon from "./assets/images/email.svg";
 import UserIcon from "./assets/images/user.svg";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({ show, onClose }) => {
   const { asPath } = useRouter();
+
+  const { settings } = useSelector((state) => state.settings);
 
   return (
     <div className={show ? "sidebar active" : "sidebar"}>
@@ -28,7 +29,7 @@ const Sidebar = ({ show, onClose }) => {
       </div>
 
       <div className="sidebar-logo text-center mb-4">
-        <Image src={LogoIcon} alt="Logo" width={107} height={76} />
+        <Image src={settings?.logo || ""} alt="Logo" width={107} height={76} />
       </div>
 
       <div className="sidebar-menu">
@@ -73,16 +74,16 @@ const Sidebar = ({ show, onClose }) => {
       </div>
 
       <div className="sidebar-footer d-flex flex-column gap-3 border-top py-3 border-bottom">
-        <Link href={`tel:123456789`}>
+        <Link href={`tel:${settings?.contact_phone}`}>
           <a className="d-flex align-items-center gap-2">
             <PhoneIcon fill="#7267c3" />
-            123-456-789
+            {settings?.contact_phone}
           </a>
         </Link>
-        <Link href={`mailto:info@alifi.sa`}>
+        <Link href={`mailto:${settings?.contact_email}`}>
           <a className="d-flex align-items-center gap-2">
             <EmailIcon fill="#7267c3" />
-            info@alifi.sa
+            {settings?.contact_email}
           </a>
         </Link>
       </div>

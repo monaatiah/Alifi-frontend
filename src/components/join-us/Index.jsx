@@ -6,7 +6,8 @@ import Pattern1 from "./assets/1.png";
 import Pattern2 from "./assets/2.svg";
 import Image from "next/future/image";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getComponentByIdentifier } from "@/helpers/functions";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,12 @@ const Index = () => {
   } = useForm();
 
   const [userType, setUserType] = useState("seller"); // "seller" or "serviceProvider"
+
+  const { pageData } = useSelector((state) => state.settings);
+  const joinData = getComponentByIdentifier(
+    pageData?.page_components,
+    "apply_form"
+  );
 
   const onSubmit = (data) => {
     data.userType = userType;
@@ -39,11 +46,8 @@ const Index = () => {
           <Row>
             <Col lg={6} xs={12}>
               <div className="info">
-                <h3>انضم إلى عائلة أليفي</h3>
-                <p>
-                  <b>كن جزءًا من مجتمع أليفي </b>هل تملك متجرًا أو منتجات مخصصة
-                  أو خدمات للحيوانات الأليفة؟انضم إلى شبكة أليفي وشاركنا شغفك
-                </p>
+                <h3>{joinData?.data?.title}</h3>
+                <p>{joinData?.data?.description}</p>
               </div>
             </Col>
             <Col lg={6} xs={12}>

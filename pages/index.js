@@ -56,7 +56,7 @@ const BlogsSection = dynamic(() => import("@/components/blogs-section/Index"), {
 
 const Home = () => {
   const { locale, asPath } = useRouter();
-  const { settings, pageData } = useSelector((state) => state.settings);
+  const { pageData } = useSelector((state) => state.settings);
 
   return (
     <>
@@ -105,11 +105,11 @@ const Home = () => {
 
 export const getStaticProps = wrapper.getStaticProps((store) => {
   return async () => {
-    // store.dispatch(
-    //   getSettings({
-    //     cookies: {},
-    //   })
-    // );
+    store.dispatch(
+      getSettings({
+        cookies: {},
+      })
+    );
     store.dispatch(
       getPageData({
         cookies: {},
