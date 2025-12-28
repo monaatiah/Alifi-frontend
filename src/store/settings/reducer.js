@@ -36,7 +36,7 @@ const settings = (state = initialState, action) => {
     case GET_PAGE_DATA_SUCCESS:
       return {
         ...state,
-        pageData: action.payload?.[0],
+        pageData: action.payload,
         loading: false,
       };
 

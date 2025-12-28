@@ -56,21 +56,22 @@ const BlogsSection = dynamic(() => import("@/components/blogs-section/Index"), {
 
 const Home = () => {
   const { locale, asPath } = useRouter();
+  const { settings, pageData } = useSelector((state) => state.settings);
 
   return (
     <>
-      {/* <NextSeo
-        title={`${sectionData?.metaTitle?.[locale]} | ${settings?.appName?.[locale]}`}
-        description={sectionData?.metaDescription?.[locale]}
+      <NextSeo
+        title={`${pageData?.seo?.title?.[locale]}`}
+        description={pageData?.seo?.description?.[locale]}
         openGraph={{
-          title: sectionData?.metaTitle?.[locale],
-          description: sectionData?.metaDescription?.[locale],
+          title: pageData?.seo?.metaTitle?.[locale],
+          description: pageData?.seo?.metaDescription?.[locale],
           images: [
             {
-              url: handleImageLink(settings?.appLogo),
+              url: handleImageLink(pageData?.seo?.image?.[locale]),
               width: 800,
               height: 600,
-              alt: sectionData?.metaTitle?.[locale],
+              alt: pageData?.seo?.title?.[locale],
             },
           ],
         }}
@@ -83,11 +84,11 @@ const Home = () => {
           cardType: "summary_large_image",
           handle: "@handle",
           site: "@site",
-          title: sectionData?.metaTitle?.[locale],
-          description: sectionData?.metaDescription?.[locale],
-          image: handleImageLink(settings?.appLogo),
+          title: pageData?.seo?.title?.[locale],
+          description: pageData?.seo?.description?.[locale],
+          image: handleImageLink(pageData?.seo?.image?.[locale]),
         }}
-      /> */}
+      />
       <Header />
       <HeroSection />
       <AboutSection />

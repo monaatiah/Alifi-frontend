@@ -1,47 +1,59 @@
 import server from "./server";
 
+// export const getPageDataApi = async ({ cookies, slug }) => {
+//   const response = await server({ cookies }).post(
+//     `/pages/search`,
+
+//     {
+//       search: {
+//         filters: [
+//           {
+//             field: "slug",
+//             operator: "=",
+//             value: slug,
+//           },
+//         ],
+//         selects: [
+//           {
+//             field: "id",
+//           },
+//           {
+//             field: "title",
+//           },
+//           {
+//             field: "slug",
+//           },
+//           {
+//             field: "status",
+//           },
+//           {
+//             field: "meta",
+//           },
+//           {
+//             field: "created_at",
+//           },
+//           {
+//             field: "updated_at",
+//           },
+//         ],
+//         includes: [
+//           {
+//             relation: "pageComponents",
+//           },
+//         ],
+//       },
+//     }
+//   );
+
+//   return response.data;
+// };
+
 export const getPageDataApi = async ({ cookies, slug }) => {
   const response = await server({ cookies }).post(
-    `/pages/search`,
+    `/pages/actions/get-by-slug`,
 
     {
-      search: {
-        filters: [
-          {
-            field: "slug",
-            operator: "=",
-            value: slug,
-          },
-        ],
-        selects: [
-          {
-            field: "id",
-          },
-          {
-            field: "title",
-          },
-          {
-            field: "slug",
-          },
-          {
-            field: "status",
-          },
-          {
-            field: "meta",
-          },
-          {
-            field: "created_at",
-          },
-          {
-            field: "updated_at",
-          },
-        ],
-        includes: [
-          {
-            relation: "pageComponents",
-          },
-        ],
-      },
+      slug: slug,
     }
   );
 
