@@ -18,7 +18,7 @@ const Index = () => {
     formState: { errors },
   } = useForm();
 
-  const [userType, setUserType] = useState("seller"); // "seller" or "serviceProvider"
+  const [userType, setUserType] = useState("vendor"); // "vendor" or "service_provider"
 
   const { pageData } = useSelector((state) => state.settings);
   const joinData = getComponentByIdentifier(
@@ -57,17 +57,17 @@ const Index = () => {
                     <div className="user-type">
                       <button
                         type="button"
-                        className={userType === "seller" ? "active" : ""}
-                        onClick={() => setUserType("seller")}
+                        className={userType === "vendor" ? "active" : ""}
+                        onClick={() => setUserType("vendor")}
                       >
                         انضم كبائع
                       </button>
                       <button
                         type="button"
                         className={
-                          userType === "serviceProvider" ? "active" : ""
+                          userType === "service_provider" ? "active" : ""
                         }
-                        onClick={() => setUserType("serviceProvider")}
+                        onClick={() => setUserType("service_provider")}
                       >
                         انضم كمقدّم خدمة
                       </button>

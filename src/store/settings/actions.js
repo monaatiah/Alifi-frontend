@@ -5,6 +5,9 @@ import {
   GET_SETTINGS,
   GET_SETTINGS_FAILURE,
   GET_SETTINGS_SUCCESS,
+  JOIN_US,
+  JOIN_US_FAILURE,
+  JOIN_US_SUCCESS,
 } from "./actionTypes";
 
 export const getPageData = (payload) => {
@@ -51,3 +54,28 @@ export const getSettingsFailure = (payload) => {
     payload: payload,
   };
 };
+
+// ==================================================
+// ==================================================
+
+export const joinUs = (payload) => {
+  return {
+    type: JOIN_US,
+    payload: payload,
+  };
+};
+export const joinUsSuccess = (payload) => {
+  return {
+    type: JOIN_US_SUCCESS,
+    payload: payload,
+  };
+};
+export const joinUsFailure = (payload) => {
+  return {
+    type: JOIN_US_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================

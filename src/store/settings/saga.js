@@ -1,12 +1,14 @@
-import { getPageDataApi, getSettingsApi } from "@/api/settings";
+import { getPageDataApi, getSettingsApi, joinUsApi } from "@/api/settings";
 import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import {
   getPageDataFailure,
   getPageDataSuccess,
   getSettingsFailure,
   getSettingsSuccess,
+  joinUsFailure,
+  joinUsSuccess,
 } from "./actions";
-import { GET_PAGE_DATA, GET_SETTINGS } from "./actionTypes";
+import { GET_PAGE_DATA, GET_SETTINGS, JOIN_US } from "./actionTypes";
 
 function* getPageDataSaga({ payload }) {
   try {
@@ -34,6 +36,19 @@ function* getSettingsSaga({ payload }) {
 // ==================================================
 // ==================================================
 
+function* joinUsSaga({ payload }) {
+  try {
+    const { data } = yield call(joinUsApi, payload);
+    yield put(joinUsSuccess(data));
+  } catch (error) {
+    console.log(error);
+    yield put(joinUsFailure(error));
+  }
+}
+
+// ==================================================
+// ==================================================
+
 export function* watchGetPageData() {
   yield takeEvery(GET_PAGE_DATA, getPageDataSaga);
 }
@@ -42,12 +57,17 @@ export function* watchGetSettings() {
   yield takeEvery(GET_SETTINGS, getSettingsSaga);
 }
 
+export function* watchJoinUs() {
+  yield takeEvery(JOIN_US, joinUsSaga);
+}
+
 // ==================================================
 // ==================================================
 
 function* settingsSaga() {
   yield all([fork(watchGetPageData)]);
   yield all([fork(watchGetSettings)]);
+  yield all([fork(watchJoinUs)]);
 }
 
 export default settingsSaga;

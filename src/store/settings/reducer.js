@@ -6,6 +6,9 @@ import {
   GET_SETTINGS,
   GET_SETTINGS_FAILURE,
   GET_SETTINGS_SUCCESS,
+  JOIN_US,
+  JOIN_US_FAILURE,
+  JOIN_US_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {
@@ -72,6 +75,28 @@ const settings = (state = initialState, action) => {
 
     // ==================================================
     // ==================================================
+
+    case JOIN_US:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case JOIN_US_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case JOIN_US_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    //=================================================
+    //=================================================
 
     default:
       return state;

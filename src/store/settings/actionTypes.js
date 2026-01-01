@@ -11,3 +11,10 @@ export const GET_SETTINGS_FAILURE = "GET_SETTINGS_FAILURE";
 
 // ==================================================
 // ==================================================
+
+export const JOIN_US = "JOIN_US";
+export const JOIN_US_SUCCESS = "JOIN_US_SUCCESS";
+export const JOIN_US_FAILURE = "JOIN_US_FAILURE";
+
+// ==================================================
+// ==================================================

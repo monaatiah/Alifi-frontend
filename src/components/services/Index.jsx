@@ -2,54 +2,34 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import SecMainTitle from "../Shared/SecMainTitle";
-import Img1 from "./assets/b1.png";
-import Img2 from "./assets/b2.png";
-import { v4 } from "uuid";
+
 import Image from "next/future/image";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { getComponentByIdentifier } from "@/helpers/functions";
 
 const Index = () => {
-  const data = [
-    {
-      id: v4(),
-      img: Img1,
-      title: "الرعاية المنزلية",
-      desc: "مقدّمو رعاية موثوقون أثناء غيابك.",
-    },
-    {
-      id: v4(),
-      img: Img2,
-      title: "الاستشارات الغذائية",
-      desc: "نصائح وخطط تغذية بإشراف مختصين.",
-    },
-    {
-      id: v4(),
-      img: Img1,
-      title: "العناية والتجميل",
-      desc: "تنظيف، قص شعر، والعناية بالأظافر.",
-    },
-    {
-      id: v4(),
-      img: Img2,
-      title: "التدريب والسلوك",
-      desc: "تدريب الحيوانات على الطاعة والسلوك الإيجابي.",
-    },
-  ];
+  const { pageData } = useSelector((state) => state.settings);
+  const servicesData = getComponentByIdentifier(
+    pageData?.page_components,
+    "services"
+  );
+
   return (
     <div className={styles["services-section"]}>
       <Container>
         <SecMainTitle
-          secSubTitle={"عرض لأهم الخدمات المتوفرة من مقدّمي الخدمات في المنصة."}
-          secTitle="خدمات لرعاية وسعادة حيوانك الأليف"
+          secSubTitle={servicesData?.data?.subtitle || ""}
+          secTitle={servicesData?.data?.title || ""}
         />
         <Row>
-          {data?.map((item) => (
+          {servicesData?.data?.services?.map((item) => (
             <Col key={item.id} md={6} lg={3}>
               <div className="service-block">
                 <div className="img">
                   <Image
-                    src={item?.img}
-                    alt={item.title}
+                    src={item?.cover_image || ""}
+                    alt={item?.title}
                     width={325}
                     height={325}
                   />
