@@ -5,9 +5,9 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import * as flags from "country-flag-icons/react/3x2";
 
-import Image1 from "../products-section/assets/1.png";
-import Image2 from "../products-section/assets/2.png";
-import Image3 from "../products-section/assets/3.png";
+import Image1 from "./assets/1.png";
+import Image2 from "./assets/2.png";
+import Image3 from "./assets/3.png";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 

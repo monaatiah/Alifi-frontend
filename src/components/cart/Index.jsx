@@ -3,9 +3,9 @@ import { Col, Container, Row, Table } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import BestSellerProducts from "./BestSellerProducts";
 
-import Image1 from "../products-section/assets/1.png";
-import Image2 from "../products-section/assets/2.png";
-import Image3 from "../products-section/assets/3.png";
+import Image1 from "./assets/1.png";
+import Image2 from "./assets/2.png";
+import Image3 from "./assets/3.png";
 import Image from "next/future/image";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
