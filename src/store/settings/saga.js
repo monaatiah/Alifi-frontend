@@ -9,6 +9,7 @@ import {
   joinUsSuccess,
 } from "./actions";
 import { GET_PAGE_DATA, GET_SETTINGS, JOIN_US } from "./actionTypes";
+import toast from "react-hot-toast";
 
 function* getPageDataSaga({ payload }) {
   try {
@@ -40,9 +41,14 @@ function* joinUsSaga({ payload }) {
   try {
     const { data } = yield call(joinUsApi, payload);
     yield put(joinUsSuccess(data));
+    if (payload.reset) {
+      payload.reset();
+    }
+    toast.success("تم ارسال طلبك بنجاح");
   } catch (error) {
     console.log(error);
     yield put(joinUsFailure(error));
+    toast.error("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
   }
 }
 

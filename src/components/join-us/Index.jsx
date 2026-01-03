@@ -8,6 +8,7 @@ import Image from "next/future/image";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
+import { joinUs } from "@/store/actions";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,28 @@ const Index = () => {
   );
 
   const onSubmit = (data) => {
-    data.userType = userType;
-    console.log(data);
+    const formattedData = {
+      mutate: [
+        {
+          operation: "create",
+          attributes: {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            message: data.message,
+            request_type: userType,
+            request_status: "pending",
+          },
+        },
+      ],
+    };
+
+    dispatch(
+      joinUs({
+        data: formattedData,
+        reset,
+      })
+    );
   };
 
   return (
@@ -97,6 +118,7 @@ const Index = () => {
                       placeholder="رقم الهاتف"
                       className="form-control"
                       {...register("phone", { required: true })}
+                      dir="ltr"
                     />
                     {errors.phone && <p className="error">هذا الحقل مطلوب</p>}
                   </div>
