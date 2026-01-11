@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import { wrapper } from "../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getPageData, getSettings, getSectionData } from "@/store/actions";
+import { getPageData, getSettings } from "@/store/actions";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { handleImageLink } from "@/helpers/functions";
