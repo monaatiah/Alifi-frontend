@@ -14,12 +14,19 @@ const BreadCrumbSection = dynamic(
     ssr: false,
   },
 );
+const BlogsSection = dynamic(
+  () => import("@/components/blogs-page-section/Index"),
+  {
+    ssr: false,
+  },
+);
 
 const ShopPage = () => {
   return (
     <>
       <Header />
       <BreadCrumbSection title="اخر الاخبار" pageName="اخر الاخبار" />
+      <BlogsSection />
     </>
   );
 };
