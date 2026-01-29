@@ -78,7 +78,7 @@ const RelatedProducts = () => {
         category: { id: "cat-7", name: "الألعاب والإكسسوارات" },
       },
     ],
-    []
+    [],
   );
 
   return (
@@ -121,7 +121,7 @@ const RelatedProducts = () => {
             }}
           >
             {products.map((product) => (
-              <SwiperSlide key={product.id}>
+              <SwiperSlide key={product?.id}>
                 <ProductBlock item={product} />
               </SwiperSlide>
             ))}

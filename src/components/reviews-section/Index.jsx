@@ -16,7 +16,7 @@ const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
   const testimonialsData = getComponentByIdentifier(
     pageData?.page_components,
-    "testimonials"
+    "testimonials",
   );
 
   return (
@@ -85,7 +85,7 @@ const Index = () => {
         </Swiper>
 
         <div className="load-more">
-          <Link href={testimonialsData?.data?.button_url}>
+          <Link href={testimonialsData?.data?.button_url || "#"}>
             <a className="btn">{testimonialsData?.data?.button_text || " "}</a>
           </Link>
         </div>

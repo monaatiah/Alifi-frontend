@@ -15,14 +15,14 @@ const SingleProduct = dynamic(
   () => import("@/components/single-product/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ReviewsSection = dynamic(
   () => import("@/components/reviews-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const SingleProductsPage = () => {

@@ -18,13 +18,13 @@ const ProductBlock = memo(({ item }) => {
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         />
-        <Link href={`/products/${item?.id}`}>
+        <Link href={`/products/${item?.id}` || "#"}>
           <a aria-label={item?.name}> </a>
         </Link>
       </div>
       <div className="info">
         <div className="title">
-          <Link href={`/products/${item?.id}`}>
+          <Link href={`/products/${item?.id}` || "#"}>
             <a>{item?.name}</a>
           </Link>
         </div>
@@ -42,7 +42,7 @@ const ProductBlock = memo(({ item }) => {
           </div>
         </div>
         <div className="btns">
-          <Link href={`/products/${item?.id}`}>
+          <Link href={`/products/${item?.id}` || "#"}>
             <a>مزيد من التفاصيل</a>
           </Link>
           <button className="add-to-cart" aria-label="add to cart">
