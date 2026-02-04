@@ -3,6 +3,7 @@ import { wrapper } from "../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
 import { getPageData, getSettings } from "@/store/actions";
+import { useRouteProtection } from "@/helpers/useRouteProtection";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
@@ -12,7 +13,7 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const Login = dynamic(() => import("@/components/login/Index"), {
@@ -20,6 +21,7 @@ const Login = dynamic(() => import("@/components/login/Index"), {
 });
 
 const ShopPage = () => {
+  useRouteProtection("auth-only");
   return (
     <>
       <Header />
@@ -34,13 +36,13 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getSettings({
         cookies: {},
-      })
+      }),
     );
     store.dispatch(
       getPageData({
         cookies: {},
         slug: "home",
-      })
+      }),
     );
 
     store.dispatch(END);

@@ -4,7 +4,8 @@
 
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-Light.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-Light.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
@@ -12,7 +13,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-Regular.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-Regular.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
@@ -20,7 +22,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-Medium.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-Medium.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
@@ -28,7 +31,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-SemiBold.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-SemiBold.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
@@ -36,7 +40,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-Bold.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-Bold.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
@@ -44,7 +49,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-ExtraBold.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-ExtraBold.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-ExtraBold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
@@ -52,7 +58,8 @@
 }
 @font-face {
   font-family: "noto-sans";
-  src: url("/fonts/NotoSansArabic-Black.woff2") format("woff2"),
+  src:
+    url("/fonts/NotoSansArabic-Black.woff2") format("woff2"),
     url("/fonts/NotoSansArabic-Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
@@ -719,7 +726,10 @@ input[type="radio"] {
   h1 {
     text-align: center;
     text-transform: uppercase;
-    text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
+    text-shadow:
+      0 0 80px red,
+      0 0 30px FireBrick,
+      0 0 6px DarkRed;
     color: red;
     font-size: 70px;
     @media (max-width: 835px) {
@@ -729,7 +739,10 @@ input[type="radio"] {
 
   h2 {
     color: #fff;
-    text-shadow: 19px 16px 100px #ffffff, 0 0 30px #0daca3, 0 0 6px #0daca3;
+    text-shadow:
+      19px 16px 100px #ffffff,
+      0 0 30px #0daca3,
+      0 0 6px #0daca3;
     font-size: 50px;
     @media (max-width: 835px) {
       font-size: 20px;
@@ -1131,5 +1144,25 @@ input {
     height: 120px !important;
     position: unset !important;
     filter: brightness(0) invert(0.7) opacity(0.7);
+  }
+}
+
+.dropdown-menu {
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  border: 0;
+  overflow: hidden;
+  .dropdown-item {
+    color: #121921;
+    font-size: 15px;
+    padding: 10px 20px;
+    transition: $transition;
+    &:hover {
+      background-color: $secondary-color;
+      color: #000 !important;
+    }
   }
 }

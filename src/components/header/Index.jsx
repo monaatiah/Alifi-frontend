@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/future/image";
 import Link from "next/link";
 
@@ -6,24 +6,63 @@ import styles from "./styles/style.module.scss";
 
 import PhoneIcon from "./assets/images/mobile.svg";
 import EmailIcon from "./assets/images/email.svg";
-import UserIcon from "./assets/images/user.svg";
+import { LuUserRound } from "react-icons/lu";
 import SearchIcon from "./assets/images/search.svg";
 import HeartIcon from "./assets/images/heart.svg";
 import CartIcon from "./assets/images/cart.svg";
 import MenuIcon from "./assets/images/menu.svg";
 import HomeIcon from "./assets/images/home.svg";
 
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Sidebar from "./Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { destroyCookie, parseCookies } from "nookies";
+import { fetchUser, logout } from "@/store/actions";
+import Swal from "sweetalert2";
+import { useIntl } from "react-intl";
 
 const Index = () => {
+  const router = useRouter();
   const { asPath } = useRouter();
+  const dispatch = useDispatch();
+  const cookies = parseCookies();
+  const { formatMessage } = useIntl();
 
   const [showSidebar, setShowSidebar] = useState(false);
 
   const { settings } = useSelector((state) => state.settings);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (cookies?.token) {
+      dispatch(fetchUser(cookies));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: formatMessage({ id: "wantToLogOut" }),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: formatMessage({ id: "yes" }),
+      cancelButtonText: formatMessage({ id: "no" }),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(
+          logout({
+            cookies,
+          }),
+        );
+        destroyCookie("", "token", { path: "/" });
+        destroyCookie("", "user", { path: "/" });
+        localStorage.removeItem("email");
+        router.push(`/`);
+      }
+    });
+  };
 
   return (
     <>
@@ -46,12 +85,36 @@ const Index = () => {
                 </a>
               </Link>
             </div>
-            <Link href={"/login"}>
-              <a className="d-flex align-items-center gap-2 text-white">
-                <UserIcon fill="#fff" />
-                تسجيل الدخول / إنشاء حساب
-              </a>
-            </Link>
+            {user ? (
+              <Dropdown>
+                <Dropdown.Toggle>
+                  <div className="d-flex align-items-center gap-3 text-white">
+                    <div className="icon">
+                      <LuUserRound size={25} />
+                    </div>
+                    اهلا , {user?.name.split(" ")[0]}
+                  </div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="/profile">الملف الشخصي</Dropdown.Item>
+                  <Dropdown.Item href="/orders">طلباتي</Dropdown.Item>
+                  <button
+                    className="dropdown-item"
+                    type="button"
+                    onClick={handleLogout}
+                  >
+                    تسجيل خروج
+                  </button>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Link href={"/login"}>
+                <a className="d-flex align-items-center gap-2 text-white">
+                  <LuUserRound size={25} />
+                  تسجيل الدخول / إنشاء حساب
+                </a>
+              </Link>
+            )}
           </div>
           <div className="bottom-bar d-flex align-items-center gap-4 justify-content-between bg-white">
             <button

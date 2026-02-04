@@ -57,11 +57,14 @@ const auth = (state = initialState, action) => {
       };
 
     case LOGIN_SUCCESS:
+      console.log("====================================");
+      console.log("action.payload", action.payload);
+      console.log("====================================");
       return {
         ...state,
         loading: false,
         isLoggedIn: true,
-        user: action.payload,
+        user: action.payload.customer,
         error: "",
       };
 
@@ -140,7 +143,7 @@ const auth = (state = initialState, action) => {
         ...state,
         loading: false,
         isLoggedIn: true,
-        user: action.payload,
+        user: action.payload.customer,
         error: "",
       };
 
@@ -237,6 +240,10 @@ const auth = (state = initialState, action) => {
         ...state,
         loading: false,
         error: "",
+        user: {
+          ...state.user,
+          email_verified: true,
+        },
       };
 
     case VERIFY_EMAIL_FAILURE:

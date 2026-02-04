@@ -10,7 +10,26 @@
         transition: $transition;
 
         &:hover {
-          color: $secondary-color !important;
+          color: $secondary-color;
+        }
+      }
+
+      .btn {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        .icon {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background-color: $secondary-color;
+          color: #000;
+        }
+        &::after {
+          border-top-color: #fff;
         }
       }
     }

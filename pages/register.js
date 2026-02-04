@@ -16,25 +16,17 @@ const BreadCrumbSection = dynamic(
   },
 );
 
-const Profile = dynamic(() => import("@/components/profile/Index"), {
+const Register = dynamic(() => import("@/components/register/Index"), {
   ssr: false,
 });
 
-const ReviewsSection = dynamic(
-  () => import("@/components/reviews-section/Index"),
-  {
-    ssr: false,
-  },
-);
-
 const ShopPage = () => {
-  useRouteProtection("protected");
+  useRouteProtection("auth-only");
   return (
     <>
       <Header />
-      <BreadCrumbSection title="صفحة البائع" pageName="صفحة البائع" />
-      <Profile />
-      <ReviewsSection />
+      <BreadCrumbSection title="إنشاء حساب جديد" pageName="إنشاء حساب جديد" />
+      <Register />
     </>
   );
 };

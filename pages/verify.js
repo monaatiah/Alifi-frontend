@@ -16,25 +16,20 @@ const BreadCrumbSection = dynamic(
   },
 );
 
-const Profile = dynamic(() => import("@/components/profile/Index"), {
+const Verify = dynamic(() => import("@/components/verify/Index"), {
   ssr: false,
 });
-
-const ReviewsSection = dynamic(
-  () => import("@/components/reviews-section/Index"),
-  {
-    ssr: false,
-  },
-);
 
 const ShopPage = () => {
   useRouteProtection("protected");
   return (
     <>
       <Header />
-      <BreadCrumbSection title="صفحة البائع" pageName="صفحة البائع" />
-      <Profile />
-      <ReviewsSection />
+      <BreadCrumbSection
+        title="تحقق من بريدك الإلكتروني"
+        pageName="تحقق من بريدك الإلكتروني"
+      />
+      <Verify />
     </>
   );
 };
