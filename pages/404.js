@@ -11,10 +11,14 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const NotFound = dynamic(() => import("@/components/not-found/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -27,6 +31,7 @@ const ShopPage = () => {
         pageName="الصفحة غير موجودة"
       />
       <NotFound />
+      <Footer />
     </>
   );
 };

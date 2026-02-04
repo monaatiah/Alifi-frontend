@@ -27,6 +27,9 @@ import {
   VERIFY_EMAIL,
   VERIFY_EMAIL_FAILURE,
   VERIFY_EMAIL_SUCCESS,
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
@@ -270,6 +273,27 @@ const auth = (state = initialState, action) => {
       };
 
     case RESEND_VERIFICATION_EMAIL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    //=================================================
+    //=================================================
+
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        loading: true,
+      };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+      };
+    case FORGOT_PASSWORD_FAILURE:
       return {
         ...state,
         loading: false,

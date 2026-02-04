@@ -20,6 +20,10 @@ const Verify = dynamic(() => import("@/components/verify/Index"), {
   ssr: false,
 });
 
+const Footer = dynamic(() => import("@/components/footer/Index"), {
+  ssr: false,
+});
+
 const ShopPage = () => {
   useRouteProtection("protected");
   return (
@@ -30,6 +34,7 @@ const ShopPage = () => {
         pageName="تحقق من بريدك الإلكتروني"
       />
       <Verify />
+      <Footer />
     </>
   );
 };

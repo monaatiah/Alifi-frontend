@@ -11,9 +11,14 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
+
 const CheckoutSection = dynamic(() => import("@/components/checkout/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -23,6 +28,7 @@ const SingleProductsPage = () => {
       <Header />
       <BreadCrumbSection title="الدفع" pageName="الدفع" paymentPages />
       <CheckoutSection />
+      <Footer />
     </>
   );
 };

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import { signUp } from "@/store/actions";
+
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -14,6 +17,9 @@ const Index = () => {
     register: registerRegister,
     formState: { errors: registerErrors },
   } = useForm();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const regsiterSubmit = (data) => {
     dispatch(
@@ -67,8 +73,15 @@ const Index = () => {
                   )}
                 </div>
                 <div className="form-group">
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <IoEyeOutline />}
+                  </button>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control"
                     placeholder="كلمة المرور"
                     {...registerRegister("password", { required: true })}
@@ -78,8 +91,15 @@ const Index = () => {
                   )}
                 </div>
                 <div className="form-group">
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <FaRegEyeSlash /> : <IoEyeOutline />}
+                  </button>
                   <input
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     className="form-control"
                     placeholder="تأكيد كلمة المرور"
                     {...registerRegister("password_confirmation", {

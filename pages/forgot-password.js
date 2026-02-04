@@ -16,12 +16,8 @@ const BreadCrumbSection = dynamic(
   },
 );
 
-const Profile = dynamic(() => import("@/components/profile/Index"), {
-  ssr: false,
-});
-
-const ReviewsSection = dynamic(
-  () => import("@/components/reviews-section/Index"),
+const ForgotPassword = dynamic(
+  () => import("@/components/forgot-password/Index"),
   {
     ssr: false,
   },
@@ -32,13 +28,15 @@ const Footer = dynamic(() => import("@/components/footer/Index"), {
 });
 
 const ShopPage = () => {
-  useRouteProtection("protected");
+  useRouteProtection("auth-only");
   return (
     <>
       <Header />
-      <BreadCrumbSection title="صفحة البائع" pageName="صفحة البائع" />
-      <Profile />
-      <ReviewsSection />
+      <BreadCrumbSection
+        title="استعادة كلمة المرور"
+        pageName="استعادة كلمة المرور"
+      />
+      <ForgotPassword />
       <Footer />
     </>
   );

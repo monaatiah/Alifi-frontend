@@ -20,6 +20,10 @@ const Login = dynamic(() => import("@/components/login/Index"), {
   ssr: false,
 });
 
+const Footer = dynamic(() => import("@/components/footer/Index"), {
+  ssr: false,
+});
+
 const ShopPage = () => {
   useRouteProtection("auth-only");
   return (
@@ -27,6 +31,7 @@ const ShopPage = () => {
       <Header />
       <BreadCrumbSection title="تسجيل الدخول" pageName="تسجيل الدخول" />
       <Login />
+      <Footer />
     </>
   );
 };

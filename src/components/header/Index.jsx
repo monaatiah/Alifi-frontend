@@ -72,16 +72,16 @@ const Index = () => {
         <Container>
           <div className="top-bar d-flex align-items-center gap-3 justify-content-between py-3">
             <div className="d-flex align-items-center gap-5">
-              <Link href={`tel:${settings?.contact_phone}`}>
+              <Link href={`tel:${settings?.contact_phone?.split("/")[4]}`}>
                 <a className="d-flex align-items-center gap-2 text-white">
                   <PhoneIcon fill="#fff" />
-                  {settings?.contact_phone}
+                  {settings?.contact_phone?.split("/")[4]}
                 </a>
               </Link>
-              <Link href={`mailto:${settings?.contact_email}`}>
+              <Link href={`mailto:${settings?.contact_email?.split("/")[4]}`}>
                 <a className="d-flex align-items-center gap-2 text-white">
                   <EmailIcon fill="#fff" />
-                  {settings?.contact_email}
+                  {settings?.contact_email?.split("/")[4]}
                 </a>
               </Link>
             </div>
@@ -92,7 +92,7 @@ const Index = () => {
                     <div className="icon">
                       <LuUserRound size={25} />
                     </div>
-                    اهلا , {user?.name.split(" ")[0]}
+                    اهلا , {user?.name?.split(" ")[0]}
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -131,8 +131,8 @@ const Index = () => {
                   <Image
                     src={settings?.logo || ""}
                     alt="Logo"
-                    width={107}
-                    height={76}
+                    width={120}
+                    height={70}
                   />
                 </a>
               </Link>

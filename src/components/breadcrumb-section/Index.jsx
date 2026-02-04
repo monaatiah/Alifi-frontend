@@ -52,6 +52,7 @@ const Index = ({ title, description, pageName, paymentPages }) => {
                   alt="Breadcrumb Hero"
                   width={500}
                   height={250}
+                  priority
                 />
               </div>
             </Col>

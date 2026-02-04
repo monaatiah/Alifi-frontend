@@ -28,7 +28,7 @@ const ProductsSection = dynamic(
   () => import("@/components/products-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ServicesSection = dynamic(() => import("@/components/services/Index"), {
@@ -47,10 +47,14 @@ const ReviewsSection = dynamic(
   () => import("@/components/reviews-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const BlogsSection = dynamic(() => import("@/components/blogs-section/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -99,6 +103,7 @@ const Home = () => {
       <JoinUsSection />
       <ReviewsSection />
       <BlogsSection />
+      <Footer />
     </>
   );
 };
@@ -108,13 +113,13 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getSettings({
         cookies: {},
-      })
+      }),
     );
     store.dispatch(
       getPageData({
         cookies: {},
         slug: "home",
-      })
+      }),
     );
     store.dispatch(END);
     await store.sagaTask.toPromise();

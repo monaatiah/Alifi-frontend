@@ -4,12 +4,16 @@ import { authApi, fetchUserApi } from "@/api/authentication";
 import {
   fetchUserFailure,
   fetchUserSuccess,
+  forgotPasswordFailure,
+  forgotPasswordSuccess,
   loginFailure,
   loginSuccess,
   logoutFailure,
   logoutSuccess,
   resendVerificationEmailFailure,
   resendVerificationEmailSuccess,
+  resetPasswordFailure,
+  resetPasswordSuccess,
   signUpFailure,
   signUpSuccess,
   verifyEmailFailure,
@@ -17,9 +21,11 @@ import {
 } from "./actions";
 import {
   FETCH_USER,
+  FORGOT_PASSWORD,
   LOGIN,
   LOGOUT,
   RESEND_VERIFICATION_EMAIL,
+  RESET_PASSWORD,
   SIGNUP,
   VERIFY_EMAIL,
 } from "./actionTypes";
@@ -38,7 +44,7 @@ function* loginSaga({ payload }) {
     if (data?.customer?.email_verified) {
       router.push("/");
     } else {
-      router.push("/verify-email");
+      router.push("/verify");
     }
   } catch (error) {
     console.log(error);
@@ -52,8 +58,17 @@ function* loginSaga({ payload }) {
 
 function* signUpSaga({ payload }) {
   try {
-    const { data } = yield call(authApi, payload);
-    yield put(signUpSuccess(data));
+    const { data, status } = yield call(authApi, payload);
+    if (status === 200) {
+      toast.success(data?.message || "Registration successful");
+      yield put(signUpSuccess(data));
+    }
+
+    if (data?.customer?.email_verified) {
+      router.push("/");
+    } else {
+      router.push("/verify");
+    }
   } catch (error) {
     console.log(error);
     yield put(signUpFailure(error.response.data.message));
@@ -126,6 +141,38 @@ function* resendVerificationEmailSaga({ payload }) {
 // ==================================================
 // ==================================================
 
+function* resetPasswordSaga({ payload }) {
+  try {
+    const { data } = yield call(authApi, payload);
+    yield put(resetPasswordSuccess(data));
+    toast.success(data?.message || "Password reset successfully");
+    router.push("/login");
+  } catch (error) {
+    console.log(error);
+    yield put(resetPasswordFailure(error.response.data.message));
+    toast.error(error.response.data.message);
+  }
+}
+
+// ==================================================
+// ==================================================
+
+function* forgotPasswordSaga({ payload }) {
+  try {
+    const { data } = yield call(authApi, payload);
+    yield put(forgotPasswordSuccess(data));
+    toast.success(data?.message || "Password reset link sent to your email");
+    router.push("/login");
+  } catch (error) {
+    console.log(error);
+    yield put(forgotPasswordFailure(error.response.data.message));
+    toast.error(error.response.data.message);
+  }
+}
+
+// ==================================================
+// ==================================================
+
 export function* watchLogin() {
   yield takeLatest(LOGIN, loginSaga);
 }
@@ -149,6 +196,14 @@ export function* watchResendVerificationEmail() {
   yield takeLatest(RESEND_VERIFICATION_EMAIL, resendVerificationEmailSaga);
 }
 
+export function* watchResetPassword() {
+  yield takeLatest(RESET_PASSWORD, resetPasswordSaga);
+}
+
+export function* watchForgotPassword() {
+  yield takeLatest(FORGOT_PASSWORD, forgotPasswordSaga);
+}
+
 // ==================================================
 // ==================================================
 
@@ -159,6 +214,8 @@ function* authSaga() {
   yield all([fork(watchLogout)]);
   yield all([fork(watchVerifyEmail)]);
   yield all([fork(watchResendVerificationEmail)]);
+  yield all([fork(watchResetPassword)]);
+  yield all([fork(watchForgotPassword)]);
 }
 
 export default authSaga;

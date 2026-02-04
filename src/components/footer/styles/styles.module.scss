@@ -1,0 +1,101 @@
+@import "@/styles/variables.scss";
+
+.footer-section {
+  background-color: $primary-color;
+  :global {
+    .footer-top {
+      padding-block: 50px;
+      .footer-info {
+        p {
+          color: #fff;
+          font-size: 14px;
+          margin-block: 20px;
+        }
+        ul {
+          margin-bottom: 20px;
+          li {
+            &:not(:last-child) {
+              margin-bottom: 5px;
+            }
+            a {
+              color: #fff;
+              font-family: "anybody";
+              font-size: 12px;
+            }
+
+            svg {
+              flex-shrink: 0;
+            }
+          }
+        }
+        .socials {
+          a {
+            width: 35px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100%;
+            background-color: $secondary-color;
+            border: 2px solid $secondary-color;
+            color: #000;
+            transition: $transition;
+            &:hover {
+              background-color: transparent;
+              color: $secondary-color;
+              translate: 0 -3px;
+            }
+          }
+        }
+      }
+      .footer-item {
+        h4 {
+          color: #ffffff;
+          font-size: 18px;
+          margin-bottom: 20px;
+          font-weight: 700;
+        }
+        ul {
+          li {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+            a {
+              color: #ffffff;
+              font-size: 14px;
+              transition: $transition;
+              &:hover {
+                color: $secondary-color;
+                padding-inline: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .footer-bottom {
+      padding-block: 20px;
+      text-align: center;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #ffffff33,
+          transparent
+        );
+      }
+      p {
+        color: #ffffff;
+        font-size: 14px;
+      }
+    }
+  }
+}

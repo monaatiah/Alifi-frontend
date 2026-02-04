@@ -62,3 +62,10 @@ export const RESEND_VERIFICATION_EMAIL_FAILURE =
 
 // ==================================================
 // ==================================================
+
+export const FORGOT_PASSWORD = "FORGET_PASSWORD";
+export const FORGOT_PASSWORD_SUCCESS = "FORGET_PASSWORD_SUCCESS";
+export const FORGOT_PASSWORD_FAILURE = "FORGET_PASSWORD_FAILURE";
+
+// ==================================================
+// ==================================================

@@ -27,6 +27,10 @@ const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
   ssr: false,
 });
 
+const Footer = dynamic(() => import("@/components/footer/Index"), {
+  ssr: false,
+});
+
 const ShopPage = () => {
   return (
     <>
@@ -35,6 +39,7 @@ const ShopPage = () => {
       <ShopServices />
       <Shop />
       <JoinUsSection />
+      <Footer />
     </>
   );
 };

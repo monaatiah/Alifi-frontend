@@ -20,6 +20,10 @@ const Register = dynamic(() => import("@/components/register/Index"), {
   ssr: false,
 });
 
+const Footer = dynamic(() => import("@/components/footer/Index"), {
+  ssr: false,
+});
+
 const ShopPage = () => {
   useRouteProtection("auth-only");
   return (
@@ -27,6 +31,7 @@ const ShopPage = () => {
       <Header />
       <BreadCrumbSection title="إنشاء حساب جديد" pageName="إنشاء حساب جديد" />
       <Register />
+      <Footer />
     </>
   );
 };

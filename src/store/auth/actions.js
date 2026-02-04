@@ -26,6 +26,9 @@ import {
   VERIFY_EMAIL,
   VERIFY_EMAIL_FAILURE,
   VERIFY_EMAIL_SUCCESS,
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILURE,
 } from "./actionTypes";
 
 export const login = (payload) => {
@@ -221,6 +224,28 @@ export const resendVerificationEmailSuccess = (payload) => {
 export const resendVerificationEmailFailure = (payload) => {
   return {
     type: RESEND_VERIFICATION_EMAIL_FAILURE,
+    payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const forgotPassword = (payload) => {
+  return {
+    type: FORGOT_PASSWORD,
+    payload,
+  };
+};
+export const forgotPasswordSuccess = (payload) => {
+  return {
+    type: FORGOT_PASSWORD_SUCCESS,
+    payload,
+  };
+};
+export const forgotPasswordFailure = (payload) => {
+  return {
+    type: FORGOT_PASSWORD_FAILURE,
     payload,
   };
 };

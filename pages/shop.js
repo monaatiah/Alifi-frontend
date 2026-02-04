@@ -11,7 +11,7 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ShopServices = dynamic(() => import("@/components/shop-services/Index"), {
@@ -23,6 +23,10 @@ const Shop = dynamic(() => import("@/components/shop/Index"), {
 });
 
 const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -39,6 +43,7 @@ const ShopPage = () => {
       <ShopServices />
       <Shop />
       <JoinUsSection />
+      <Footer />
     </>
   );
 };

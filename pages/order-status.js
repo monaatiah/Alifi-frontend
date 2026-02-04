@@ -11,9 +11,14 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
+
 const OrderStatus = dynamic(() => import("@/components/order-status/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -27,6 +32,7 @@ const SingleProductsPage = () => {
         paymentPages
       />
       <OrderStatus />
+      <Footer />
     </>
   );
 };

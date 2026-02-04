@@ -74,16 +74,16 @@ const Sidebar = ({ show, onClose }) => {
       </div>
 
       <div className="sidebar-footer d-flex flex-column gap-3 border-top py-3 border-bottom">
-        <Link href={`tel:${settings?.contact_phone}`}>
+        <Link href={`tel:${settings?.contact_phone?.split("/")[4]}`}>
           <a className="d-flex align-items-center gap-2">
             <PhoneIcon fill="#7267c3" />
-            {settings?.contact_phone}
+            {settings?.contact_phone?.split("/")[4]}
           </a>
         </Link>
-        <Link href={`mailto:${settings?.contact_email}`}>
+        <Link href={`mailto:${settings?.contact_email?.split("/")[4]}`}>
           <a className="d-flex align-items-center gap-2">
             <EmailIcon fill="#7267c3" />
-            {settings?.contact_email}
+            {settings?.contact_email?.split("/")[4]}
           </a>
         </Link>
       </div>

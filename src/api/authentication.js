@@ -15,6 +15,14 @@ export const authApi = async ({ cookies, type, data }) => {
     });
   }
 
+  // add token to cookies on successful register
+  if (type === "register" && response?.data?.token) {
+    setCookie(null, "token", response.data.token, {
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      path: "/",
+    });
+  }
+
   return response;
 };
 

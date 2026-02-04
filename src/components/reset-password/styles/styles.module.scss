@@ -48,20 +48,6 @@
           }
         }
 
-        .password-toggle {
-          position: absolute;
-          top: 15px;
-          left: 20px;
-          background: none;
-          border: none;
-          font-size: 18px;
-          color: #888;
-          cursor: pointer;
-          @media (max-width: 768px) {
-            font-size: 16px;
-          }
-        }
-
         .remember {
           label {
             display: flex;
@@ -106,6 +92,14 @@
               color: darken($primary-color, 10%);
             }
           }
+        }
+      }
+
+      &.register {
+        background-color: $secondary-color;
+        .btn {
+          background-color: $third-color;
+          color: #fff;
         }
       }
     }

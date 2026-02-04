@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { login } from "@/store/actions";
 import { useDispatch } from "react-redux";
+
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -14,6 +17,8 @@ const Index = () => {
     register: registerLogin,
     formState: { errors: loginErrors },
   } = useForm();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const loginSubmit = (data) => {
     dispatch(
@@ -45,8 +50,15 @@ const Index = () => {
                   )}
                 </div>
                 <div className="form-group">
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <IoEyeOutline />}
+                  </button>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control"
                     placeholder="كلمة المرور"
                     {...registerLogin("password", { required: true })}

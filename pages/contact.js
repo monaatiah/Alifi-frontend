@@ -12,10 +12,14 @@ const BreadCrumbSection = dynamic(
   () => import("@/components/breadcrumb-section/Index"),
   {
     ssr: false,
-  }
+  },
 );
 
 const Contact = dynamic(() => import("@/components/contact/Index"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
@@ -25,6 +29,7 @@ const ShopPage = () => {
       <Header />
       <BreadCrumbSection title="تواصل معنا" pageName="تواصل معنا" />
       <Contact />
+      <Footer />
     </>
   );
 };
@@ -34,13 +39,13 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getSettings({
         cookies: {},
-      })
+      }),
     );
     store.dispatch(
       getPageData({
         cookies: {},
         slug: "home",
-      })
+      }),
     );
 
     store.dispatch(END);
