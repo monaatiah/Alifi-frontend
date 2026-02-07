@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { getPageData, getSettings } from "@/store/actions";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { handleImageLink } from "@/helpers/functions";
+import { getComponentByIdentifier, handleImageLink } from "@/helpers/functions";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
@@ -61,6 +61,10 @@ const Footer = dynamic(() => import("@/components/footer/Index"), {
 const Home = () => {
   const { locale, asPath } = useRouter();
   const { pageData } = useSelector((state) => state.settings);
+  const blogsData = getComponentByIdentifier(
+    pageData?.page_components,
+    "blogs",
+  );
 
   return (
     <>
@@ -102,7 +106,10 @@ const Home = () => {
       <WhySection />
       <JoinUsSection />
       <ReviewsSection />
-      <BlogsSection />
+      <BlogsSection
+        title={blogsData?.data?.title}
+        subTitle={blogsData?.data?.subtitle}
+      />
       <Footer />
     </>
   );

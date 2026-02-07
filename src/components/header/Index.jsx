@@ -154,35 +154,35 @@ const Index = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>
+                  <Link href={"/about"}>
                     <a className={asPath === "/about" ? "active" : ""}>
                       معلومات عنا
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>
+                  <Link href={"/services"}>
                     <a className={asPath.includes("services") ? "active" : ""}>
                       خدماتنا
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>
+                  <Link href={"/shop"}>
                     <a className={asPath === "/store" ? "active" : ""}>
                       متجرنا
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>
+                  <Link href={"/blogs"}>
                     <a className={asPath.includes("blogs") ? "active" : ""}>
                       اخر الاخبار
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>
+                  <Link href={"/contact"}>
                     <a className={asPath === "/contact" ? "active" : ""}>
                       تواصل معنا
                     </a>

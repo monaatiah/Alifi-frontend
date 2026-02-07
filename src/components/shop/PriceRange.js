@@ -36,7 +36,7 @@ const PriceRange = () => {
             <div
               ref={props.ref}
               style={{
-                height: "12px",
+                height: "6px",
                 width: "100%",
                 borderRadius: "5px",
                 background: getTrackBackground({

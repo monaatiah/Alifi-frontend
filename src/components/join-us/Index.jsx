@@ -24,7 +24,7 @@ const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
   const joinData = getComponentByIdentifier(
     pageData?.page_components,
-    "apply_form"
+    "apply_form",
   );
 
   const onSubmit = (data) => {
@@ -48,7 +48,7 @@ const Index = () => {
       joinUs({
         data: formattedData,
         reset,
-      })
+      }),
     );
   };
 
@@ -64,7 +64,7 @@ const Index = () => {
             className="pattern-1"
           />
           <Pattern2 className="pattern-2" />
-          <Row>
+          <Row className="w-100">
             <Col lg={6} xs={12}>
               <div className="info">
                 <h3>{joinData?.data?.title}</h3>

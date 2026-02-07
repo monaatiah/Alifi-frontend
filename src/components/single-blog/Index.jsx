@@ -1,137 +1,81 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
 import Image from "next/future/image";
-import Link from "next/link";
-import userPlaceholder from "./assets/user.png";
 import BlogImg from "./assets/blog.png";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import postImg from "./assets/blog.avif";
+import Link from "next/link";
+import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
 const Index = () => {
-  const { pageData } = useSelector((state) => state.settings);
-  const blogsData = getComponentByIdentifier(
-    pageData?.page_components,
-    "blogs",
-  );
-
   return (
-    <div className={styles["blogs-section"]}>
+    <div className={styles["single-blog-section"]}>
       <Container>
         <Row>
           <Col xxl={9} lg={8}>
-            <div className="blogs-wrap">
-              {blogsData?.data?.blogs?.map((item) => (
-                <div className="block" key={item?.id}>
-                  <div className="img">
-                    <Image
-                      src={item?.cover_image || ""}
-                      alt={item?.title}
-                      width={415}
-                      height={260}
-                    />
-                    <Link href={`/blog/${item?.id}`}>
-                      <a aria-label={item?.title}></a>
+            <div className="blog-wrap">
+              <div className="post-img">
+                <Image
+                  src={postImg}
+                  alt="Blog Title"
+                  width={900}
+                  height={430}
+                />
+              </div>
+              <div className="post-info d-flex align-items-center gap-3">
+                <span className="category">سلوك</span>
+                <div className="d-flex align-items-center">
+                  <span className="date">Dec 20, 2023</span>
+                  <span className="comments">3 تعليقات</span>
+                </div>
+              </div>
+              <div className="post-content">
+                <h1>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم</h1>
+                <div className="desc">
+                  <p>
+                    خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً،
+                    بل إن له جذور في الأدب اللاتيني الكلاسيكي منذ العام 45 قبل
+                    الميلاد، مما يجعله أكثر من 2000 عام في القدم. قام البروفيسور
+                    (Richard McClintock) وهو بروفيسور اللغة اللاتينية في جامعة
+                    هامبدن-سيدني في فيرجينيا بالبحث عن أصول كلمة لاتينية غامضة
+                    في نص لوريم إيبسوم وهي ، وخلال تتبعه لهذه الكلمة في الأدب
+                    اللاتيني اكتشف المصدر الغير قابل للشك. فلقد اتضح أن كلمات نص
+                    لوريم إيبسوم تأتي من (de Finibus Bonorum et Malorum) للمفكر
+                    شيشيرون (Cicero) والذي كتبه في عام 45 قبل الميلاد. هذا
+                    الكتاب هو بمثابة مقالة علمية مطولة في نظرية الأخلاق، وكان له
+                    شعبية كبيرة في عصر النهضة. السطر الأول من لوريم إيبسوم يأتي
+                    من سطر في القسم 1.20.32 من هذا الكتاب.
+                  </p>
+                  <p>
+                    هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة
+                    ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل
+                    توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة
+                    لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف ع
+                    فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح
+                    النشر المكتبي وبرامح تحرير صفحات الويب
+                  </p>
+                </div>
+                <div className="post-share d-flex align-items-center gap-3">
+                  <span>شارك المقال:</span>
+                  <div className="social-icons d-flex align-items-center gap-2">
+                    <Link href="https://www.facebook.com/sharer/sharer.php?u=#">
+                      <a className="facebook" target="_blank" rel="noreferrer">
+                        <FaFacebookF />
+                      </a>
                     </Link>
-                    <span>
-                      {item?.tags?.map((tag) => tag.name).join(", ") || ""}
-                    </span>
-                  </div>
-                  <div className="info d-flex align-items-start">
-                    <div className="date d-flex flex-column align-items-center justify-content-center">
-                      <span>
-                        {new Date(item?.published_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "2-digit",
-                          },
-                        )}
-                      </span>
-                      {new Date(item?.published_at).toLocaleDateString(
-                        "en-US",
-                        {
-                          month: "short",
-                          year: "numeric",
-                        },
-                      )}
-                    </div>
-                    <div className="info-data">
-                      <h3>
-                        <Link href={`/blog/${item.id}`}>
-                          <a>{item?.title}</a>
-                        </Link>
-                      </h3>
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: item?.body?.substring(0, 100) + "...",
-                        }}
-                      />
-                      <div className="author d-flex align-items-center gap-3">
-                        <div className="au-img">
-                          <Image
-                            src={item?.author?.avatar || userPlaceholder}
-                            alt={item?.author?.name}
-                            width={50}
-                            height={50}
-                          />
-                        </div>
-                        <span>
-                          {item?.data?.author_name || item?.author?.name}
-                        </span>
-                      </div>
-                    </div>
+                    <Link href="https://twitter.com/intent/tweet?url=#">
+                      <a className="twitter" target="_blank" rel="noreferrer">
+                        <FaXTwitter />
+                      </a>
+                    </Link>
+                    <Link href="https://www.linkedin.com/shareArticle?mini=true&url=#">
+                      <a className="linkedin" target="_blank" rel="noreferrer">
+                        <FaLinkedinIn />
+                      </a>
+                    </Link>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="global-pagination">
-              <ul>
-                <li>
-                  <button
-                    type="button"
-                    aria-label="previous page"
-                    className="action-btn"
-                  >
-                    <FaArrowRight />
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="active" aria-label="page 1">
-                    1
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 2">
-                    2
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 3">
-                    3
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 4">
-                    4
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 5">
-                    5
-                  </button>
-                </li>
-
-                <li>
-                  <button
-                    type="button"
-                    aria-label="next page"
-                    className="action-btn next-btn"
-                  >
-                    <FaArrowLeft />
-                  </button>
-                </li>
-              </ul>
+              </div>
             </div>
           </Col>
           <Col xxl={3} lg={4}>

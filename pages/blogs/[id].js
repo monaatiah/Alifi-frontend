@@ -14,29 +14,58 @@ const BreadCrumbSection = dynamic(
     ssr: false,
   },
 );
-const BlogsSection = dynamic(
-  () => import("@/components/blogs-page-section/Index"),
+
+const SingleBlog = dynamic(() => import("@/components/single-blog/Index"), {
+  ssr: false,
+});
+
+const BlogsSection = dynamic(() => import("@/components/blogs-section/Index"), {
+  ssr: false,
+});
+
+const ReslatedProducts = dynamic(
+  () => import("@/components/related-products/Index"),
   {
     ssr: false,
   },
 );
+
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
-const ShopPage = () => {
+const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <BreadCrumbSection title="اخر الاخبار" pageName="اخر الاخبار" />
-      <BlogsSection />
+      <BreadCrumbSection
+        title="مدونة مفردة"
+        pageName="مدونة مفردة"
+        sector={{ name: "blogs", link: "/blogs" }}
+      />
+      <SingleBlog />
+      <BlogsSection
+        noHeading
+        title="مقالات جديدة"
+        subTitle="المدونة والأخبار"
+      />
+      <ReslatedProducts />
       <Footer />
     </>
   );
 };
 
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+}
+
 export const getStaticProps = wrapper.getStaticProps((store) => {
-  return async () => {
+  return async ({ params }) => {
+    const { id } = params;
+
     store.dispatch(
       getSettings({
         cookies: {},
@@ -51,6 +80,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
 
     store.dispatch(END);
     await store.sagaTask.toPromise();
+
     return {
       props: {},
       revalidate: 1,
@@ -58,4 +88,4 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
   };
 });
 
-export default ShopPage;
+export default SingleProductsPage;

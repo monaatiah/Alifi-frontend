@@ -8,22 +8,19 @@ import { useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
 import userPlaceholder from "./assets/user.png";
 
-const Index = () => {
+const Index = ({ noHeading, subTitle, title }) => {
   const { pageData } = useSelector((state) => state.settings);
   const blogsData = getComponentByIdentifier(
     pageData?.page_components,
-    "blogs"
+    "blogs",
   );
 
   return (
     <div className={styles["blogs-section"]}>
       <Container>
-        <SecMainTitle
-          secSubTitle={blogsData?.data?.subtitle || ""}
-          secTitle={blogsData?.data?.title || ""}
-        />
+        <SecMainTitle secSubTitle={subTitle || ""} secTitle={title || ""} />
         <div className="sec-body">
-          {blogsData?.data?.description && (
+          {!noHeading && blogsData?.data?.description && (
             <p>{blogsData?.data?.description || ""}</p>
           )}
 
@@ -52,7 +49,7 @@ const Index = () => {
                           "en-US",
                           {
                             day: "2-digit",
-                          }
+                          },
                         )}
                       </span>
                       {new Date(item?.published_at).toLocaleDateString(
@@ -60,7 +57,7 @@ const Index = () => {
                         {
                           month: "short",
                           year: "numeric",
-                        }
+                        },
                       )}
                     </div>
                     <div className="info-data">

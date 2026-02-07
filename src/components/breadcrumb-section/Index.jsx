@@ -10,7 +10,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { FormattedMessage } from "react-intl";
 
-const Index = ({ title, description, pageName, paymentPages }) => {
+const Index = ({ title, description, pageName, paymentPages, sector }) => {
   return (
     <div
       className={
@@ -40,6 +40,15 @@ const Index = ({ title, description, pageName, paymentPages }) => {
                     </a>
                   </Link>
                 </li>
+                {sector && (
+                  <li>
+                    <Link href={sector?.link || ""}>
+                      <a>
+                        <FormattedMessage id={sector?.name} />
+                      </a>
+                    </Link>
+                  </li>
+                )}
                 <li>{pageName}</li>
               </ul>
             </div>

@@ -17,6 +17,7 @@ const Index = () => {
     reset,
     handleSubmit,
     register,
+    getValues,
     setValue,
     formState: { errors },
   } = useForm();
@@ -93,10 +94,16 @@ const Index = () => {
                     type={showConfirmPassword ? "text" : "password"}
                     className="form-control"
                     placeholder="تأكيد كلمة المرور"
-                    {...register("password_confirmation", { required: true })}
+                    {...register("password_confirmation", {
+                      required: true,
+                      validate: (value) => value === getValues("password"),
+                    })}
                   />
-                  {errors.password_confirmation && (
+                  {errors.password_confirmation?.type === "required" && (
                     <p className="error">هذا الحقل مطلوب</p>
+                  )}
+                  {errors.password_confirmation?.type === "validate" && (
+                    <p className="error">كلمة المرور غير متطابقة</p>
                   )}
                 </div>
 
