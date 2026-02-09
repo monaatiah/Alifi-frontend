@@ -1,5 +1,5 @@
 import React from "react";
-import { wrapper } from "../../src/store";
+import { wrapper } from "//../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
 import { getPageData, getSettings } from "@/store/actions";
