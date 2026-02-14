@@ -19,6 +19,7 @@ import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { destroyCookie, parseCookies } from "nookies";
 import { fetchUser, logout } from "@/store/actions";
+import { getUserCart } from "@/store/cart/actions";
 import Swal from "sweetalert2";
 import { useIntl } from "react-intl";
 
@@ -33,11 +34,17 @@ const Index = () => {
 
   const { settings } = useSelector((state) => state.settings);
   const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart || {});
 
   useEffect(() => {
     if (cookies?.token) {
       dispatch(fetchUser(cookies));
     }
+  }, []);
+
+  useEffect(() => {
+    // Fetch cart on component mount
+    dispatch(getUserCart({ cookies }));
   }, []);
 
   const handleLogout = () => {
@@ -169,9 +176,7 @@ const Index = () => {
                 </li>
                 <li>
                   <Link href={"/shop"}>
-                    <a className={asPath === "/store" ? "active" : ""}>
-                      متجرنا
-                    </a>
+                    <a className={asPath === "/shop" ? "active" : ""}>متجرنا</a>
                   </Link>
                 </li>
                 <li>
@@ -209,7 +214,7 @@ const Index = () => {
                 <a className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center">
                   <CartIcon />
                   <i className="item-count d-flex align-items-center justify-content-center position-absolute">
-                    0
+                    {cart?.items?.length || 0}
                   </i>
                 </a>
               </Link>

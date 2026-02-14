@@ -10,7 +10,14 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { FormattedMessage } from "react-intl";
 
-const Index = ({ title, description, pageName, paymentPages, sector }) => {
+const Index = ({
+  title,
+  description,
+  pageName,
+  paymentPages,
+  sector,
+  imageSrc,
+}) => {
   return (
     <div
       className={
@@ -57,7 +64,7 @@ const Index = ({ title, description, pageName, paymentPages, sector }) => {
             <Col lg={6} xs={12}>
               <div className="img">
                 <Image
-                  src={HeroImg}
+                  src={imageSrc || HeroImg}
                   alt="Breadcrumb Hero"
                   width={500}
                   height={250}

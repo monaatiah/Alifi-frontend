@@ -59,6 +59,7 @@
             font-weight: 600;
             color: $primary-color;
             position: relative;
+            min-height: 32px;
             &::after {
               content: "";
               position: absolute;

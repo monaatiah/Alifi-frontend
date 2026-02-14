@@ -941,18 +941,28 @@ input {
   border-radius: 15px;
   padding: 15px;
   background-color: #fff;
+  height: 100%;
   .img {
     position: relative;
     overflow: hidden;
     padding-top: 80%;
     border-radius: 15px;
     margin-bottom: 10px;
+    font-size: 12px;
+    background-color: #f1f1f1;
     img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    & > svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      filter: grayscale(1) opacity(0.9);
     }
     a {
       position: absolute;
@@ -997,7 +1007,7 @@ input {
     .description {
       color: #000;
       font-size: 13px;
-      min-height: 39px;
+      min-height: 58px;
       line-clamp: 2;
       -webkit-line-clamp: 2;
       color: #999999;

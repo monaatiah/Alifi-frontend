@@ -1,6 +1,7 @@
 import { fork, put, all, call, takeLatest } from "redux-saga/effects";
 import toast from "react-hot-toast";
 import { authApi, fetchUserApi } from "@/api/authentication";
+import { mergeCart } from "@/store/cart/actions";
 import {
   fetchUserFailure,
   fetchUserSuccess,
@@ -31,14 +32,24 @@ import {
 } from "./actionTypes";
 
 import router from "next/router";
-import { setCookie } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 
 function* loginSaga({ payload }) {
   try {
+    const cookies = parseCookies();
+    const isGuest = cookies.isGuest === "true";
+
     const { data, status } = yield call(authApi, payload);
     if (status === 200) {
       toast.success(data?.message || "Login successful");
       yield put(loginSuccess(data));
+
+      // If user had a guest cart, merge it with logged-in cart
+      if (isGuest && cookies.cart_token) {
+        yield put(mergeCart({ cookies: parseCookies() }));
+        // Remove guest flag after merging
+        destroyCookie(null, "isGuest", { path: "/" });
+      }
     }
 
     if (data?.customer?.email_verified) {
@@ -58,10 +69,20 @@ function* loginSaga({ payload }) {
 
 function* signUpSaga({ payload }) {
   try {
+    const cookies = parseCookies();
+    const isGuest = cookies.isGuest === "true";
+
     const { data, status } = yield call(authApi, payload);
     if (status === 200) {
       toast.success(data?.message || "Registration successful");
       yield put(signUpSuccess(data));
+
+      // If user had a guest cart, merge it with logged-in cart
+      if (isGuest && cookies.cart_token) {
+        yield put(mergeCart({ cookies: parseCookies() }));
+        // Remove guest flag after merging
+        destroyCookie(null, "isGuest", { path: "/" });
+      }
     }
 
     if (data?.customer?.email_verified) {

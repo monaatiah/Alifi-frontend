@@ -77,7 +77,16 @@ function MyApp({ Component, pageProps }) {
         <SSRProvider>
           <div className="wrap">
             <Component {...pageProps} />
-            <Toaster position="top-left" reverseOrder={false} />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  direction: dir,
+                },
+              }}
+            />
           </div>
         </SSRProvider>
       </IntlProvider>

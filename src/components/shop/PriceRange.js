@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Range, getTrackBackground } from "react-range";
+import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 
-const PriceRange = () => {
+const PriceRange = ({ value, onChange }) => {
   const { locale } = useRouter();
   const MIN = 0;
   const MAX = 10000;
   const [values, setValues] = useState([MIN, MAX]);
+
+  // Update internal state when parent prop changes
+  useEffect(() => {
+    if (value) {
+      setValues([value.min, value.max]);
+    }
+  }, [value]);
+
+  const handleChange = (newValues) => {
+    setValues(newValues);
+    if (onChange) {
+      onChange({ min: newValues[0], max: newValues[1] });
+    }
+  };
   return (
     <div>
       <div className="price-text d-flex justify-content-center align-items-center gap-4">
         <span>السعر</span>
-        <div className="d-flex gap-2">
-          {values[0]} $ - {values[1]} $
+        <div className="d-flex gap-2 align-items-center">
+          {values[0]} <SaudiRiyalIcon width={18} height={18} stroke="#000" /> -{" "}
+          {values[1]} <SaudiRiyalIcon width={18} height={18} stroke="#000" />
         </div>
       </div>
       <Range
@@ -20,9 +36,7 @@ const PriceRange = () => {
         min={MIN}
         max={MAX}
         rtl={locale === "ar" ? true : false}
-        onChange={(values) => {
-          setValues(values);
-        }}
+        onChange={handleChange}
         renderTrack={({ props, children }) => (
           <div
             onMouseDown={props.onMouseDown}

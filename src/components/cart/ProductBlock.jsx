@@ -1,10 +1,28 @@
 import Image from "next/future/image";
 import Link from "next/link";
 import React, { useState, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import CartIcon from "./assets/cart.svg";
+import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
+import { addToCart } from "@/store/cart/actions";
 
 const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.cart || {});
+
+  const handleIncrement = () => {
+    if (quantity >= (item?.quantity || 1)) {
+      toast.error("لقد وصلت إلى الحد الأقصى من الكمية المتاحة");
+      return;
+    }
+    setQuantity(quantity + 1);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ cookies: {}, productId: item?.id, quantity }));
+  };
 
   return (
     <div className="product-block">
@@ -30,7 +48,8 @@ const ProductBlock = memo(({ item }) => {
         </div>
         <div className="description">{item?.description}</div>
         <div className="price">
-          ${item?.price.toFixed(2)}
+          <SaudiRiyalIcon width={18} height={18} stroke="#000" />
+          {item?.price.toFixed(2)}
           <div className="quantity-control">
             <button
               onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
@@ -38,14 +57,24 @@ const ProductBlock = memo(({ item }) => {
               -
             </button>
             <span>{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            <button
+              onClick={handleIncrement}
+              disabled={quantity >= (item?.quantity || 1)}
+            >
+              +
+            </button>
           </div>
         </div>
         <div className="btns">
           <Link href={`/products/${item?.id}`}>
             <a>مزيد من التفاصيل</a>
           </Link>
-          <button className="add-to-cart" aria-label="add to cart">
+          <button
+            className="add-to-cart"
+            aria-label="add to cart"
+            onClick={handleAddToCart}
+            disabled={loading}
+          >
             <CartIcon />
           </button>
         </div>
