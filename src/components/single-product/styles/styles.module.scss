@@ -68,10 +68,10 @@
             padding-inline-start: 0;
           }
           .title {
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             h1 {
               font-weight: 700;
-              font-size: 50px;
+              font-size: 40px;
               @media (max-width: 1200px) {
                 font-size: 36px;
               }
@@ -92,10 +92,8 @@
             }
             span {
               color: #fff;
-              font-family: "anybody";
               font-weight: 700;
               display: inline-block;
-              direction: ltr;
             }
           }
           .price {

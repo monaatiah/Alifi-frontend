@@ -85,7 +85,7 @@ function* addToCartSaga({ payload }) {
       });
     }
 
-    yield put(addToCartSuccess(data));
+    yield put(addToCartSuccess(data?.cart));
     toast.success(data?.message || "تمت الإضافة إلى السلة بنجاح");
   } catch (error) {
     console.log(error);

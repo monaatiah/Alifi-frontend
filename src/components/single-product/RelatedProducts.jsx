@@ -1,86 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
 import ProductBlock from "./ProductBlock";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 
-import Image1 from "./assets/1.png";
-import Image2 from "./assets/2.png";
-import Image3 from "./assets/3.png";
-
 import PrevArrow from "./assets/arrow-left.svg";
 import NextArrow from "./assets/arrow-right.svg";
 
-const RelatedProducts = () => {
-  const products = useMemo(
-    () => [
-      {
-        id: "prod-1",
-        name: "Rosquillas Caseras para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 12.0,
-        category: { id: "cat-1", name: "الألعاب والإكسسوارات" },
-      },
-      {
-        id: "prod-2",
-        name: "Juguete Interactivo para Gatos",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image2,
-        price: 18.5,
-        category: { id: "cat-2", name: "لوازم" },
-      },
-      {
-        id: "prod-3",
-        name: "Cama Cómoda para Mascotas",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image3,
-        price: 25.0,
-        category: { id: "cat-3", name: "طعام" },
-      },
-      {
-        id: "prod-4",
-        name: "Alimento Natural para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 30.0,
-        category: { id: "cat-4", name: "الألعاب والإكسسوارات" },
-      },
-      {
-        id: "prod-5",
-        name: "Alimento Natural para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 30.0,
-        category: { id: "cat-5", name: "الألعاب والإكسسوارات" },
-      },
-      {
-        id: "prod-6",
-        name: "Alimento Natural para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 30.0,
-        category: { id: "cat-6", name: "الألعاب والإكسسوارات" },
-      },
-      {
-        id: "prod-7",
-        name: "Alimento Natural para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 30.0,
-        category: { id: "cat-7", name: "الألعاب والإكسسوارات" },
-      },
-    ],
-    [],
-  );
-
+const RelatedProducts = ({ singleProduct }) => {
   return (
     <div className="related-products">
       <Container>
@@ -120,7 +47,7 @@ const RelatedProducts = () => {
               },
             }}
           >
-            {products.map((product) => (
+            {singleProduct?.related_products?.map((product) => (
               <SwiperSlide key={product?.id}>
                 <ProductBlock item={product} />
               </SwiperSlide>

@@ -1,64 +1,70 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import BestSellerProducts from "./BestSellerProducts";
 
-import Image1 from "./assets/1.png";
-import Image2 from "./assets/2.png";
-import Image3 from "./assets/3.png";
 import Image from "next/future/image";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
+import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 
 import EmptyCartIcon from "./assets/empty.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { handleImageLink } from "@/helpers/functions";
+import {
+  applyCoupon,
+  removeCoupon,
+  removeFromCart,
+  updateCartItem,
+} from "@/store/cart/actions";
+import Swal from "sweetalert2";
 
 const Index = () => {
-  const [quantity, setQuantity] = useState(1);
-  const products = useMemo(
-    () => [
-      {
-        id: "prod-1",
-        name: "Rosquillas Caseras para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 12.0,
-        category: { id: "cat-1", name: "الألعاب والإكسسوارات" },
-        quantity: 1,
-      },
-      {
-        id: "prod-2",
-        name: "Juguete Interactivo para Gatos",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image2,
-        price: 18.5,
-        category: { id: "cat-2", name: "لوازم" },
-        quantity: 2,
-      },
-      {
-        id: "prod-3",
-        name: "Cama Cómoda para Mascotas",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image3,
-        price: 25.0,
-        category: { id: "cat-3", name: "طعام" },
-        quantity: 1,
-      },
-    ],
-    []
-  );
+  const dispatch = useDispatch();
+
+  const [couponCode, setCouponCode] = React.useState("");
+
+  const { cart } = useSelector((state) => state.cart);
+
+  const handleDeleteItem = (itemId) => {
+    Swal.fire({
+      title: "هل أنت متأكد؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم، قم بالإزالة!",
+      cancelButtonText: "إلغاء",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(
+          removeFromCart({
+            body: {
+              item_id: itemId,
+            },
+          }),
+        );
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (cart?.coupon_code) {
+      setCouponCode(cart?.coupon_code);
+    } else {
+      setCouponCode("");
+    }
+  }, [cart?.coupon_code]);
 
   return (
     <div className={styles["cart-section"]}>
-      {products?.length > 0 ? (
+      {cart?.items?.length > 0 ? (
         <Container>
           <div className="cart-table">
             <Table responsive>
               <thead>
                 <tr>
-                  <th></th>
+                  <th aria-label="remove item"></th>
                   <th>المنتجات داخل السلة</th>
                   <th>السعر الفردي</th>
                   <th>اختيار الكمية</th>
@@ -66,13 +72,14 @@ const Index = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((item, index) => {
+                {cart?.items?.map((item, index) => {
                   return (
                     <tr key={index}>
                       <td className="text-center">
                         <button
                           className="remove-item"
                           aria-label="remove item"
+                          onClick={() => handleDeleteItem(item?.id)}
                         >
                           <MdClose />
                         </button>
@@ -81,8 +88,8 @@ const Index = () => {
                         <div className="product-data d-flex align-items-center gap-4">
                           <div className="img">
                             <Image
-                              src={item?.image}
-                              alt={item?.name}
+                              src={handleImageLink(item?.product?.image)}
+                              alt={item?.product?.name}
                               width={105}
                               height={117}
                             />
@@ -90,36 +97,86 @@ const Index = () => {
                           <div className="info">
                             <p>{item?.category?.name}</p>
                             <Link href={`/products/${item?.id}`}>
-                              <a>{item?.name}</a>
+                              <a>{item?.product?.name}</a>
                             </Link>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div className="price d-flex flex-column align-items-center gap-1">
-                          <span>{item?.price} ر.س</span>
-                          <strong>120 ر.س</strong>
+                          <span>
+                            {item?.product?.price}
+                            <SaudiRiyalIcon
+                              width={20}
+                              height={20}
+                              stroke="#000"
+                            />
+                          </span>
+                          {item?.product?.sale_price && (
+                            <strong>
+                              {item?.sale_price}
+                              <SaudiRiyalIcon
+                                width={20}
+                                height={20}
+                                stroke="#000"
+                              />
+                            </strong>
+                          )}
                         </div>
                       </td>
                       <td>
                         <div className="quantity-control d-flex align-items-center justify-content-center gap-3">
                           <button
-                            onClick={() =>
-                              setQuantity(quantity > 1 ? quantity - 1 : 1)
-                            }
+                            onClick={() => {
+                              dispatch(
+                                updateCartItem({
+                                  body: {
+                                    item_id: item?.id,
+                                    quantity: item.quantity - 1,
+                                  },
+                                }),
+                              );
+                            }}
                             disabled={item.quantity <= 1}
                           >
                             -
                           </button>
                           <span>{item.quantity}</span>
-                          <button onClick={() => setQuantity(quantity + 1)}>
+                          <button
+                            onClick={() => {
+                              if (
+                                item?.product?.quantity_available != null &&
+                                item.quantity >= item.product.quantity_available
+                              ) {
+                                return;
+                              }
+
+                              dispatch(
+                                updateCartItem({
+                                  body: {
+                                    item_id: item?.id,
+                                    quantity: item.quantity + 1,
+                                  },
+                                }),
+                              );
+                            }}
+                            disabled={
+                              item?.product?.quantity_available != null &&
+                              item.quantity >= item.product.quantity_available
+                            }
+                          >
                             +
                           </button>
                         </div>
                       </td>
                       <td>
                         <div className="total text-center">
-                          {item?.price * item.quantity} ر.س
+                          {item?.price * item.quantity}
+                          <SaudiRiyalIcon
+                            width={20}
+                            height={20}
+                            stroke="#000"
+                          />
                         </div>
                       </td>
                     </tr>
@@ -140,8 +197,27 @@ const Index = () => {
                     type="text"
                     placeholder="رمز القسيمة"
                     className="form-control"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
                   />
-                  <button className="btn">تطبيق القسيمة</button>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      if (cart?.coupon_code) {
+                        dispatch(removeCoupon({}));
+                      } else {
+                        dispatch(
+                          applyCoupon({
+                            body: {
+                              code: couponCode,
+                            },
+                          }),
+                        );
+                      }
+                    }}
+                  >
+                    {cart?.coupon_code ? "حذف القسيمة" : "تطبيق القسيمة"}
+                  </button>
                 </div>
               </div>
             </Col>
@@ -153,19 +229,37 @@ const Index = () => {
                   <ul>
                     <li className="d-flex align-items-center justify-content-between">
                       إجمالي المنتجات
-                      <span>ر.س 75.00</span>
+                      <span>
+                        {cart?.subtotal}
+                        <SaudiRiyalIcon width={20} height={20} stroke="#000" />
+                      </span>
                     </li>
                     <li className="d-flex align-items-center justify-content-between">
                       تكلفة الشحن
-                      <span>ر.س 15.00</span>
+                      <span>
+                        {cart?.shipping}
+                        <SaudiRiyalIcon width={20} height={20} stroke="#000" />
+                      </span>
                     </li>
-                    <li className="d-flex align-items-center justify-content-between">
-                      الخصم
-                      <span>- ر.س 10.00</span>
-                    </li>
+                    {cart?.discount > 0 && (
+                      <li className="d-flex align-items-center justify-content-between">
+                        قيمة الخصم
+                        <span>
+                          {cart?.discount}
+                          <SaudiRiyalIcon
+                            width={20}
+                            height={20}
+                            stroke="#000"
+                          />
+                        </span>
+                      </li>
+                    )}
                     <li className="d-flex align-items-center justify-content-between total">
                       المجموع النهائي
-                      <span>ر.س 80.00</span>
+                      <span>
+                        {cart?.total}
+                        <SaudiRiyalIcon width={20} height={20} stroke="#000" />
+                      </span>
                     </li>
                   </ul>
                 </div>

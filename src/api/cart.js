@@ -17,11 +17,7 @@ export const addToCartApi = async ({ cookies, productId, quantity }) => {
   return response;
 };
 
-export const updateCartItemApi = async ({ cookies, itemId, quantity }) => {
-  const body = {
-    item_id: itemId,
-    quantity: quantity,
-  };
+export const updateCartItemApi = async ({ cookies, body }) => {
   const response = await server({ cookies }).post(
     `/cart/actions/update-item`,
     body,
@@ -29,10 +25,7 @@ export const updateCartItemApi = async ({ cookies, itemId, quantity }) => {
   return response;
 };
 
-export const removeCartItemApi = async ({ cookies, itemId }) => {
-  const body = {
-    item_id: itemId,
-  };
+export const removeCartItemApi = async ({ cookies, body }) => {
   const response = await server({ cookies }).post(
     `/cart/actions/remove-item`,
     body,
@@ -48,10 +41,7 @@ export const clearCartApi = async ({ cookies }) => {
   return response;
 };
 
-export const applyCouponApi = async ({ cookies, code }) => {
-  const body = {
-    code: code,
-  };
+export const applyCouponApi = async ({ cookies, body }) => {
   const response = await server({ cookies }).post(
     `/cart/actions/apply-coupon`,
     body,

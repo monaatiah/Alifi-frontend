@@ -22,7 +22,7 @@ export const getProductsApi = async ({
 };
 
 export const getSingleProductApi = async ({ cookies, slug }) => {
-  const response = await server({ cookies }).get(
+  const response = await server({ cookies }).post(
     `/products/actions/get-product-by-slug`,
     {
       slug: slug,

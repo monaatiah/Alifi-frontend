@@ -2,7 +2,7 @@ import React from "react";
 import { wrapper } from "../../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getPageData, getSettings } from "@/store/actions";
+import { getPageData, getSettings, getSingleProduct } from "@/store/actions";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
@@ -52,6 +52,12 @@ export async function getStaticPaths() {
 export const getStaticProps = wrapper.getStaticProps((store) => {
   return async ({ params }) => {
     const { id } = params;
+
+    store.dispatch(
+      getSingleProduct({
+        slug: id,
+      }),
+    );
 
     store.dispatch(
       getSettings({
