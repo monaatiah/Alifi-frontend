@@ -24,6 +24,8 @@ import {
   getCountryStatesFailure,
   getRegionCitiesSuccess,
   getRegionCitiesFailure,
+  processCheckoutFailure,
+  processCheckoutSuccess,
 } from "./actions";
 import {
   GET_CHECKOUT_FORM_SCHEMA,
@@ -35,6 +37,7 @@ import {
   GET_REGION_CITIES,
   PROCESS_CHECKOUT,
 } from "./actionTypes";
+import toast from "react-hot-toast";
 
 // ==================================================
 // ==================================================
@@ -82,7 +85,7 @@ function* getCountriesSaga({ payload }) {
     yield put(getCountriesSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(getCountriesFailure(error));
+    yield put(getCountriesFailure(error?.message || "An error occurred"));
   }
 }
 
@@ -132,7 +135,8 @@ function* processCheckoutSaga({ payload }) {
     yield put(processCheckoutSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(processCheckoutFailure(error));
+    yield put(processCheckoutFailure(error?.message || "An error occurred"));
+    toast.error(error?.response?.data?.message || "حدث خطأ أثناء حذف المنتج");
   }
 }
 

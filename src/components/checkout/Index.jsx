@@ -19,6 +19,8 @@ import PaymentMethods from "./PaymentMethods";
 import CouponBox from "./CouponBox";
 import CartSummary from "./CartSummary";
 
+const SAVED_CHECKOUT_VALUES_KEY = "saved_checkout_shipping_values";
+
 const defaultShippingFields = [
   { key: "country_id", visible: true, required: true, order: 1 },
   { key: "city_id", visible: true, required: true, order: 2 },
@@ -129,6 +131,7 @@ const Index = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [couponCode, setCouponCode] = useState("");
+  const [savedShippingValues, setSavedShippingValues] = useState(null);
   const isCartEmpty = !cart?.items?.length;
 
   const countryOptions = useMemo(
@@ -237,6 +240,103 @@ const Index = () => {
     }
   }, [paymentMethodOptions, setValue, shippingMethodOptions]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const savedValues = window.localStorage.getItem(SAVED_CHECKOUT_VALUES_KEY);
+
+    if (!savedValues) {
+      return;
+    }
+
+    try {
+      setSavedShippingValues(JSON.parse(savedValues));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!savedShippingValues) {
+      return;
+    }
+
+    Object.entries(savedShippingValues).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        setValue(key, value);
+      }
+    });
+
+    const savedCountryValue = getFirstValue(savedShippingValues, [
+      "country",
+      "country_id",
+      "shipping_country",
+    ]);
+
+    if (savedCountryValue && countryOptions.length) {
+      const matchedCountry = countryOptions.find(
+        (option) => String(option.value) === String(savedCountryValue),
+      );
+
+      if (matchedCountry) {
+        setSelectedCountry(matchedCountry);
+      }
+    }
+  }, [countryOptions, savedShippingValues, setValue]);
+
+  useEffect(() => {
+    if (!savedShippingValues || !cityOptions.length) {
+      return;
+    }
+
+    const savedCityValue = getFirstValue(savedShippingValues, [
+      "city",
+      "city_id",
+      "shipping_city",
+    ]);
+
+    if (!savedCityValue) {
+      return;
+    }
+
+    const matchedCity = cityOptions.find(
+      (option) => String(option.value) === String(savedCityValue),
+    );
+
+    if (matchedCity) {
+      setSelectedCity(matchedCity);
+    }
+  }, [cityOptions, savedShippingValues]);
+
+  useEffect(() => {
+    if (!savedShippingValues || !regionOptions.length) {
+      return;
+    }
+
+    const savedRegionValue = getFirstValue(savedShippingValues, [
+      "state",
+      "state_id",
+      "region",
+      "region_id",
+      "shipping_state",
+      "shipping_region",
+    ]);
+
+    if (!savedRegionValue) {
+      return;
+    }
+
+    const matchedRegion = regionOptions.find(
+      (option) => String(option.value) === String(savedRegionValue),
+    );
+
+    if (matchedRegion) {
+      setSelectedRegion(matchedRegion);
+    }
+  }, [regionOptions, savedShippingValues]);
+
   const submitForm = (data) => {
     const payload = {
       shipping_address: {
@@ -270,6 +370,17 @@ const Index = () => {
         "cod",
       notes: getFirstValue(data, ["notes"]),
     };
+
+    if (data?.save_for_next_time && typeof window !== "undefined") {
+      window.localStorage.setItem(
+        SAVED_CHECKOUT_VALUES_KEY,
+        JSON.stringify(data),
+      );
+    }
+
+    if (!data?.save_for_next_time && typeof window !== "undefined") {
+      window.localStorage.removeItem(SAVED_CHECKOUT_VALUES_KEY);
+    }
 
     dispatch(processCheckout(payload));
   };

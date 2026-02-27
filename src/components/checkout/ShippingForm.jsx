@@ -80,6 +80,18 @@ const mapToOptions = (items = [], locale) => {
 };
 
 const getFieldPlaceholder = (field, locale) => {
+  const normalizedKey = normalizeFieldKey(field?.key);
+  const forcedArabicPlaceholders = {
+    email: "البريد الإلكتروني",
+    zip_code: "الرمز البريدي",
+    postal_code: "الرمز البريدي",
+    postcode: "الرمز البريدي",
+  };
+
+  if (forcedArabicPlaceholders[normalizedKey]) {
+    return forcedArabicPlaceholders[normalizedKey];
+  }
+
   const placeholder =
     getLocalizedValue(field?.placeholder, locale) ||
     getLocalizedValue(field?.label, locale);
@@ -117,6 +129,58 @@ const stateKeys = new Set([
 ]);
 const cityKeys = new Set(["city", "city_id", "shipping_city"]);
 
+const emailKeys = new Set(["email"]);
+const phoneKeys = new Set(["phone", "phone_number", "mobile"]);
+
+const getArabicSelectPlaceholder = ({
+  isCountryField,
+  isCityField,
+  isRegionField,
+}) => {
+  if (isCountryField) {
+    return "اختر الدولة";
+  }
+
+  if (isCityField) {
+    return "اختر المدينة";
+  }
+
+  if (isRegionField) {
+    return "اختر المنطقة";
+  }
+
+  return "اختر";
+};
+
+const getValidationRules = ({
+  normalizedKey,
+  isCountryField,
+  isCityField,
+  isRegionField,
+  required,
+}) => {
+  const isRequiredField =
+    required || isCountryField || isCityField || isRegionField;
+
+  if (emailKeys.has(normalizedKey)) {
+    return {
+      required: isRequiredField,
+      pattern: /^\S+@\S+\.\S+$/,
+    };
+  }
+
+  if (phoneKeys.has(normalizedKey)) {
+    return {
+      required: isRequiredField,
+      pattern: /^\+?[0-9]{8,15}$/,
+    };
+  }
+
+  return {
+    required: isRequiredField,
+  };
+};
+
 const ShippingForm = ({
   shippingAddressFields,
   locale,
@@ -146,6 +210,13 @@ const ShippingForm = ({
         const isCityField = cityKeys.has(normalizedKey);
         const isRegionField = stateKeys.has(normalizedKey);
         const schemaOptions = mapToOptions(field?.options || [], locale);
+        const validationRules = getValidationRules({
+          normalizedKey,
+          isCountryField,
+          isCityField,
+          isRegionField,
+          required: field?.required,
+        });
         const isWideField = [
           "country_id",
           "name",
@@ -176,7 +247,7 @@ const ShippingForm = ({
                 <Controller
                   name={key}
                   control={control}
-                  rules={{ required: field?.required }}
+                  rules={validationRules}
                   render={({ field: controlledField }) => (
                     <Select
                       options={options}
@@ -204,7 +275,11 @@ const ShippingForm = ({
 
                         controlledField.onChange(selectedOption?.value || "");
                       }}
-                      placeholder={placeholder}
+                      placeholder={getArabicSelectPlaceholder({
+                        isCountryField,
+                        isCityField,
+                        isRegionField,
+                      })}
                       isDisabled={
                         !schemaOptions.length &&
                         !isCountryField &&
@@ -253,7 +328,7 @@ const ShippingForm = ({
                 type={field?.type || "text"}
                 placeholder={placeholder}
                 className="form-control"
-                {...register(key, { required: field?.required })}
+                {...register(key, validationRules)}
               />
             </div>
           </Col>
@@ -262,7 +337,7 @@ const ShippingForm = ({
       <Col lg={12}>
         <div className="form-group">
           <label className="d-flex align-items-center gap-3">
-            <input type="radio" />
+            <input type="checkbox" {...register("save_for_next_time")} />
             <span>احفظ هذه المعلومات للمرات القادمة</span>
           </label>
         </div>
