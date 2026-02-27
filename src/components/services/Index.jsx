@@ -12,7 +12,7 @@ const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
   const servicesData = getComponentByIdentifier(
     pageData?.page_components,
-    "services"
+    "services",
   );
 
   return (
@@ -33,14 +33,14 @@ const Index = () => {
                     width={325}
                     height={325}
                   />
-                  <Link href={`/services/${item?.id}`}>
+                  <Link href={`/services/${item?.slug}`}>
                     <a> </a>
                   </Link>
                 </div>
                 <div className="info">
                   <h3>{item.title}</h3>
                   <p>{item.desc}</p>
-                  <Link href={`/services/${item?.id}`}>
+                  <Link href={`/services/${item?.slug}`}>
                     <a>اعرف المزيد</a>
                   </Link>
                 </div>

@@ -104,23 +104,34 @@ const Index = () => {
                       </td>
                       <td>
                         <div className="price d-flex flex-column align-items-center gap-1">
-                          <span>
-                            {item?.product?.price}
-                            <SaudiRiyalIcon
-                              width={20}
-                              height={20}
-                              stroke="#000"
-                            />
-                          </span>
-                          {item?.product?.sale_price && (
-                            <strong>
-                              {item?.sale_price}
+                          {item?.product?.sale_price ? (
+                            <>
+                              <span className="sale-price">
+                                {item?.product?.sale_price}
+                                <SaudiRiyalIcon
+                                  width={20}
+                                  height={20}
+                                  stroke="#000"
+                                />
+                              </span>
+                              <span className="old-price">
+                                {item?.product?.price}
+                                <SaudiRiyalIcon
+                                  width={20}
+                                  height={20}
+                                  stroke="#c1c1c1"
+                                />
+                              </span>
+                            </>
+                          ) : (
+                            <span className="original-price">
+                              {item?.product?.price}
                               <SaudiRiyalIcon
                                 width={20}
                                 height={20}
                                 stroke="#000"
                               />
-                            </strong>
+                            </span>
                           )}
                         </div>
                       </td>
@@ -206,6 +217,15 @@ const Index = () => {
                       if (cart?.coupon_code) {
                         dispatch(removeCoupon({}));
                       } else {
+                        if (!couponCode.trim()) {
+                          Swal.fire({
+                            icon: "error",
+                            title: "خطأ",
+                            text: "يرجى إدخال رمز القسيمة",
+                            confirmButtonText: "حسناً",
+                          });
+                          return;
+                        }
                         dispatch(
                           applyCoupon({
                             body: {

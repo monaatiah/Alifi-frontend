@@ -22,6 +22,7 @@ import { fetchUser, logout } from "@/store/actions";
 import { getUserCart } from "@/store/cart/actions";
 import Swal from "sweetalert2";
 import { useIntl } from "react-intl";
+import CartSidebar from "./CartSidebar";
 
 const Index = () => {
   const router = useRouter();
@@ -31,10 +32,11 @@ const Index = () => {
   const { formatMessage } = useIntl();
 
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showCartSidebar, setShowCartSidebar] = useState(false);
 
   const { settings } = useSelector((state) => state.settings);
   const { user } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart || {});
+  const { cart, openCartSidebar } = useSelector((state) => state.cart || {});
 
   useEffect(() => {
     if (cookies?.token) {
@@ -210,19 +212,38 @@ const Index = () => {
               >
                 <HeartIcon />
               </button>
-              <Link aria-label="Cart" href={"/cart"}>
-                <a className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center">
-                  <CartIcon />
-                  <i className="item-count d-flex align-items-center justify-content-center position-absolute">
-                    {cart?.items?.length || 0}
-                  </i>
-                </a>
-              </Link>
+              <button
+                type="button"
+                className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"
+                aria-label="Cart"
+                onClick={() => setShowCartSidebar(true)}
+              >
+                <CartIcon />
+                <i className="item-count d-flex align-items-center justify-content-center position-absolute">
+                  {cart?.items?.length || 0}
+                </i>
+              </button>
             </div>
           </div>
         </Container>
 
         <Sidebar show={showSidebar} onClose={() => setShowSidebar(false)} />
+        <CartSidebar
+          show={showCartSidebar}
+          onClose={() => setShowCartSidebar(false)}
+          openCartSidebar={openCartSidebar}
+        />
+        <div
+          className={
+            showSidebar || showCartSidebar || openCartSidebar
+              ? "overlay active"
+              : "overlay"
+          }
+          onClick={() => {
+            setShowSidebar(false);
+            setShowCartSidebar(false);
+          }}
+        ></div>
       </header>
     </>
   );

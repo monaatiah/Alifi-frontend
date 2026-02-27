@@ -498,7 +498,10 @@ input[type="radio"] {
     font-size: 20px;
     color: #000;
     font-weight: 600;
-    padding: 10px 0 30px;
+    margin-top: 10px;
+  }
+  .swal2-html-container {
+    margin-bottom: 20px;
   }
   .swal2-actions {
     display: flex;
@@ -572,9 +575,9 @@ input[type="radio"] {
   }
 
   &:hover {
-    border-color: $secondary-color !important;
+    border-color: $primary-color !important;
     background-color: transparent !important;
-    color: $secondary-color;
+    color: $primary-color;
   }
 }
 

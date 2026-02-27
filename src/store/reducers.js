@@ -6,6 +6,7 @@ import auth from "./auth/reducer";
 import categories from "./categories/reducer";
 import products from "./products/reducer";
 import cart from "./cart/reducer";
+import checkout from "./checkout/reducer";
 
 const rootReducer = combineReducers({
   meta,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   categories,
   products,
   cart,
+  checkout,
 });
 
 export default rootReducer;

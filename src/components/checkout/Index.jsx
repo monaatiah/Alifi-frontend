@@ -1,410 +1,362 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Select from "react-select";
-import countryList from "react-select-country-list";
-import * as flags from "country-flag-icons/react/3x2";
-
-import Image1 from "./assets/1.png";
-import Image2 from "./assets/2.png";
-import Image3 from "./assets/3.png";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  applyCoupon,
+  getCountryCities,
+  getCountryStates,
+  processCheckout,
+  removeCoupon,
+} from "@/store/actions";
+import { useRouter } from "next/router";
+import CartItems from "./CartItems";
+import ShippingForm from "./ShippingForm";
+import ShippingMethods from "./ShippingMethods";
+import PaymentMethods from "./PaymentMethods";
+import CouponBox from "./CouponBox";
+import CartSummary from "./CartSummary";
+
+const defaultShippingFields = [
+  { key: "country_id", visible: true, required: true, order: 1 },
+  { key: "city_id", visible: true, required: true, order: 2 },
+  { key: "region_id", visible: true, required: true, order: 3 },
+  { key: "phone", visible: true, required: true, order: 4 },
+  { key: "postal_code", visible: true, required: true, order: 5 },
+  { key: "address", visible: true, required: true, order: 6 },
+  { key: "notes", visible: true, required: false, order: 7 },
+];
+
+const defaultShippingMethods = [
+  {
+    name: "free_shipping",
+    description: "Free Shipping",
+    price: 0,
+  },
+];
+
+const defaultPaymentMethods = [
+  {
+    code: "visa",
+    name: "visa",
+    display_name: "visa",
+    description: null,
+  },
+];
+
+const getLocalizedValue = (value, locale) => {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (value && typeof value === "object") {
+    return (
+      value?.[locale] ||
+      value?.ar ||
+      value?.en ||
+      Object.values(value)?.[0] ||
+      ""
+    );
+  }
+
+  return "";
+};
+
+const mapToOptions = (items = [], locale, includeCountryCode = false) => {
+  return items
+    ?.map((item) => {
+      const value =
+        item?.id ||
+        item?.value ||
+        item?.code ||
+        item?.country_id ||
+        item?.city_id ||
+        item?.region_id;
+      const label =
+        getLocalizedValue(item?.name, locale) ||
+        getLocalizedValue(item?.label, locale) ||
+        getLocalizedValue(item?.title, locale);
+
+      if (!value || !label) {
+        return null;
+      }
+
+      const countryCode =
+        item?.code ||
+        item?.iso2 ||
+        item?.country_code ||
+        item?.alpha2 ||
+        item?.value;
+
+      return {
+        value,
+        label,
+        countryCode: includeCountryCode
+          ? String(countryCode || "").toUpperCase()
+          : undefined,
+      };
+    })
+    .filter(Boolean);
+};
+
+const getFirstValue = (data, keys = []) => {
+  for (const key of keys) {
+    const value = data?.[key];
+    if (value !== undefined && value !== null && value !== "") {
+      return value;
+    }
+  }
+
+  return "";
+};
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const { locale } = useRouter();
+  const {
+    checkoutFields,
+    countries,
+    countryCities,
+    countryStates,
+    paymentMethods,
+    shippingMethods,
+  } = useSelector((state) => state.checkout);
+  const { cart } = useSelector((state) => state.cart);
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-  const countries = useMemo(() => countryList().getData(), []);
-  const cities = useMemo(
-    () => [
-      { value: "riyadh", label: "الرياض" },
-      { value: "jeddah", label: "جدة" },
-      { value: "dammam", label: "الدمام" },
-      { value: "mecca", label: "مكة المكرمة" },
-      { value: "medina", label: "المدينة المنورة" },
-    ],
-    []
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const isCartEmpty = !cart?.items?.length;
+
+  const countryOptions = useMemo(
+    () => mapToOptions(countries, locale, true),
+    [countries, locale],
   );
 
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const products = useMemo(
-    () => [
-      {
-        id: "prod-1",
-        name: "Rosquillas Caseras para Perros",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image1,
-        price: 12.0,
-        category: { id: "cat-1", name: "الألعاب والإكسسوارات" },
-        quantity: 1,
-      },
-      {
-        id: "prod-2",
-        name: "Juguete Interactivo para Gatos",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image2,
-        price: 18.5,
-        category: { id: "cat-2", name: "لوازم" },
-        quantity: 2,
-      },
-      {
-        id: "prod-3",
-        name: "Cama Cómoda para Mascotas",
-        description:
-          "أليفي منصة إلكترونية تجمع بين التسوق الذكي والمعرفة المتخصصة لعشّاق الحيوانات الأليفة",
-        image: Image3,
-        price: 25.0,
-        category: { id: "cat-3", name: "طعام" },
-        quantity: 1,
-      },
-    ],
-    []
+  const cityOptions = useMemo(
+    () => mapToOptions(countryCities, locale),
+    [countryCities, locale],
   );
+
+  const regionOptions = useMemo(
+    () => mapToOptions(countryStates, locale),
+    [countryStates, locale],
+  );
+
+  const shippingAddressFields = useMemo(() => {
+    const fields = checkoutFields?.form?.shipping_address?.fields;
+
+    if (!Array.isArray(fields) || !fields.length) {
+      return defaultShippingFields;
+    }
+
+    return fields
+      .filter((field) => field?.visible)
+      .sort((a, b) => (a?.order || 0) - (b?.order || 0));
+  }, [checkoutFields]);
+
+  const { control, register, handleSubmit, setValue } = useForm();
+
+  const shippingMethodOptions = useMemo(() => {
+    const source =
+      Array.isArray(shippingMethods) && shippingMethods.length
+        ? shippingMethods
+        : defaultShippingMethods;
+
+    return source
+      .map((method) => ({
+        value: method?.name || method?.code || method?.id || "",
+        label:
+          getLocalizedValue(method?.display_name, locale) ||
+          getLocalizedValue(method?.description, locale) ||
+          getLocalizedValue(method?.name, locale) ||
+          method?.code ||
+          "",
+        price: Number(method?.price || 0),
+      }))
+      .filter((method) => method.value && method.label);
+  }, [shippingMethods, locale]);
+
+  const paymentMethodOptions = useMemo(() => {
+    const source =
+      Array.isArray(paymentMethods) && paymentMethods.length
+        ? paymentMethods
+        : defaultPaymentMethods;
+
+    return source
+      .map((method) => ({
+        value: method?.code || method?.name || method?.id || "",
+        label:
+          getLocalizedValue(method?.display_name, locale) ||
+          getLocalizedValue(method?.description, locale) ||
+          getLocalizedValue(method?.name, locale) ||
+          method?.code ||
+          "",
+      }))
+      .filter((method) => method.value && method.label);
+  }, [paymentMethods, locale]);
+
+  useEffect(() => {
+    if (!selectedCountry?.value) {
+      return;
+    }
+
+    dispatch(
+      getCountryCities({
+        cookies: {},
+        countryId: selectedCountry.value,
+      }),
+    );
+
+    dispatch(
+      getCountryStates({
+        cookies: {},
+        countryId: selectedCountry.value,
+      }),
+    );
+  }, [dispatch, selectedCountry?.value]);
+
+  useEffect(() => {
+    if (cart?.coupon_code) {
+      setCouponCode(cart?.coupon_code);
+    } else {
+      setCouponCode("");
+    }
+  }, [cart?.coupon_code]);
+
+  useEffect(() => {
+    if (shippingMethodOptions.length) {
+      setValue("shipping_method", shippingMethodOptions[0].value);
+    }
+
+    if (paymentMethodOptions.length) {
+      setValue("payment_method", paymentMethodOptions[0].value);
+    }
+  }, [paymentMethodOptions, setValue, shippingMethodOptions]);
 
   const submitForm = (data) => {
-    console.log("Form Data Submitted: ", data);
+    const payload = {
+      shipping_address: {
+        name: getFirstValue(data, ["name"]),
+        phone: getFirstValue(data, ["phone", "phone_number"]),
+        email: getFirstValue(data, ["email"]),
+        country: getFirstValue(data, [
+          "country",
+          "country_id",
+          "shipping_country",
+        ]),
+        state: getFirstValue(data, [
+          "state",
+          "state_id",
+          "region",
+          "region_id",
+          "shipping_state",
+        ]),
+        city: getFirstValue(data, ["city", "city_id", "shipping_city"]),
+        address: getFirstValue(data, ["address", "address_line_1"]),
+        zip_code: getFirstValue(data, ["zip_code", "postal_code", "postcode"]),
+      },
+      same_as_shipping: true,
+      shipping_method:
+        getFirstValue(data, ["shipping_method"]) ||
+        shippingMethodOptions?.[0]?.value ||
+        "method",
+      payment_method:
+        getFirstValue(data, ["payment_method"]) ||
+        paymentMethodOptions?.[0]?.value ||
+        "cod",
+      notes: getFirstValue(data, ["notes"]),
+    };
+
+    dispatch(processCheckout(payload));
   };
 
   return (
     <div className={styles["checkout-section"]}>
       <Container>
-        <form onSubmit={handleSubmit(submitForm())}>
-          <Row>
-            <Col lg={6}>
-              <Row>
-                <Col lg={12}>
-                  <div className="form-head">
-                    <h3>معلومات العميل</h3>
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="الاسم الكامل"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      placeholder="عنوان البريد الإلكتروني"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="رقم الهاتف"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <label className="d-flex align-items-center gap-3">
-                      <input type="radio" />
-                      <span>إنشاء حساب (اختياري)</span>
-                    </label>
-                  </div>
-                </Col>
-                <div className="form-head mt-5">
-                  <h3> التوصيل</h3>
-                </div>
-                <Col lg={6}>
-                  <div className="form-group">
-                    <Select
-                      options={countries}
-                      value={selectedCountry}
-                      onChange={setSelectedCountry}
-                      placeholder="الدولة"
-                      formatOptionLabel={(country) => {
-                        const FlagComponent = flags[country.value];
-                        return (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
-                            }}
-                          >
-                            {FlagComponent && (
-                              <FlagComponent
-                                style={{ width: "24px", height: "16px" }}
-                              />
-                            )}
-                            <span>{country.label}</span>
-                          </div>
-                        );
-                      }}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderRadius: "50px",
-                          border: "1px solid #e0e0e0",
-                          padding: "8px 15px",
-                          minHeight: "50px",
-                          direction: "rtl",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          textAlign: "right",
-                          color: "#999",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }),
-                      }}
-                    />
-                  </div>
-                </Col>
-                <Col lg={6}>
-                  <div className="form-group">
-                    <Select
-                      options={cities}
-                      value={selectedCity}
-                      onChange={setSelectedCity}
-                      placeholder="المدينة"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderRadius: "50px",
-                          border: "1px solid #e0e0e0",
-                          padding: "8px 15px",
-                          minHeight: "50px",
-                          direction: "rtl",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          textAlign: "right",
-                          color: "#999",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }),
-                      }}
-                      formatOptionLabel={(city) => <span>{city.label}</span>}
-                    />
-                  </div>
-                </Col>
-                <Col lg={6}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="رقم الهاتف"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={6}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="رمز بريدي"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="العنوان الكامل"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="ملاحظات التوصيل (اختياري)"
-                      className="form-control"
-                    />
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="form-group">
-                    <label className="d-flex align-items-center gap-3">
-                      <input type="radio" />
-                      <span>احفظ هذه المعلومات للمرات القادمة</span>
-                    </label>
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="cart-coupon mt-4">
-                    <div className="head">
-                      <h4>طريقة الشحن</h4>
-                    </div>
-                    <div className="form-group">
-                      <ul className="w-100 d-flex flex-column gap-3">
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="shipping" />
-                            <span>توصيل سريع (2-3 أيام) — 15 ر.س</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="shipping" />
-                            <span>توصيل عادي (4-6 أيام) — 8 ر.س</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="shipping" />
-                            <span>استلام من المتجر — مجاني</span>
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg={12}>
-                  <div className="cart-coupon">
-                    <div className="head">
-                      <h4>طريقة الدفع</h4>
-                    </div>
-                    <div className="form-group">
-                      <ul className="w-100 d-flex flex-column gap-3">
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="payment" />
-                            <span>الدفع عند الاستلام (COD)</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="payment" />
-                            <span>البطاقة الائتمانية (Visa / Mastercard)</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label className="d-flex align-items-center gap-3">
-                            <input type="radio" name="payment" />
-                            <span>Apple Pay</span>
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-            <Col lg={6}>
-              <div className="cart-products">
-                <ul>
-                  {products?.map((product, idx) => {
-                    return (
-                      <li
-                        className="d-flex align-items-center justify-content-between mb-3"
-                        key={idx}
-                      >
-                        <div className="product d-flex align-items-center gap-3">
-                          <div className="img position-relative">
-                            <img
-                              src={product.image.src}
-                              alt={product.name}
-                              width={105}
-                              height={117}
-                            />
-                            <span className="quantity-badge position-absolute d-flex align-items-center justify-content-center">
-                              {product.quantity}
-                            </span>
-                          </div>
-                          <div className="info">
-                            <p>{product?.category?.name}</p>
-                            <Link href={`/products/${product?.id}`}>
-                              <a>{product?.name}</a>
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="price d-flex flex-column align-items-center justify-content-center gap-1">
-                          <span>{product?.price} ر.س</span>
-                          <strong>120 ر.س</strong>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div className="cart-coupon mb-4">
-                <div className="head">
-                  <h4>تخفيض</h4>
-                  <span>أدخل رمز القسيمة أدناه لتطبيقه</span>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    placeholder="رمز القسيمة"
-                    className="form-control"
+        {isCartEmpty ? (
+          <div className="cart-coupon text-center empty-cart-box">
+            <div className="head">
+              <h4>سلة التسوق فارغة</h4>
+              <span>
+                لإكمال عملية الدفع، يرجى إضافة منتجات إلى سلة التسوق أولاً.
+              </span>
+            </div>
+            <Link href="/shop">
+              <a className="btn">الانتقال إلى المتجر</a>
+            </Link>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(submitForm)}>
+            <Row>
+              <Col lg={6}>
+                <Row>
+                  <ShippingForm
+                    shippingAddressFields={shippingAddressFields}
+                    locale={locale}
+                    control={control}
+                    register={register}
+                    setValue={setValue}
+                    countryOptions={countryOptions}
+                    cityOptions={cityOptions}
+                    regionOptions={regionOptions}
+                    selectedCountry={selectedCountry}
+                    selectedCity={selectedCity}
+                    selectedRegion={selectedRegion}
+                    setSelectedCountry={setSelectedCountry}
+                    setSelectedCity={setSelectedCity}
+                    setSelectedRegion={setSelectedRegion}
                   />
-                  <button className="btn">تطبيق القسيمة</button>
-                </div>
-              </div>
+                  <ShippingMethods
+                    shippingMethodOptions={shippingMethodOptions}
+                    register={register}
+                  />
+                  <PaymentMethods
+                    paymentMethodOptions={paymentMethodOptions}
+                    register={register}
+                  />
+                </Row>
+              </Col>
+              <Col lg={6}>
+                <CartItems cart={cart} />
+                <CouponBox
+                  couponCode={couponCode}
+                  setCouponCode={setCouponCode}
+                  onCouponAction={() => {
+                    if (cart?.coupon_code) {
+                      dispatch(removeCoupon({}));
+                    } else {
+                      dispatch(
+                        applyCoupon({
+                          body: {
+                            code: couponCode,
+                          },
+                        }),
+                      );
+                    }
+                  }}
+                />
 
-              <div className="cart-coupon notes">
-                <div className="head">
-                  <h4>ملاحظة الطلب</h4>
+                <div className="cart-coupon notes">
+                  <div className="head">
+                    <h4>ملاحظة الطلب</h4>
+                  </div>
+                  <div className="form-group">
+                    <textarea
+                      placeholder="ملاحظات حول طلبك، على سبيل المثال، ملاحظات خاصة للتوصيل."
+                      className="form-control"
+                      {...register("notes")}
+                    />
+                  </div>
                 </div>
-                <div className="form-group">
-                  <textarea
-                    placeholder="ملاحظات حول طلبك، على سبيل المثال، ملاحظات خاصة للتوصيل."
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </Col>
-            <Col lg={12}>
-              <div className="cart-summary">
-                <div className="cart-total">
-                  <h4>سلة التسوق السعر الإجمالي</h4>
-                  <ul>
-                    <li className="d-flex align-items-center justify-content-between">
-                      إجمالي المنتجات
-                      <span>ر.س 75.00</span>
-                    </li>
-                    <li className="d-flex align-items-center justify-content-between">
-                      تكلفة الشحن
-                      <span>ر.س 15.00</span>
-                    </li>
-                    <li className="d-flex align-items-center justify-content-between">
-                      الخصم
-                      <span>- ر.س 10.00</span>
-                    </li>
-                    <li className="d-flex align-items-center justify-content-between total">
-                      المجموع النهائي
-                      <span>ر.س 80.00</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="btns d-flex align-items-center justify-content-center gap-2">
-                  <button type="submit" className="btn">
-                    اطلب الآن
-                  </button>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </form>
+              </Col>
+              <CartSummary cart={cart} />
+            </Row>
+          </form>
+        )}
       </Container>
     </div>
   );

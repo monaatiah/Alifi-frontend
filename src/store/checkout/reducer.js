@@ -1,64 +1,137 @@
 import { HYDRATE } from "next-redux-wrapper";
 import {
-  GET_USER_CART,
-  GET_USER_CART_SUCCESS,
-  GET_USER_CART_FAILURE,
-  ADD_TO_CART,
-  ADD_TO_CART_SUCCESS,
-  ADD_TO_CART_FAILURE,
-  UPDATE_CART_ITEM,
-  UPDATE_CART_ITEM_SUCCESS,
-  UPDATE_CART_ITEM_FAILURE,
-  REMOVE_FROM_CART,
-  REMOVE_FROM_CART_SUCCESS,
-  REMOVE_FROM_CART_FAILURE,
-  CLEAR_CART,
-  CLEAR_CART_SUCCESS,
-  CLEAR_CART_FAILURE,
-  APPLY_COUPON,
-  APPLY_COUPON_SUCCESS,
-  APPLY_COUPON_FAILURE,
-  REMOVE_COUPON,
-  REMOVE_COUPON_SUCCESS,
-  REMOVE_COUPON_FAILURE,
-  MERGE_CART,
-  MERGE_CART_SUCCESS,
-  MERGE_CART_FAILURE,
+  GET_CHECKOUT_FORM_SCHEMA,
+  GET_CHECKOUT_FORM_SCHEMA_FAILURE,
+  GET_CHECKOUT_FORM_SCHEMA_SUCCESS,
+  GET_PAYMENT_METHODS,
+  GET_PAYMENT_METHODS_FAILURE,
+  GET_PAYMENT_METHODS_SUCCESS,
+  GET_SHIPPING_METHODS,
+  GET_SHIPPING_METHODS_FAILURE,
+  GET_SHIPPING_METHODS_SUCCESS,
+  GET_COUNTRIES,
+  GET_COUNTRIES_FAILURE,
+  GET_COUNTRIES_SUCCESS,
+  GET_COUNTRY_CITIES,
+  GET_COUNTRY_CITIES_FAILURE,
+  GET_COUNTRY_CITIES_SUCCESS,
+  GET_COUNTRY_STATES,
+  GET_COUNTRY_STATES_FAILURE,
+  GET_COUNTRY_STATES_SUCCESS,
+  GET_REGION_CITIES,
+  GET_REGION_CITIES_SUCCESS,
+  GET_REGION_CITIES_FAILURE,
+  PROCESS_CHECKOUT,
+  PROCESS_CHECKOUT_SUCCESS,
+  PROCESS_CHECKOUT_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
-  cart: {},
-  openCartSidebar: false,
+  checkoutFields: [],
+  paymentMethods: [],
+  shippingMethods: [],
+  countries: [],
+  countryCities: [],
+  countryStates: [],
+  regionCities: [],
+  isLoggedIn: false,
   loading: false,
   error: "",
 };
 
-const cart = (state = initialState, action) => {
+const checkout = (state = initialState, action) => {
   switch (action.type) {
     case HYDRATE:
-      for (const key in action.payload?.cart) {
-        if (Object.hasOwnProperty.call(action.payload?.cart, key)) {
-          const element = action.payload?.cart[key];
-          element === "init" && delete action.payload?.cart[key];
+      for (const key in action.payload?.checkout) {
+        if (Object.hasOwnProperty.call(action.payload?.checkout, key)) {
+          const element = action.payload?.checkout[key];
+          element === "init" && delete action.payload?.checkout[key];
         }
       }
-      return { ...state, ...action.payload.cart };
+      return { ...state, ...action.payload.checkout };
 
-    case GET_USER_CART:
+    //=================================================
+    //=================================================
+    case GET_CHECKOUT_FORM_SCHEMA:
       return {
         ...state,
         loading: true,
       };
 
-    case GET_USER_CART_SUCCESS:
+    case GET_CHECKOUT_FORM_SCHEMA_SUCCESS:
       return {
         ...state,
-        cart: action.payload,
+        checkoutFields: action.payload,
         loading: false,
-        error: "",
       };
 
-    case GET_USER_CART_FAILURE:
+    case GET_CHECKOUT_FORM_SCHEMA_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+    case GET_PAYMENT_METHODS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_PAYMENT_METHODS_SUCCESS:
+      return {
+        ...state,
+        paymentMethods: action.payload,
+        loading: false,
+      };
+
+    case GET_PAYMENT_METHODS_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+    case GET_SHIPPING_METHODS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_SHIPPING_METHODS_SUCCESS:
+      return {
+        ...state,
+        shippingMethods: action.payload,
+        loading: false,
+      };
+
+    case GET_SHIPPING_METHODS_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+    case GET_COUNTRIES:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_COUNTRIES_SUCCESS:
+      return {
+        ...state,
+        countries: action.payload,
+        loading: false,
+      };
+
+    case GET_COUNTRIES_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -68,22 +141,42 @@ const cart = (state = initialState, action) => {
     // ==================================================
     // ==================================================
 
-    case ADD_TO_CART:
+    case GET_COUNTRY_CITIES:
       return {
         ...state,
         loading: true,
       };
 
-    case ADD_TO_CART_SUCCESS:
+    case GET_COUNTRY_CITIES_SUCCESS:
       return {
         ...state,
-        cart: action.payload,
-        openCartSidebar: true,
+        countryCities: action.payload,
         loading: false,
-        error: "",
       };
 
-    case ADD_TO_CART_FAILURE:
+    case GET_COUNTRY_CITIES_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+    case GET_COUNTRY_STATES:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_COUNTRY_STATES_SUCCESS:
+      return {
+        ...state,
+        countryStates: action.payload,
+        loading: false,
+      };
+
+    case GET_COUNTRY_STATES_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -93,21 +186,20 @@ const cart = (state = initialState, action) => {
     // ==================================================
     // ==================================================
 
-    case UPDATE_CART_ITEM:
+    case GET_REGION_CITIES:
       return {
         ...state,
         loading: true,
       };
 
-    case UPDATE_CART_ITEM_SUCCESS:
+    case GET_REGION_CITIES_SUCCESS:
       return {
         ...state,
-        cart: action.payload,
+        regionCities: action.payload,
         loading: false,
-        error: "",
       };
 
-    case UPDATE_CART_ITEM_FAILURE:
+    case GET_REGION_CITIES_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -117,125 +209,24 @@ const cart = (state = initialState, action) => {
     // ==================================================
     // ==================================================
 
-    case REMOVE_FROM_CART:
+    case PROCESS_CHECKOUT:
       return {
         ...state,
         loading: true,
       };
 
-    case REMOVE_FROM_CART_SUCCESS:
+    case PROCESS_CHECKOUT_SUCCESS:
       return {
         ...state,
-        cart: action.payload,
         loading: false,
-        error: "",
       };
 
-    case REMOVE_FROM_CART_FAILURE:
+    case PROCESS_CHECKOUT_FAILURE:
       return {
         ...state,
         error: action.payload,
         loading: false,
       };
-
-    // ==================================================
-    // ==================================================
-
-    case CLEAR_CART:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case CLEAR_CART_SUCCESS:
-      return {
-        ...state,
-        cart: action.payload,
-        loading: false,
-        error: "",
-      };
-
-    case CLEAR_CART_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-
-    // ==================================================
-    // ==================================================
-
-    case APPLY_COUPON:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case APPLY_COUPON_SUCCESS:
-      return {
-        ...state,
-        cart: action.payload,
-        loading: false,
-        error: "",
-      };
-
-    case APPLY_COUPON_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-
-    // ==================================================
-    // ==================================================
-
-    case REMOVE_COUPON:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case REMOVE_COUPON_SUCCESS:
-      return {
-        ...state,
-        cart: action.payload,
-        loading: false,
-        error: "",
-      };
-
-    case REMOVE_COUPON_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-
-    // ==================================================
-    // ==================================================
-
-    case MERGE_CART:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case MERGE_CART_SUCCESS:
-      return {
-        ...state,
-        cart: action.payload,
-        loading: false,
-        error: "",
-      };
-
-    case MERGE_CART_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-
-    // ==================================================
-    // ==================================================
 
     // ==================================================
     // ==================================================
@@ -245,4 +236,4 @@ const cart = (state = initialState, action) => {
   }
 };
 
-export default cart;
+export default checkout;

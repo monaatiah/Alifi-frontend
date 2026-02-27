@@ -62,7 +62,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                     </div>
                     <div className="info-data">
                       <h3>
-                        <Link href={`/blog/${item.id}`}>
+                        <Link href={`/blog/${item?.slug}`}>
                           <a>{item?.title}</a>
                         </Link>
                       </h3>

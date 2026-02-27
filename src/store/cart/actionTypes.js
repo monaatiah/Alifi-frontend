@@ -53,3 +53,9 @@ export const MERGE_CART_FAILURE = "MERGE_CART_FAILURE";
 
 // ==================================================
 // ==================================================
+
+export const OPEN_CART_SIDEBAR = "OPEN_CART_SIDEBAR";
+export const CLEAR_OPEN_CART_SIDEBAR = "CLEAR_OPEN_CART_SIDEBAR";
+
+// ==================================================
+// ==================================================

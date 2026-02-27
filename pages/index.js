@@ -69,17 +69,17 @@ const Home = () => {
   return (
     <>
       <NextSeo
-        title={`${pageData?.seo?.title?.[locale]}`}
-        description={pageData?.seo?.description?.[locale]}
+        title={`${pageData?.meta?.title}`}
+        description={pageData?.meta?.description}
         openGraph={{
-          title: pageData?.seo?.metaTitle?.[locale],
-          description: pageData?.seo?.metaDescription?.[locale],
+          title: pageData?.meta?.title,
+          description: pageData?.meta?.description,
           images: [
             {
               url: handleImageLink(pageData?.seo?.image?.[locale]),
               width: 800,
               height: 600,
-              alt: pageData?.seo?.title?.[locale],
+              alt: pageData?.seo?.title,
             },
           ],
         }}

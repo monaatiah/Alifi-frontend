@@ -87,16 +87,20 @@
                 font-size: 22px;
                 font-weight: 700;
                 color: #000;
+                display: flex;
+                align-items: center;
+                gap: 3px;
                 @media (max-width: 768px) {
                   font-size: 18px;
                 }
-              }
-              strong {
-                font-size: 16px;
-                color: #c1c1c1;
-                text-decoration: line-through;
-                @media (max-width: 768px) {
-                  font-size: 14px;
+
+                &.old-price {
+                  font-size: 16px;
+                  color: #c1c1c1;
+                  text-decoration: line-through;
+                  @media (max-width: 768px) {
+                    font-size: 14px;
+                  }
                 }
               }
             }
@@ -141,6 +145,9 @@
               font-weight: 700;
               color: #000;
               font-family: "anybody";
+              display: flex;
+              align-items: center;
+              gap: 3px;
               @media (max-width: 768px) {
                 font-size: 18px;
               }

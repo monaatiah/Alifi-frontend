@@ -21,6 +21,7 @@
         h4 {
           font-size: 24px;
           font-weight: 700;
+          margin-bottom: 10px;
           @media (max-width: 768px) {
             font-size: 20px;
           }
@@ -68,6 +69,10 @@
           width: 15px;
           height: 15px;
         }
+      }
+
+      &.empty-cart-box {
+        min-height: auto;
       }
     }
 
@@ -225,6 +230,12 @@
               @media (max-width: 768px) {
                 font-size: 18px;
               }
+              &.old-price {
+                text-decoration: line-through;
+                font-weight: 400;
+                font-size: 15px;
+                opacity: 0.4;
+              }
             }
             strong {
               font-size: 16px;
@@ -275,6 +286,31 @@
           height: 24px !important;
           border: 2px solid $primary-color !important;
           border-radius: 100%;
+        }
+      }
+    }
+
+    .empty-cart {
+      padding-block: 100px 0;
+      @media (max-width: 768px) {
+        padding-block: 50px 0;
+      }
+      gap: 30px;
+      h4 {
+        color: $third-color;
+        font-size: 25px;
+        font-weight: 700;
+        @media (max-width: 768px) {
+          font-size: 20px;
+        }
+      }
+      .btn {
+        background-color: $third-color;
+        border-color: $third-color;
+        color: #fff;
+        &:hover {
+          background-color: $primary-color !important;
+          border-color: $primary-color;
         }
       }
     }
