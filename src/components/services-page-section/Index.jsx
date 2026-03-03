@@ -10,8 +10,8 @@ import Image1 from "./assets/1.png";
 import Image2 from "./assets/2.png";
 import Image3 from "./assets/3.png";
 
-import ServiceImg from "./assets/img.png";
 import FilterIcon from "./assets/filter.svg";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 const Index = () => {
   const services = useMemo(
@@ -65,39 +65,6 @@ const Index = () => {
   return (
     <div className={styles["shop-wrapper"]}>
       <Container>
-        <div className="services-infos">
-          <Row className="flex-row-reverse align-items-center">
-            <Col lg={6}>
-              <div className="img">
-                <Image
-                  src={ServiceImg}
-                  alt="service image"
-                  width={630}
-                  height={630}
-                />
-              </div>
-            </Col>
-            <Col lg={6}>
-              <div className="info">
-                <h2>رعاية الحيوانات الأليفة</h2>
-                <div className="desc">
-                  <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد
-                    الحروف التى يولدها التطبيق.
-                  </p>
-                  <ul>
-                    <li>هذا النص هو مثال لنص يمكن أن يستبدل</li>
-                    <li>هذا النص هو مثال لنص يمكن أن يستبدل</li>
-                    <li>هذا النص هو مثال لنص يمكن أن يستبدل</li>
-                    <li>هذا النص هو مثال لنص يمكن أن يستبدل</li>
-                  </ul>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </div>
         <div className="shop-filter d-flex justify-content-between align-items-center gap-3">
           <div className="inputs-wrap d-flex align-items-center gap-3">
             <div className="search">
@@ -122,7 +89,7 @@ const Index = () => {
             </select>
           </div>
 
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 btns">
             <button type="submit" className="btn" aria-label="submit">
               ابحث
             </button>
@@ -211,21 +178,72 @@ const Index = () => {
                       </p>
                     </div>
                     <div className="extra d-flex align-items-center gap-3 justify-content-between">
-                      <div className="address">
-                        العنوان:
-                        <span>{service.address}</span>
+                      <div>
+                        <div className="vendor">
+                          مقدم الخدمة:
+                          <span>علي فهد</span>
+                        </div>
+                        <div className="address">
+                          العنوان:
+                          <span>{service.address}</span>
+                        </div>
                       </div>
-                      <div className="price">{service.price} sar</div>
+                      <Link href={`/services/${service.id}`}>
+                        <a aria-label="view details">عرض التفاصيل</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </Col>
             ))}
           </Row>
-          <div className="load-more">
-            <button type="button" className="btn" aria-label="load more">
-              تحميل المزيد
-            </button>
+          <div className="global-pagination">
+            <ul>
+              <li>
+                <button
+                  type="button"
+                  aria-label="previous page"
+                  className="action-btn"
+                >
+                  <FaArrowRight />
+                </button>
+              </li>
+              <li>
+                <button type="button" className="active" aria-label="page 1">
+                  1
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-label="page 2">
+                  2
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-label="page 3">
+                  3
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-label="page 4">
+                  4
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-label="page 5">
+                  5
+                </button>
+              </li>
+
+              <li>
+                <button
+                  type="button"
+                  aria-label="next page"
+                  className="action-btn next-btn"
+                >
+                  <FaArrowLeft />
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
 

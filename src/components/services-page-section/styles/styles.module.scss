@@ -1,7 +1,7 @@
 @import "@/styles/variables.scss";
 
 .shop-wrapper {
-  padding-block: 100px;
+  padding-block: 80px;
   @media (max-width: 768px) {
     padding-block: 50px;
   }
@@ -78,6 +78,12 @@
           }
         }
       }
+      .btns {
+        @media (max-width: 768px) {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
       .filter-btn {
         background-color: $secondary-color;
         border-radius: 100%;
@@ -88,9 +94,6 @@
         justify-content: center;
         border: 0;
         flex-shrink: 0;
-        @media (max-width: 768px) {
-          display: none;
-        }
       }
       .btn {
         min-width: 120px;
@@ -156,11 +159,19 @@
       background-color: #f7f7f7;
       padding: 25px;
       height: 100%;
+      @media (max-width: 768px) {
+        padding: 15px;
+        align-items: flex-start !important;
+      }
       .img {
         overflow: hidden;
         width: 100px;
         height: 100px;
         border-radius: 15px;
+        @media (max-width: 480px) {
+          width: 80px;
+          height: 80px;
+        }
         img {
           width: 100%;
           height: 100%;
@@ -188,7 +199,7 @@
         }
       }
       .desc {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         p {
           color: #555555;
           font-size: 14px;
@@ -206,6 +217,12 @@
             color: $third-color;
           }
         }
+        .vendor {
+          font-size: 12px;
+          color: #555555;
+          font-weight: 700;
+          margin-bottom: 5px;
+        }
         .price {
           background-color: #f8a4f9;
           color: #000;
@@ -217,6 +234,22 @@
             padding: 5px 15px;
             width: 100%;
             text-align: center;
+          }
+        }
+        a {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 14px;
+          color: #37383e;
+          border: 1px solid #37383e;
+          padding: 5px 10px;
+          border-radius: 7px;
+          transition: $transition;
+          &:hover {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: #fff;
           }
         }
       }
@@ -233,7 +266,18 @@
       border-radius: 50px;
       padding: 15px 25px;
       background-color: $primary-color;
+      @media (max-width: 768px) {
+        flex-wrap: wrap;
+        border-radius: 25px;
+        padding: 15px;
+      }
       .item {
+        @media (max-width: 768px) {
+          width: calc(50% - 10px);
+        }
+        @media (max-width: 480px) {
+          width: 100%;
+        }
         .form-control {
           height: 50px;
           border-radius: 50px;
