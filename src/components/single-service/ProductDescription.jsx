@@ -1,5 +1,8 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { FaStar } from "react-icons/fa6";
+import { PiCertificate } from "react-icons/pi";
+import { GiTrophyCup } from "react-icons/gi";
 
 const ProductDescription = () => {
   return (
@@ -16,66 +19,27 @@ const ProductDescription = () => {
               </p>
             </div>
           </Col>
-          <Col style={{ flex: "0 0 20%" }}>
-            <div className="content">
-              <h4>الفوائد الرئيسية</h4>
-              <ul>
-                <li> يدعم صحة الجهاز الهضمي</li>
-                <li>عالي الترطيب</li>
-                <li>خالٍ من المواد الحافظة</li>
-                <li>مناسب للقطط الحساسة</li>
-              </ul>
+        </Row>
+        <Row>
+          <Col lg={4} xs={6}>
+            <div className="block">
+              <FaStar color="#F2782B" size={40} />
+              <h3>الخبرة</h3>
+              <p>أكثر من 10 سنوات في الخدمة</p>
             </div>
           </Col>
-
-          <Col style={{ flex: "0 0 20%" }}>
-            <div className="content">
-              <h4> تفاصيل المنتج</h4>
-              <ul>
-                <li>النوع: وجبة رطبة</li>
-                <li>العمر: قطط بالغة</li>
-                <li>الوزن: 85 جرام</li>
-                <li> النكهة: تونة برية مع اليقطين</li>
-                <li> القوام: شوربة</li>
-                <li>بلد المنشأ: تايلاند</li>
-              </ul>
+          <Col lg={4} xs={6}>
+            <div className="block">
+              <PiCertificate color="#F2782B" size={40} />
+              <h3>الشهادات</h3>
+              <p>معتمدون من الهيئة البيطرية</p>
             </div>
           </Col>
-
-          <Col style={{ flex: "0 0 20%" }}>
-            <div className="content">
-              <h4> التحليل الغذائي</h4>
-              <ul>
-                <li>بروتين: 12%</li>
-                <li> دهون: 1.5%</li>
-                <li> ألياف: 0.5%</li>
-                <li>رطوبة: 85%</li>
-                <li>رماد: 1%</li>
-              </ul>
-            </div>
-          </Col>
-
-          <Col style={{ flex: "0 0 20%" }}>
-            <div className="content">
-              <h4> المكونات</h4>
-              <ul>
-                <li>تونة</li>
-                <li>شوربة تونة طبيعية</li>
-                <li>اليقطين</li>
-                <li> فيتامين E</li>
-                <li>معادن أساسية</li>
-              </ul>
-            </div>
-          </Col>
-
-          <Col style={{ flex: "0 0 20%" }}>
-            <div className="content">
-              <h4> طريقة التقديم</h4>
-              <ul>
-                <li>يقدم كما هو أو مع الطعام الجاف</li>
-                <li>يقدم 1–2 مرة يوميًا</li>
-                <li>يجب توفير الماء دائمًا</li>
-              </ul>
+          <Col lg={4} xs={6}>
+            <div className="block">
+              <GiTrophyCup color="#F2782B" size={40} />
+              <h3>التخصصات</h3>
+              <p>رعاية شاملة للحيوانات الأليفة</p>
             </div>
           </Col>
         </Row>

@@ -110,7 +110,13 @@
             }
           }
           .btn {
-            min-width: 100px;
+            min-width: 120px;
+
+            &:hover {
+              background-color: transparent !important;
+              color: $secondary-color !important;
+              border-color: $secondary-color !important;
+            }
           }
           .form-control {
             height: 60px;

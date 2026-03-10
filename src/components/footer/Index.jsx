@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FiInstagram } from "react-icons/fi";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { MdOutlineMailOutline, MdOutlinePhoneInTalk } from "react-icons/md";
+import { FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const Index = () => {
   const { settings } = useSelector((state) => state.settings);
@@ -53,26 +54,81 @@ const Index = () => {
                   </li>
                 </ul>
                 <div className="socials d-flex align-items-center gap-3">
-                  <Link href="#">
-                    <a>
-                      <FiInstagram />
-                    </a>
-                  </Link>
-                  <Link href="#">
-                    <a>
-                      <FaXTwitter />
-                    </a>
-                  </Link>
-                  <Link href="#">
-                    <a>
-                      <FaFacebookF />
-                    </a>
-                  </Link>
-                  <Link href="#">
-                    <a>
-                      <FaLinkedinIn />
-                    </a>
-                  </Link>
+                  {settings?.social_icons?.find(
+                    (item) => item.platform === "instagram",
+                  ) && (
+                    <Link
+                      href={
+                        settings?.social_icons?.find(
+                          (item) => item.platform === "instagram",
+                        )?.url || "#"
+                      }
+                    >
+                      <a>
+                        <FiInstagram />
+                      </a>
+                    </Link>
+                  )}
+                  {settings?.social_icons?.find(
+                    (item) => item.platform === "facebook",
+                  ) && (
+                    <Link
+                      href={
+                        settings?.social_icons?.find(
+                          (item) => item.platform === "facebook",
+                        )?.url || "#"
+                      }
+                    >
+                      <a>
+                        <FaFacebookF />
+                      </a>
+                    </Link>
+                  )}
+                  {settings?.social_icons?.find(
+                    (item) => item.platform === "linkedin",
+                  ) && (
+                    <Link
+                      href={
+                        settings?.social_icons?.find(
+                          (item) => item.platform === "linkedin",
+                        )?.url || "#"
+                      }
+                    >
+                      <a>
+                        <FaLinkedinIn />
+                      </a>
+                    </Link>
+                  )}
+                  {settings?.social_icons?.find(
+                    (item) => item.platform === "twitter",
+                  ) && (
+                    <Link
+                      href={
+                        settings?.social_icons?.find(
+                          (item) => item.platform === "twitter",
+                        )?.url || "#"
+                      }
+                    >
+                      <a>
+                        <FaXTwitter />
+                      </a>
+                    </Link>
+                  )}
+                  {settings?.social_icons?.find(
+                    (item) => item.platform === "tiktok",
+                  ) && (
+                    <Link
+                      href={
+                        settings?.social_icons?.find(
+                          (item) => item.platform === "tiktok",
+                        )?.url || "#"
+                      }
+                    >
+                      <a>
+                        <FaTiktok />
+                      </a>
+                    </Link>
+                  )}
                 </div>
               </div>
             </Col>
@@ -176,8 +232,32 @@ const Index = () => {
           </Row>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Alifi. جميع الحقوق محفوظة.</p>
+          <p>
+            {
+              settings?.static_strings?.find(
+                (item) => item.key === "copyrights",
+              )?.value
+            }
+          </p>
         </div>
+        {settings?.social_icons?.find(
+          (item) => item.platform === "whatsapp",
+        ) && (
+          <div className="whatsapp-float">
+            <Link
+              href={
+                settings?.social_icons?.find(
+                  (item) => item.platform === "whatsapp",
+                )?.url || "#"
+              }
+            >
+              <a target="_blank" rel="noopener noreferrer">
+                <FaWhatsapp size={30} color="#fff" />
+                <span>1</span>
+              </a>
+            </Link>
+          </div>
+        )}
       </Container>
     </div>
   );

@@ -24,6 +24,9 @@ import {
   PROCESS_CHECKOUT,
   PROCESS_CHECKOUT_SUCCESS,
   PROCESS_CHECKOUT_FAILURE,
+  GET_STATE_CITIES,
+  GET_STATE_CITIES_SUCCESS,
+  GET_STATE_CITIES_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
@@ -34,6 +37,7 @@ const initialState = {
   countryCities: [],
   countryStates: [],
   regionCities: [],
+  stateCities: [],
   isLoggedIn: false,
   loading: false,
   error: "",
@@ -200,6 +204,29 @@ const checkout = (state = initialState, action) => {
       };
 
     case GET_REGION_CITIES_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+
+    case GET_STATE_CITIES:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_STATE_CITIES_SUCCESS:
+      return {
+        ...state,
+        stateCities: action.payload,
+        loading: false,
+      };
+
+    case GET_STATE_CITIES_FAILURE:
       return {
         ...state,
         error: action.payload,

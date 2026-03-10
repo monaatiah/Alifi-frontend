@@ -8,6 +8,7 @@ import {
   getCountryStatesApi,
   getRegionCitiesApi,
   processCheckoutApi,
+  getStateCitiesApi,
 } from "@/api/checkout";
 import {
   getCheckoutFormSchemaSuccess,
@@ -26,6 +27,8 @@ import {
   getRegionCitiesFailure,
   processCheckoutFailure,
   processCheckoutSuccess,
+  getStateCitiesSuccess,
+  getStateCitiesFailure,
 } from "./actions";
 import {
   GET_CHECKOUT_FORM_SCHEMA,
@@ -36,6 +39,7 @@ import {
   GET_COUNTRY_STATES,
   GET_REGION_CITIES,
   PROCESS_CHECKOUT,
+  GET_STATE_CITIES,
 } from "./actionTypes";
 import toast from "react-hot-toast";
 
@@ -129,6 +133,19 @@ function* getRegionCitiesSaga({ payload }) {
 // ==================================================
 // ==================================================
 
+function* getStateCitiesSaga({ payload }) {
+  try {
+    const { data } = yield call(getStateCitiesApi, payload);
+    yield put(getStateCitiesSuccess(data));
+  } catch (error) {
+    console.log(error);
+    yield put(getStateCitiesFailure(error));
+  }
+}
+
+// ==================================================
+// ==================================================
+
 function* processCheckoutSaga({ payload }) {
   try {
     const { data } = yield call(processCheckoutApi, payload);
@@ -175,6 +192,10 @@ export function* watchProcessCheckout() {
   yield takeEvery(PROCESS_CHECKOUT, processCheckoutSaga);
 }
 
+export function* watchGetStateCities() {
+  yield takeEvery(GET_STATE_CITIES, getStateCitiesSaga);
+}
+
 // ==================================================
 // ==================================================
 
@@ -187,6 +208,7 @@ function* checkoutSaga() {
   yield all([fork(watchGetCountryStates)]);
   yield all([fork(watchGetRegionCities)]);
   yield all([fork(watchProcessCheckout)]);
+  yield all([fork(watchGetStateCities)]);
 }
 
 export default checkoutSaga;

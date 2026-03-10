@@ -20,6 +20,9 @@ import {
   GET_SHIPPING_METHODS,
   GET_SHIPPING_METHODS_FAILURE,
   GET_SHIPPING_METHODS_SUCCESS,
+  GET_STATE_CITIES,
+  GET_STATE_CITIES_FAILURE,
+  GET_STATE_CITIES_SUCCESS,
   PROCESS_CHECKOUT,
   PROCESS_CHECKOUT_FAILURE,
   PROCESS_CHECKOUT_SUCCESS,
@@ -213,6 +216,30 @@ export const processCheckoutSuccess = (payload) => {
 export const processCheckoutFailure = (payload) => {
   return {
     type: PROCESS_CHECKOUT_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const getStateCities = (payload) => {
+  return {
+    type: GET_STATE_CITIES,
+    payload: payload,
+  };
+};
+
+export const getStateCitiesSuccess = (payload) => {
+  return {
+    type: GET_STATE_CITIES_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const getStateCitiesFailure = (payload) => {
+  return {
+    type: GET_STATE_CITIES_FAILURE,
     payload: payload,
   };
 };

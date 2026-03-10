@@ -1,6 +1,6 @@
 import React from "react";
 
-const CouponBox = ({ couponCode, setCouponCode, onCouponAction }) => {
+const CouponBox = ({ cart, couponCode, setCouponCode, onCouponAction }) => {
   return (
     <div className="cart-coupon mb-4">
       <div className="head">
@@ -16,7 +16,7 @@ const CouponBox = ({ couponCode, setCouponCode, onCouponAction }) => {
           onChange={(e) => setCouponCode(e.target.value)}
         />
         <button type="button" className="btn" onClick={onCouponAction}>
-          تطبيق القسيمة
+          {cart?.coupon_code ? "حذف القسيمة" : "تطبيق القسيمة"}
         </button>
       </div>
     </div>

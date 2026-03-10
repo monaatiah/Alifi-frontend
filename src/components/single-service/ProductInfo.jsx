@@ -35,7 +35,7 @@ const ProductInfo = ({ singleProduct }) => {
       <Container>
         <div className="inner">
           <Row>
-            <Col lg={6} xs={12}>
+            <Col lg={5} xs={12}>
               <div className="product-images">
                 <Swiper
                   thumbs={{ swiper: thumbsSwiper }}
@@ -78,7 +78,7 @@ const ProductInfo = ({ singleProduct }) => {
                 </Swiper>
               </div>
             </Col>
-            <Col lg={6} xs={12}>
+            <Col lg={7} xs={12}>
               <div className="product-details">
                 <div className="title d-flex justify-content-between align-items-center gap-3">
                   <h1>{singleProduct?.name}</h1>

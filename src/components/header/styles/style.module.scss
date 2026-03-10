@@ -1,6 +1,7 @@
 @import "@/styles/variables.scss";
 
 .header {
+  z-index: 9;
   :global {
     .top-bar {
       @media (max-width: 625px) {

@@ -88,6 +88,13 @@
             font-size: 16px;
           }
         }
+        .btn {
+          &:hover {
+            background-color: transparent !important;
+            color: $secondary-color !important;
+            border-color: $secondary-color !important;
+          }
+        }
       }
     }
 

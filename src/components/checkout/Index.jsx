@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   applyCoupon,
-  getCountryCities,
   getCountryStates,
+  getStateCities,
   processCheckout,
   removeCoupon,
 } from "@/store/actions";
@@ -18,6 +18,7 @@ import ShippingMethods from "./ShippingMethods";
 import PaymentMethods from "./PaymentMethods";
 import CouponBox from "./CouponBox";
 import CartSummary from "./CartSummary";
+import Swal from "sweetalert2";
 
 const SAVED_CHECKOUT_VALUES_KEY = "saved_checkout_shipping_values";
 
@@ -114,13 +115,19 @@ const getFirstValue = (data, keys = []) => {
   return "";
 };
 
+const normalizeFieldKey = (key = "") => {
+  return String(key).toLowerCase().replace(/[-\s]/g, "_");
+};
+
+const countryFieldKeys = new Set(["country", "country_id", "shipping_country"]);
+
 const Index = () => {
   const dispatch = useDispatch();
   const { locale } = useRouter();
   const {
     checkoutFields,
     countries,
-    countryCities,
+    stateCities,
     countryStates,
     paymentMethods,
     shippingMethods,
@@ -140,8 +147,8 @@ const Index = () => {
   );
 
   const cityOptions = useMemo(
-    () => mapToOptions(countryCities, locale),
-    [countryCities, locale],
+    () => mapToOptions(stateCities, locale),
+    [stateCities, locale],
   );
 
   const regionOptions = useMemo(
@@ -157,7 +164,11 @@ const Index = () => {
     }
 
     return fields
-      .filter((field) => field?.visible)
+      .filter(
+        (field) =>
+          field?.visible &&
+          !countryFieldKeys.has(normalizeFieldKey(field?.key)),
+      )
       .sort((a, b) => (a?.order || 0) - (b?.order || 0));
   }, [checkoutFields]);
 
@@ -170,16 +181,20 @@ const Index = () => {
         : defaultShippingMethods;
 
     return source
-      .map((method) => ({
-        value: method?.name || method?.code || method?.id || "",
-        label:
-          getLocalizedValue(method?.display_name, locale) ||
-          getLocalizedValue(method?.description, locale) ||
-          getLocalizedValue(method?.name, locale) ||
-          method?.code ||
-          "",
-        price: Number(method?.price || 0),
-      }))
+      .map((method) => {
+        const description = getLocalizedValue(method?.description, locale);
+
+        return {
+          value: description || method?.code || method?.id || "",
+          label:
+            getLocalizedValue(method?.display_name, locale) ||
+            description ||
+            getLocalizedValue(method?.name, locale) ||
+            method?.code ||
+            "",
+          price: Number(method?.price || 0),
+        };
+      })
       .filter((method) => method.value && method.label);
   }, [shippingMethods, locale]);
 
@@ -208,19 +223,25 @@ const Index = () => {
     }
 
     dispatch(
-      getCountryCities({
-        cookies: {},
-        countryId: selectedCountry.value,
-      }),
-    );
-
-    dispatch(
       getCountryStates({
         cookies: {},
         countryId: selectedCountry.value,
       }),
     );
   }, [dispatch, selectedCountry?.value]);
+
+  useEffect(() => {
+    if (!selectedRegion?.value) {
+      return;
+    }
+
+    dispatch(
+      getStateCities({
+        cookies: {},
+        stateId: selectedRegion.value,
+      }),
+    );
+  }, [dispatch, selectedRegion?.value]);
 
   useEffect(() => {
     if (cart?.coupon_code) {
@@ -287,6 +308,29 @@ const Index = () => {
   }, [countryOptions, savedShippingValues, setValue]);
 
   useEffect(() => {
+    if (!countryOptions.length) {
+      return;
+    }
+
+    const jordanOption =
+      countryOptions.find((option) => option?.countryCode === "JO") ||
+      countryOptions.find((option) => {
+        const label = String(option?.label || "").toLowerCase();
+        return label.includes("jordan") || label.includes("الأردن");
+      }) ||
+      null;
+
+    if (!jordanOption) {
+      return;
+    }
+
+    setSelectedCountry(jordanOption);
+    setValue("country_id", jordanOption.value);
+    setValue("country", jordanOption.value);
+    setValue("shipping_country", jordanOption.value);
+  }, [countryOptions, setValue]);
+
+  useEffect(() => {
     if (!savedShippingValues || !cityOptions.length) {
       return;
     }
@@ -343,19 +387,19 @@ const Index = () => {
         name: getFirstValue(data, ["name"]),
         phone: getFirstValue(data, ["phone", "phone_number"]),
         email: getFirstValue(data, ["email"]),
-        country: getFirstValue(data, [
+        country_id: getFirstValue(data, [
           "country",
           "country_id",
           "shipping_country",
         ]),
-        state: getFirstValue(data, [
+        state_id: getFirstValue(data, [
           "state",
           "state_id",
           "region",
           "region_id",
           "shipping_state",
         ]),
-        city: getFirstValue(data, ["city", "city_id", "shipping_city"]),
+        city_id: getFirstValue(data, ["city", "city_id", "shipping_city"]),
         address: getFirstValue(data, ["address", "address_line_1"]),
         zip_code: getFirstValue(data, ["zip_code", "postal_code", "postcode"]),
       },
@@ -363,7 +407,7 @@ const Index = () => {
       shipping_method:
         getFirstValue(data, ["shipping_method"]) ||
         shippingMethodOptions?.[0]?.value ||
-        "method",
+        "Flat Rate",
       payment_method:
         getFirstValue(data, ["payment_method"]) ||
         paymentMethodOptions?.[0]?.value ||
@@ -434,12 +478,22 @@ const Index = () => {
               <Col lg={6}>
                 <CartItems cart={cart} />
                 <CouponBox
+                  cart={cart}
                   couponCode={couponCode}
                   setCouponCode={setCouponCode}
                   onCouponAction={() => {
                     if (cart?.coupon_code) {
                       dispatch(removeCoupon({}));
                     } else {
+                      if (!couponCode.trim()) {
+                        Swal.fire({
+                          icon: "error",
+                          title: "خطأ",
+                          text: "يرجى إدخال رمز القسيمة",
+                          confirmButtonText: "حسناً",
+                        });
+                        return;
+                      }
                       dispatch(
                         applyCoupon({
                           body: {

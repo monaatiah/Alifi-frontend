@@ -75,9 +75,7 @@ const Index = () => {
 
   return (
     <>
-      <header
-        className={`${styles.header} position-absolute w-100 start-0 z-2`}
-      >
+      <header className={`${styles.header} position-absolute w-100 start-0`}>
         <Container>
           <div className="top-bar d-flex align-items-center gap-3 justify-content-between py-3">
             <div className="d-flex align-items-center gap-5">

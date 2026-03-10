@@ -26,6 +26,17 @@ const ReviewsSection = dynamic(
   },
 );
 
+const Providers = dynamic(
+  () => import("@/components/services-providers/Index"),
+  {
+    ssr: false,
+  },
+);
+
+const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
+  ssr: false,
+});
+
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
@@ -37,6 +48,8 @@ const SingleServicePage = () => {
       <InnerHead />
       <SingleService />
       <ReviewsSection />
+      <Providers />
+      <JoinUsSection />
       <Footer />
     </>
   );

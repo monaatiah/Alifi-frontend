@@ -253,6 +253,12 @@
           }
         }
       }
+      .left {
+        flex-grow: 1;
+      }
+      .right {
+        flex-shrink: 0;
+      }
     }
 
     .services-wrap {

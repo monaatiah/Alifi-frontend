@@ -45,6 +45,13 @@ export const getRegionCitiesApi = async ({ cookies, regionId }) => {
   return response.data;
 };
 
+export const getStateCitiesApi = async ({ cookies, stateId }) => {
+  const response = await server({ cookies }).get(
+    `/locations/states/${stateId}/cities`,
+  );
+  return response.data;
+};
+
 // ==================================================
 // ==================================================
 

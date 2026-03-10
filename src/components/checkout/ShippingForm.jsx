@@ -271,6 +271,9 @@ const ShippingForm = ({
 
                         if (isRegionField) {
                           setSelectedRegion(selectedOption || null);
+                          setSelectedCity(null);
+                          setValue("city_id", "");
+                          setValue("city", "");
                         }
 
                         controlledField.onChange(selectedOption?.value || "");

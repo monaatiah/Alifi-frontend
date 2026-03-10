@@ -139,7 +139,7 @@ const Index = () => {
         <div className="services-wrap">
           <Row>
             {services.map((service, idx) => (
-              <Col lg={4} md={6} sm={12} key={idx}>
+              <Col xxl={4} lg={6} md={6} sm={12} key={idx}>
                 <div className="service-item d-flex align-items-center gap-3">
                   <div className="right d-flex flex-column gap-3 align-items-center">
                     <div className="img">

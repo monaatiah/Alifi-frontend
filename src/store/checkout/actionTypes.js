@@ -55,3 +55,10 @@ export const PROCESS_CHECKOUT_FAILURE = "PROCESS_CHECKOUT_FAILURE";
 
 // ==================================================
 // ==================================================
+
+export const GET_STATE_CITIES = "GET_STATE_CITIES";
+export const GET_STATE_CITIES_SUCCESS = "GET_STATE_CITIES_SUCCESS";
+export const GET_STATE_CITIES_FAILURE = "GET_STATE_CITIES_FAILURE";
+
+// ==================================================
+// ==================================================
