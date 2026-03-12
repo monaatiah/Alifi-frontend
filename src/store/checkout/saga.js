@@ -9,6 +9,7 @@ import {
   getRegionCitiesApi,
   processCheckoutApi,
   getStateCitiesApi,
+  getOrderDetailsApi,
 } from "@/api/checkout";
 import {
   getCheckoutFormSchemaSuccess,
@@ -29,6 +30,8 @@ import {
   processCheckoutSuccess,
   getStateCitiesSuccess,
   getStateCitiesFailure,
+  getOrderDetailsSuccess,
+  getOrderDetailsFailure,
 } from "./actions";
 import {
   GET_CHECKOUT_FORM_SCHEMA,
@@ -40,8 +43,10 @@ import {
   GET_REGION_CITIES,
   PROCESS_CHECKOUT,
   GET_STATE_CITIES,
+  GET_ORDER_DETAILS,
 } from "./actionTypes";
 import toast from "react-hot-toast";
+import router from "next/router";
 
 // ==================================================
 // ==================================================
@@ -148,12 +153,30 @@ function* getStateCitiesSaga({ payload }) {
 
 function* processCheckoutSaga({ payload }) {
   try {
-    const { data } = yield call(processCheckoutApi, payload);
-    yield put(processCheckoutSuccess(data));
+    const response = yield call(processCheckoutApi, payload);
+
+    if (response?.status) {
+      yield put(processCheckoutSuccess(response?.data));
+      toast.success(response?.data?.message || "تمت عملية الدفع بنجاح");
+      router.push(`/order-status?orderId=${response?.data?.order?.id}`);
+    }
   } catch (error) {
     console.log(error);
     yield put(processCheckoutFailure(error?.message || "An error occurred"));
     toast.error(error?.response?.data?.message || "حدث خطأ أثناء حذف المنتج");
+  }
+}
+
+// ==================================================
+// ==================================================
+
+function* getOrderDetailsSaga({ payload }) {
+  try {
+    const { data } = yield call(getOrderDetailsApi, payload);
+    yield put(getOrderDetailsSuccess(data));
+  } catch (error) {
+    console.log(error);
+    yield put(getOrderDetailsFailure(error));
   }
 }
 
@@ -196,6 +219,10 @@ export function* watchGetStateCities() {
   yield takeEvery(GET_STATE_CITIES, getStateCitiesSaga);
 }
 
+export function* watchGetOrderDetails() {
+  yield takeEvery(GET_ORDER_DETAILS, getOrderDetailsSaga);
+}
+
 // ==================================================
 // ==================================================
 
@@ -209,6 +236,7 @@ function* checkoutSaga() {
   yield all([fork(watchGetRegionCities)]);
   yield all([fork(watchProcessCheckout)]);
   yield all([fork(watchGetStateCities)]);
+  yield all([fork(watchGetOrderDetails)]);
 }
 
 export default checkoutSaga;

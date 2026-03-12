@@ -19,7 +19,11 @@ import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { destroyCookie, parseCookies } from "nookies";
 import { fetchUser, logout } from "@/store/actions";
-import { getUserCart } from "@/store/cart/actions";
+import {
+  clearOpenCartSidebar,
+  getUserCart,
+  openCartSidebar as openCartSidebarAction,
+} from "@/store/cart/actions";
 import Swal from "sweetalert2";
 import { useIntl } from "react-intl";
 import CartSidebar from "./CartSidebar";
@@ -48,6 +52,21 @@ const Index = () => {
     // Fetch cart on component mount
     dispatch(getUserCart({ cookies }));
   }, []);
+
+  const handleCloseCartSidebar = () => {
+    setShowCartSidebar(false);
+    dispatch(clearOpenCartSidebar());
+  };
+
+  const handleOpenCartSidebar = () => {
+    setShowCartSidebar(true);
+    dispatch(openCartSidebarAction());
+  };
+
+  const handleCloseSidebars = () => {
+    setShowSidebar(false);
+    handleCloseCartSidebar();
+  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -214,7 +233,7 @@ const Index = () => {
                 type="button"
                 className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"
                 aria-label="Cart"
-                onClick={() => setShowCartSidebar(true)}
+                onClick={handleOpenCartSidebar}
               >
                 <CartIcon />
                 <i className="item-count d-flex align-items-center justify-content-center position-absolute">
@@ -228,7 +247,7 @@ const Index = () => {
         <Sidebar show={showSidebar} onClose={() => setShowSidebar(false)} />
         <CartSidebar
           show={showCartSidebar}
-          onClose={() => setShowCartSidebar(false)}
+          onClose={handleCloseCartSidebar}
           openCartSidebar={openCartSidebar}
         />
         <div
@@ -237,10 +256,7 @@ const Index = () => {
               ? "overlay active"
               : "overlay"
           }
-          onClick={() => {
-            setShowSidebar(false);
-            setShowCartSidebar(false);
-          }}
+          onClick={handleCloseSidebars}
         ></div>
       </header>
     </>

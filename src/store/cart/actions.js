@@ -23,6 +23,8 @@ import {
   MERGE_CART,
   MERGE_CART_SUCCESS,
   MERGE_CART_FAILURE,
+  OPEN_CART_SIDEBAR,
+  CLEAR_OPEN_CART_SIDEBAR,
 } from "./actionTypes";
 
 export const getUserCart = (payload) => {
@@ -211,6 +213,21 @@ export const mergeCartFailure = (payload) => {
   return {
     type: MERGE_CART_FAILURE,
     payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const openCartSidebar = () => {
+  return {
+    type: OPEN_CART_SIDEBAR,
+  };
+};
+
+export const clearOpenCartSidebar = () => {
+  return {
+    type: CLEAR_OPEN_CART_SIDEBAR,
   };
 };
 

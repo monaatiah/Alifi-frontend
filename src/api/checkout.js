@@ -73,5 +73,10 @@ export const processCheckoutApi = async (payload) => {
       ...(cartToken ? { "X-Cart-Token": cartToken } : {}),
     },
   });
+  return response;
+};
+
+export const getOrderDetailsApi = async ({ cookies, orderId }) => {
+  const response = await server({ cookies }).get(`/orders/${orderId}`);
   return response.data;
 };

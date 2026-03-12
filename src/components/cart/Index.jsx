@@ -64,7 +64,7 @@ const Index = () => {
             <Table responsive>
               <thead>
                 <tr>
-                  <th aria-label="remove item"></th>
+                  <th></th>
                   <th>المنتجات داخل السلة</th>
                   <th>السعر الفردي</th>
                   <th>اختيار الكمية</th>

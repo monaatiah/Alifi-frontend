@@ -181,20 +181,16 @@ const Index = () => {
         : defaultShippingMethods;
 
     return source
-      .map((method) => {
-        const description = getLocalizedValue(method?.description, locale);
-
-        return {
-          value: description || method?.code || method?.id || "",
-          label:
-            getLocalizedValue(method?.display_name, locale) ||
-            description ||
-            getLocalizedValue(method?.name, locale) ||
-            method?.code ||
-            "",
-          price: Number(method?.price || 0),
-        };
-      })
+      .map((method) => ({
+        value: method?.name || method?.code || method?.id || "",
+        label:
+          getLocalizedValue(method?.display_name, locale) ||
+          getLocalizedValue(method?.description, locale) ||
+          getLocalizedValue(method?.name, locale) ||
+          method?.code ||
+          "",
+        price: Number(method?.price || 0),
+      }))
       .filter((method) => method.value && method.label);
   }, [shippingMethods, locale]);
 

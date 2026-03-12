@@ -24,6 +24,8 @@ import {
   MERGE_CART,
   MERGE_CART_SUCCESS,
   MERGE_CART_FAILURE,
+  OPEN_CART_SIDEBAR,
+  CLEAR_OPEN_CART_SIDEBAR,
 } from "./actionTypes";
 
 const initialState = {
@@ -232,6 +234,21 @@ const cart = (state = initialState, action) => {
         ...state,
         error: action.payload,
         loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+
+    case OPEN_CART_SIDEBAR:
+      return {
+        ...state,
+        openCartSidebar: true,
+      };
+
+    case CLEAR_OPEN_CART_SIDEBAR:
+      return {
+        ...state,
+        openCartSidebar: false,
       };
 
     // ==================================================

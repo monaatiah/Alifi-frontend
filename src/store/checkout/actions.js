@@ -11,6 +11,9 @@ import {
   GET_COUNTRY_STATES,
   GET_COUNTRY_STATES_FAILURE,
   GET_COUNTRY_STATES_SUCCESS,
+  GET_ORDER_DETAILS,
+  GET_ORDER_DETAILS_FAILURE,
+  GET_ORDER_DETAILS_SUCCESS,
   GET_PAYMENT_METHODS,
   GET_PAYMENT_METHODS_FAILURE,
   GET_PAYMENT_METHODS_SUCCESS,
@@ -240,6 +243,30 @@ export const getStateCitiesSuccess = (payload) => {
 export const getStateCitiesFailure = (payload) => {
   return {
     type: GET_STATE_CITIES_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const getOrderDetails = (payload) => {
+  return {
+    type: GET_ORDER_DETAILS,
+    payload: payload,
+  };
+};
+
+export const getOrderDetailsSuccess = (payload) => {
+  return {
+    type: GET_ORDER_DETAILS_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const getOrderDetailsFailure = (payload) => {
+  return {
+    type: GET_ORDER_DETAILS_FAILURE,
     payload: payload,
   };
 };
