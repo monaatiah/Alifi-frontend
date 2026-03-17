@@ -6,13 +6,13 @@ import Image from "next/future/image";
 
 import { GoHeart, GoShareAndroid } from "react-icons/go";
 import { FaStarHalfAlt, FaStar } from "react-icons/fa";
-import { handleImageLink } from "@/helpers/functions";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
-import toast from "react-hot-toast";
+import SliderImg from "./assets/img.png";
+import Link from "next/link";
+import { FiMapPin } from "react-icons/fi";
 
 const ProductInfo = ({ singleProduct }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const rating = Number(singleProduct?.reviews_avg_rating ?? 0);
   const normalizedRating = Math.max(0, Math.min(5, rating));
   const roundedRating = Math.round(normalizedRating * 2) / 2;
@@ -43,11 +43,12 @@ const ProductInfo = ({ singleProduct }) => {
                   spaceBetween={10}
                   className="product-main-image"
                 >
-                  {singleProduct?.images?.map((item, index) => (
+                  {[1, 2, 3]?.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="item">
                         <Image
-                          src={handleImageLink(item)}
+                          // src={handleImageLink(item)}
+                          src={SliderImg}
                           alt={singleProduct?.name || "Product Image"}
                           width={420}
                           height={370}
@@ -59,15 +60,16 @@ const ProductInfo = ({ singleProduct }) => {
                 <Swiper
                   onSwiper={setThumbsSwiper}
                   spaceBetween={10}
-                  slidesPerView={4}
+                  slidesPerView={3}
                   modules={[Thumbs]}
                   className="product-thumbs"
                 >
-                  {singleProduct?.images?.map((item, index) => (
+                  {[1, 2, 3]?.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="item">
                         <Image
-                          src={handleImageLink(item)}
+                          // src={handleImageLink(item)}
+                          src={SliderImg}
                           alt={singleProduct?.name || "Product Image"}
                           width={100}
                           height={90}
@@ -80,16 +82,16 @@ const ProductInfo = ({ singleProduct }) => {
             </Col>
             <Col lg={7} xs={12}>
               <div className="product-details">
-                <div className="title d-flex justify-content-between align-items-center gap-3">
-                  <h1>{singleProduct?.name}</h1>
+                <div className="title">
                   <div className="actions d-flex align-items-center gap-4">
-                    <button type="button" aria-label="share button">
-                      <GoShareAndroid size={30} />
-                    </button>
                     <button type="button" aria-label="favorite button">
                       <GoHeart size={30} />
                     </button>
+                    <button type="button" aria-label="share button">
+                      <GoShareAndroid size={30} />
+                    </button>
                   </div>
+                  <h1>عنوان الخدمة</h1>
                 </div>
                 <div className="review d-flex align-items-center gap-3">
                   <div className="stars d-flex align-items-center gap-1">
@@ -106,65 +108,48 @@ const ProductInfo = ({ singleProduct }) => {
                       </span>
                     ))}
                   </div>
-                  <span>{singleProduct?.reviews_count} تقييمات</span>
+                  <span>12 تقييمات</span>
                 </div>
-                <div className="price d-flex align-items-center gap-3">
-                  <div className="d-flex align-items-center gap-1">
-                    {singleProduct?.price}
-                    <SaudiRiyalIcon width={30} height={30} stroke="#000" />
+                <div className="location d-flex align-items-center gap-3">
+                  <div className="icon">
+                    <FiMapPin />
                   </div>
-                  {singleProduct?.sale_price && (
-                    <span className="old-price">
-                      {singleProduct?.sale_price}
-                      <SaudiRiyalIcon width={30} height={30} stroke="#000" />
+                  <span>الرياض، السعودية</span>
+                </div>
+                <div className="description">
+                  <p>
+                    متجر متخصص في منتجات العناية بالقطط متجر متخصص في منتجات
+                    العناية بالقطط
+                  </p>
+                </div>
+                <div className="price-range">
+                  <h4>النطاق السعري</h4>
+
+                  <p className="d-flex align-items-center gap-2">
+                    <span>
+                      150
+                      <SaudiRiyalIcon width={20} height={20} stroke="#7267C3" />
                     </span>
-                  )}
-                </div>
-                <div className="description">{singleProduct?.description}</div>
-                <div className="quantity d-flex align-items-center gap-3">
-                  <button
-                    type="button"
-                    aria-label="increase quantity"
-                    onClick={() => {
-                      if (singleProduct?.quantity > quantity) {
-                        setQuantity(quantity + 1);
-                      } else {
-                        toast.error("الكمية المطلوبة غير متوفرة في المخزون");
-                      }
-                    }}
-                  >
-                    +
-                  </button>
-                  <span>{quantity}</span>
-                  <button
-                    type="button"
-                    aria-label="decrease quantity"
-                    onClick={() => {
-                      if (quantity > 1) {
-                        setQuantity(quantity - 1);
-                      } else {
-                        toast.error("الكمية لا يمكن أن تكون أقل من 1");
-                      }
-                    }}
-                  >
                     -
-                  </button>
+                    <span>
+                      300
+                      <SaudiRiyalIcon width={20} height={20} stroke="#7267C3" />
+                    </span>
+                  </p>
                 </div>
-                <div className="shippment-policy">
-                  <h4>سياسة الشحن والإرجاع:</h4>
-                  <ul>
-                    <li> الشحن خلال 2-4 أيام</li>
-                    <li> إمكانية الاسترجاع خلال 7 أيام</li>
-                    <li>الدفع عند الاستلام )إن توفر(</li>
-                  </ul>
-                </div>
-                <div className="btns d-flex align-items-center gap-3">
+                <div className="btns d-flex align-items-center justify-content-between">
                   <button type="button" className="btn">
-                    أضف إلى السلة
+                    احصل على الموقع
                   </button>
-                  <button type="button" className="btn">
-                    اشتري الآن
-                  </button>
+                  <Link href="https://wa.me/966123456789">
+                    <a
+                      className="btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      اتصل الآن
+                    </a>
+                  </Link>
                 </div>
               </div>
             </Col>

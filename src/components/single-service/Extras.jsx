@@ -10,7 +10,7 @@ const Extras = () => {
     <div className="extra-services">
       <Container>
         <Row>
-          <Col md={6} lg={3}>
+          <Col xs={6} lg={3}>
             <div className="service-block">
               <div className="img">
                 <Image
@@ -27,7 +27,7 @@ const Extras = () => {
               </div>
             </div>
           </Col>
-          <Col md={6} lg={3}>
+          <Col xs={6} lg={3}>
             <div className="service-block">
               <div className="img">
                 <Image
@@ -44,7 +44,7 @@ const Extras = () => {
               </div>
             </div>
           </Col>
-          <Col md={6} lg={3}>
+          <Col xs={6} lg={3}>
             <div className="service-block">
               <div className="img">
                 <Image
@@ -61,7 +61,7 @@ const Extras = () => {
               </div>
             </div>
           </Col>
-          <Col md={6} lg={3}>
+          <Col xs={6} lg={3}>
             <div className="service-block">
               <div className="img">
                 <Image

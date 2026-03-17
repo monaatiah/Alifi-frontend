@@ -26,6 +26,13 @@ const ReviewsSection = dynamic(
   },
 );
 
+const WorkHoursSection = dynamic(
+  () => import("@/components/work-hours/Index"),
+  {
+    ssr: false,
+  },
+);
+
 const Providers = dynamic(
   () => import("@/components/services-providers/Index"),
   {
@@ -33,9 +40,12 @@ const Providers = dynamic(
   },
 );
 
-const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
-  ssr: false,
-});
+const ContactVendorSection = dynamic(
+  () => import("@/components/contact-vendor/Index"),
+  {
+    ssr: false,
+  },
+);
 
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
@@ -48,8 +58,9 @@ const SingleServicePage = () => {
       <InnerHead />
       <SingleService />
       <ReviewsSection />
+      <WorkHoursSection />
       <Providers />
-      <JoinUsSection />
+      <ContactVendorSection />
       <Footer />
     </>
   );
@@ -80,7 +91,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getPageData({
         cookies: {},
-        slug: "home",
+        slug: "service-details",
       }),
     );
 

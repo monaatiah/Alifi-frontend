@@ -121,6 +121,12 @@
         position: relative;
         font-weight: 700;
         font-size: 30px;
+        @media (max-width: 1200px) {
+          font-size: 24px;
+        }
+        @media (max-width: 768px) {
+          font-size: 18px;
+        }
         &::after {
           content: "";
           position: absolute;
