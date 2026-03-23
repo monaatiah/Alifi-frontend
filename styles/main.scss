@@ -507,6 +507,7 @@ input[type="radio"] {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-top: 20px;
   }
   button.swal2-styled {
     margin: 0;
@@ -572,6 +573,12 @@ input[type="radio"] {
     svg {
       fill: $primary-color;
     }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
   }
 
   &:hover {
@@ -880,9 +887,9 @@ input {
   .img {
     position: relative;
     border-radius: 100%;
-    margin: 0 auto 20px;
-    width: 200px;
-    height: 200px;
+    margin: 0 auto 30px;
+    width: 170px;
+    height: 170px;
     transition: $transition;
     @media (max-width: 625px) {
       width: 140px;
@@ -934,6 +941,8 @@ input {
       scale: 0.97;
       &::before {
         rotate: 100deg;
+        background: url("../src/assets/images/c2.svg") no-repeat center
+          center/contain;
       }
     }
   }
@@ -985,6 +994,7 @@ input {
       justify-content: center;
       width: 40px;
       height: 40px;
+      z-index: 1;
     }
   }
   .info {
@@ -1096,6 +1106,10 @@ input {
           svg {
             filter: brightness(0) invert(1);
           }
+        }
+        &:disabled {
+          opacity: 0.5;
+          pointer-events: none;
         }
       }
     }

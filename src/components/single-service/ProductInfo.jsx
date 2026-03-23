@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs } from "swiper";
 import Image from "next/future/image";
@@ -10,6 +10,13 @@ import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 import SliderImg from "./assets/img.png";
 import Link from "next/link";
 import { FiMapPin } from "react-icons/fi";
+import { IoCopyOutline } from "react-icons/io5";
+import {
+  FaFacebook,
+  FaLinkedin,
+  FaWhatsapp,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 const ProductInfo = ({ singleProduct }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -29,6 +36,22 @@ const ProductInfo = ({ singleProduct }) => {
 
     return "empty";
   });
+
+  const handleShare = (platform) => {
+    if (typeof window === "undefined") return;
+
+    const currentUrl = window.location.href;
+    const shareLinks = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`,
+      whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+    };
+
+    if (shareLinks[platform]) {
+      window.open(shareLinks[platform], "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <div className="product-info">
@@ -87,9 +110,68 @@ const ProductInfo = ({ singleProduct }) => {
                     <button type="button" aria-label="favorite button">
                       <GoHeart size={30} />
                     </button>
-                    <button type="button" aria-label="share button">
-                      <GoShareAndroid size={30} />
-                    </button>
+                    <div className="share">
+                      <button
+                        type="button"
+                        aria-label="share button"
+                        onClick={() => setShowShareOptions(!showShareOptions)}
+                      >
+                        <GoShareAndroid size={30} />
+                      </button>
+                      <div
+                        className={`share-list d-flex align-items-center flex-column gap-2 ${showShareOptions ? "active" : ""}`}
+                      >
+                        <button
+                          type="button"
+                          aria-label="share on facebook"
+                          onClick={() => handleShare("facebook")}
+                        >
+                          <FaFacebook />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="share on twitter"
+                          onClick={() => handleShare("twitter")}
+                        >
+                          <FaXTwitter />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="share on whatsapp"
+                          onClick={() => handleShare("whatsapp")}
+                        >
+                          <FaWhatsapp />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="share on linkedin"
+                          onClick={() => handleShare("linkedin")}
+                        >
+                          <FaLinkedin />
+                        </button>
+                        <OverlayTrigger
+                          placement="left"
+                          overlay={
+                            <Tooltip id={`tooltip-copy`}>نسخ الرابط</Tooltip>
+                          }
+                        >
+                          <button
+                            type="button"
+                            aria-label="copy link"
+                            onClick={() => {
+                              if (typeof window !== "undefined") {
+                                navigator.clipboard.writeText(
+                                  window.location.href,
+                                );
+                                toast.success("تم نسخ الرابط");
+                              }
+                            }}
+                          >
+                            <IoCopyOutline />
+                          </button>
+                        </OverlayTrigger>
+                      </div>
+                    </div>
                   </div>
                   <h1>عنوان الخدمة</h1>
                 </div>

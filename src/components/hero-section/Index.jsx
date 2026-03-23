@@ -4,19 +4,20 @@ import styles from "./styles/styles.module.scss";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper";
-
-import Image from "next/future/image";
 import Pattern1 from "./assets/1.svg";
 import Pattern2 from "./assets/2.svg";
 import Pattern3 from "./assets/3.svg";
 import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
+import {
+  getComponentByIdentifier,
+  ImageWithFallback,
+} from "@/helpers/functions";
 
 const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
   const heroData = getComponentByIdentifier(
     pageData?.page_components,
-    "hero_slider"
+    "hero_slider",
   );
 
   return (
@@ -31,7 +32,7 @@ const Index = () => {
         }}
         modules={[Autoplay, Pagination, EffectFade]}
         className="mySwiper"
-        effect={"fade"}
+        // effect={"fade"}
         lazy={{ loadPrevNext: true, loadPrevNextAmount: 1 }}
         autoplay={{
           delay: 5000,
@@ -45,7 +46,7 @@ const Index = () => {
                 <Row className="align-items-center flex-row-reverse">
                   <Col lg={6} xs={12}>
                     <div className="image text-center">
-                      <Image
+                      <ImageWithFallback
                         src={item?.image}
                         width={500}
                         height={500}

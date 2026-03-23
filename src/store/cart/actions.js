@@ -25,6 +25,9 @@ import {
   MERGE_CART_FAILURE,
   OPEN_CART_SIDEBAR,
   CLEAR_OPEN_CART_SIDEBAR,
+  ADD_PRODUCT_TO_WISHLIST,
+  ADD_PRODUCT_TO_WISHLIST_FAILURE,
+  ADD_PRODUCT_TO_WISHLIST_SUCCESS,
 } from "./actionTypes";
 
 export const getUserCart = (payload) => {
@@ -228,6 +231,30 @@ export const openCartSidebar = () => {
 export const clearOpenCartSidebar = () => {
   return {
     type: CLEAR_OPEN_CART_SIDEBAR,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const addProductToWishlist = (payload) => {
+  return {
+    type: ADD_PRODUCT_TO_WISHLIST,
+    payload: payload,
+  };
+};
+
+export const addProductToWishlistSuccess = (payload) => {
+  return {
+    type: ADD_PRODUCT_TO_WISHLIST_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const addProductToWishlistFailure = (payload) => {
+  return {
+    type: ADD_PRODUCT_TO_WISHLIST_FAILURE,
+    payload: payload,
   };
 };
 

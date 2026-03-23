@@ -35,7 +35,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                       width={415}
                       height={260}
                     />
-                    <Link href={`/blog/${item?.id}`}>
+                    <Link href={`/blogs/${item?.slug}`}>
                       <a aria-label={item?.title}></a>
                     </Link>
                     <span>
@@ -62,7 +62,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                     </div>
                     <div className="info-data">
                       <h3>
-                        <Link href={`/blog/${item?.slug}`}>
+                        <Link href={`/blogs/${item?.slug}`}>
                           <a>{item?.title}</a>
                         </Link>
                       </h3>
@@ -71,7 +71,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                           __html: item?.body?.substring(0, 100) + "...",
                         }}
                       />
-                      <div className="author d-flex align-items-center gap-3">
+                      {/* <div className="author d-flex align-items-center gap-3">
                         <div className="au-img">
                           <Image
                             src={item?.author?.avatar || userPlaceholder}
@@ -83,7 +83,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                         <span>
                           {item?.data?.author_name || item?.author?.name}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

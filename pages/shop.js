@@ -22,16 +22,9 @@ const BreadCrumbSection = dynamic(
   },
 );
 
-const ShopCategories = dynamic(
-  () => import("@/components/shop-categories/Index"),
-  {
-    ssr: false,
-  },
-);
+import ShopCategories from "@/components/shop-categories/Index";
 
-const Shop = dynamic(() => import("@/components/shop/Index"), {
-  ssr: false,
-});
+import Shop from "@/components/shop/Index";
 
 const JoinUsSection = dynamic(() => import("@/components/join-us/Index"), {
   ssr: false,

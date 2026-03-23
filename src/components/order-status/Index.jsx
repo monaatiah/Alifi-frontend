@@ -354,26 +354,19 @@ const Index = () => {
     const customer = getOrderCustomerDetails(order);
     const invoiceHtml = buildInvoiceHtml({ order, customer, settings });
 
-    const invoiceWindow = window.open(
-      "",
-      "_blank",
-      "noopener,noreferrer,width=1100,height=760",
-    );
+    const blob = new Blob([invoiceHtml], {
+      type: "text/html;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const orderId = order?.id || Date.now();
 
-    if (!invoiceWindow) {
-      toast.error("يرجى السماح بالنوافذ المنبثقة لتحميل الفاتورة");
-      return;
-    }
-
-    invoiceWindow.document.open();
-    invoiceWindow.document.write(invoiceHtml);
-    invoiceWindow.document.close();
-    invoiceWindow.focus();
-
-    setTimeout(() => {
-      invoiceWindow.print();
-      invoiceWindow.onafterprint = () => invoiceWindow.close();
-    }, 350);
+    link.href = url;
+    link.download = `invoice-${orderId}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (

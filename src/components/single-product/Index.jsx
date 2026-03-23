@@ -14,7 +14,9 @@ const Index = () => {
       <ProductInfo singleProduct={singleProduct} />
       <ProductDescription singleProduct={singleProduct} />
       <ProductAuthor singleProduct={singleProduct} />
-      <RelatedProducts singleProduct={singleProduct} />
+      {singleProduct?.related_products?.length > 0 && (
+        <RelatedProducts singleProduct={singleProduct} />
+      )}
     </div>
   );
 };

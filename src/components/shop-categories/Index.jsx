@@ -1,12 +1,11 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { useSelector } from "react-redux";
-import { handleImageLink } from "@/helpers/functions";
+import { ImageWithFallback } from "@/helpers/functions";
 
 const Index = () => {
   const { categories } = useSelector((state) => state.categories);
@@ -46,8 +45,8 @@ const Index = () => {
               <SwiperSlide key={item.id}>
                 <div className="service-block">
                   <div className="img">
-                    <Image
-                      src={handleImageLink(item?.icon)}
+                    <ImageWithFallback
+                      src={item?.icon}
                       alt={item?.name}
                       width={325}
                       height={325}

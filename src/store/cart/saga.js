@@ -1,4 +1,11 @@
-import { takeEvery, fork, put, all, call } from "redux-saga/effects";
+import {
+  takeEvery,
+  fork,
+  put,
+  all,
+  call,
+  takeLatest,
+} from "redux-saga/effects";
 import toast from "react-hot-toast";
 import { setCookie, parseCookies } from "nookies";
 import {
@@ -28,6 +35,7 @@ import {
   applyCouponApi,
   removeCouponApi,
   mergeCartApi,
+  addProductToWishlistApi,
 } from "@/api/cart";
 import {
   GET_USER_CART,
@@ -38,6 +46,7 @@ import {
   APPLY_COUPON,
   REMOVE_COUPON,
   MERGE_CART,
+  ADD_PRODUCT_TO_WISHLIST,
 } from "./actionTypes";
 
 function* getUserCartSaga({ payload }) {
@@ -243,30 +252,48 @@ function* mergeCartSaga({ payload }) {
 // ==================================================
 // ==================================================
 
+function* addProductToWishlistSaga({ payload }) {
+  try {
+    const { data } = yield call(addProductToWishlistApi, payload);
+    toast.success(data?.message || "تمت الإضافة إلى قائمة الرغبات");
+  } catch (error) {
+    console.log(error);
+    toast.error(
+      error?.response?.data?.message ||
+        "حدث خطأ أثناء الإضافة إلى قائمة الرغبات",
+    );
+  }
+}
+
+// ==================================================
+// ==================================================
+
 export function* watchGetUserCart() {
   yield takeEvery(GET_USER_CART, getUserCartSaga);
 }
 export function* watchAddToCart() {
-  yield takeEvery(ADD_TO_CART, addToCartSaga);
+  yield takeLatest(ADD_TO_CART, addToCartSaga);
 }
 export function* watchUpdateCartItem() {
-  yield takeEvery(UPDATE_CART_ITEM, updateCartItemSaga);
+  yield takeLatest(UPDATE_CART_ITEM, updateCartItemSaga);
 }
 export function* watchRemoveFromCart() {
-  yield takeEvery(REMOVE_FROM_CART, removeFromCartSaga);
+  yield takeLatest(REMOVE_FROM_CART, removeFromCartSaga);
 }
 export function* watchClearCart() {
-  yield takeEvery(CLEAR_CART, clearCartSaga);
+  yield takeLatest(CLEAR_CART, clearCartSaga);
 }
 export function* watchApplyCoupon() {
-  yield takeEvery(APPLY_COUPON, applyCouponSaga);
+  yield takeLatest(APPLY_COUPON, applyCouponSaga);
 }
 export function* watchRemoveCoupon() {
-  yield takeEvery(REMOVE_COUPON, removeCouponSaga);
+  yield takeLatest(REMOVE_COUPON, removeCouponSaga);
 }
-
 export function* watchMergeCart() {
   yield takeEvery(MERGE_CART, mergeCartSaga);
+}
+export function* watchAddProductToWishlist() {
+  yield takeLatest(ADD_PRODUCT_TO_WISHLIST, addProductToWishlistSaga);
 }
 
 // ==================================================
@@ -282,6 +309,7 @@ function* cartSaga() {
     fork(watchApplyCoupon),
     fork(watchRemoveCoupon),
     fork(watchMergeCart),
+    fork(watchAddProductToWishlist),
   ]);
 }
 

@@ -8,19 +8,22 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import Image from "next/future/image";
 import Link from "next/link";
 
 import ArrowRightIcon from "./assets/arrow-right.svg";
 import ArrowLeftIcon from "./assets/arrow-left.svg";
 import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
+import {
+  getComponentByIdentifier,
+  ImageWithFallback,
+} from "@/helpers/functions";
 
 const Index = () => {
+  const { categories } = useSelector((state) => state.categories);
   const { pageData } = useSelector((state) => state.settings);
   const categoriesData = getComponentByIdentifier(
     pageData?.page_components,
-    "categories_slider"
+    "categories_slider",
   );
 
   return (
@@ -62,14 +65,14 @@ const Index = () => {
               },
             }}
           >
-            {categoriesData?.data?.categories?.map((item, index) => (
+            {categories?.data?.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className="block">
                   <Link href={`/categories/${item?.slug}`} passHref>
                     <a aria-label={item?.name}></a>
                   </Link>
                   <div className="icon">
-                    <Image
+                    <ImageWithFallback
                       src={item?.icon}
                       alt={item?.name}
                       width={90}

@@ -1,0 +1,43 @@
+@import "@/styles/variables.scss";
+
+.services-section {
+  padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-block: 50px 0;
+  }
+  :global {
+    .services-list {
+      .row {
+        row-gap: 50px;
+      }
+
+      .service-block {
+        .img {
+          width: 150px;
+          height: 150px;
+          @media (max-width: 625px) {
+            width: 100px;
+            height: 100px;
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .info {
+          h3 {
+            font-size: 17px;
+            @media (max-width: 625px) {
+              font-size: 14px;
+            }
+            a {
+              text-decoration: none;
+              color: inherit;
+            }
+          }
+        }
+      }
+    }
+  }
+}

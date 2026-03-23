@@ -2,6 +2,9 @@ import {
   GET_CATEGORIES,
   GET_CATEGORIES_FAILURE,
   GET_CATEGORIES_SUCCESS,
+  GET_CATEGORY_PRODUCTS,
+  GET_CATEGORY_PRODUCTS_FAILURE,
+  GET_CATEGORY_PRODUCTS_SUCCESS,
   GET_SINGLE_CATEGORY,
   GET_SINGLE_CATEGORY_FAILURE,
   GET_SINGLE_CATEGORY_SUCCESS,
@@ -48,6 +51,30 @@ export const getSingleCategorySuccess = (payload) => {
 export const getSingleCategoryFailure = (payload) => {
   return {
     type: GET_SINGLE_CATEGORY_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const getCategoryProducts = (payload) => {
+  return {
+    type: GET_CATEGORY_PRODUCTS,
+    payload: payload,
+  };
+};
+
+export const getCategoryProductsSuccess = (payload) => {
+  return {
+    type: GET_CATEGORY_PRODUCTS_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const getCategoryProductsFailure = (payload) => {
+  return {
+    type: GET_CATEGORY_PRODUCTS_FAILURE,
     payload: payload,
   };
 };

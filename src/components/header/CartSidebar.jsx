@@ -54,7 +54,7 @@ const CartSidebar = ({ show, onClose, openCartSidebar }) => {
       </div>
       <div className="cart-body">
         {cart?.items?.length > 0 ? (
-          <ul className="cart-items d-flex flex-column gap-4">
+          <ul className="cart-items d-flex flex-column">
             {cart.items.map((item) => (
               <li
                 key={item.id}

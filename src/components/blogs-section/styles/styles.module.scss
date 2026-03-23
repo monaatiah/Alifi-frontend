@@ -93,7 +93,6 @@
           }
           p {
             font-size: 16px;
-            margin-bottom: 15px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             line-clamp: 3;
@@ -104,6 +103,7 @@
             }
           }
           .author {
+            margin-top: 15px;
             .au-img {
               width: 35px;
               height: 35px;

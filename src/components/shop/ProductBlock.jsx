@@ -7,7 +7,7 @@ import CartIcon from "./assets/cart.svg";
 import { FaRegHeart } from "react-icons/fa6";
 import { handleImageLink } from "@/helpers/functions";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
-import { addToCart } from "@/store/cart/actions";
+import { addProductToWishlist, addToCart } from "@/store/cart/actions";
 
 const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
@@ -41,7 +41,15 @@ const ProductBlock = memo(({ item }) => {
         <Link href={`/products/${item?.slug}`}>
           <a aria-label={item?.name}> </a>
         </Link>
-        <button className="wishlist-btn" aria-label="add to wishlist">
+        <button
+          className="wishlist-btn"
+          aria-label="add to wishlist"
+          onClick={() => {
+            dispatch(
+              addProductToWishlist({ cookies: {}, product_id: item?.id }),
+            );
+          }}
+        >
           <FaRegHeart size={20} />
         </button>
       </div>

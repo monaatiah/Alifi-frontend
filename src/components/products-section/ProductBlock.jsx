@@ -7,8 +7,8 @@ import CartIcon from "./assets/cart.svg";
 import { FaRegHeart } from "react-icons/fa6";
 import { handleImageLink } from "@/helpers/functions";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
-import { addToCart } from "@/store/cart/actions";
-import PlaceholderImg from "@/assets/images/logo.svg";
+import { addProductToWishlist, addToCart } from "@/store/cart/actions";
+import PlaceholderImg from "@/assets/images/cover.png";
 
 const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
@@ -35,18 +35,31 @@ const ProductBlock = memo(({ item }) => {
             src={handleImageLink(item?.image)}
             alt={item?.name}
             width={340}
-            height={200}
+            height={300}
             loading="lazy"
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
           />
         ) : (
-          <PlaceholderImg />
+          <Image
+            src={PlaceholderImg}
+            alt={item?.name}
+            width={300}
+            height={300}
+          />
         )}
         <Link href={`/products/${item?.slug}`}>
           <a aria-label={item?.name}> </a>
         </Link>
-        <button className="wishlist-btn" aria-label="add to wishlist">
+        <button
+          className="wishlist-btn"
+          aria-label="add to wishlist"
+          onClick={() => {
+            dispatch(
+              addProductToWishlist({ cookies: {}, product_id: item?.id }),
+            );
+          }}
+        >
           <FaRegHeart size={20} />
         </button>
       </div>

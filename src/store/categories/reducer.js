@@ -3,6 +3,9 @@ import {
   GET_CATEGORIES,
   GET_CATEGORIES_FAILURE,
   GET_CATEGORIES_SUCCESS,
+  GET_CATEGORY_PRODUCTS,
+  GET_CATEGORY_PRODUCTS_FAILURE,
+  GET_CATEGORY_PRODUCTS_SUCCESS,
   GET_SINGLE_CATEGORY,
   GET_SINGLE_CATEGORY_FAILURE,
   GET_SINGLE_CATEGORY_SUCCESS,
@@ -64,6 +67,32 @@ const categories = (state = initialState, action) => {
       };
 
     case GET_SINGLE_CATEGORY_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    //=================================================
+    //=================================================
+
+    case GET_CATEGORY_PRODUCTS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_CATEGORY_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        singleCategory: {
+          ...state.singleCategory,
+          products: action.payload,
+        },
+        loading: false,
+      };
+
+    case GET_CATEGORY_PRODUCTS_FAILURE:
       return {
         ...state,
         error: action.payload,

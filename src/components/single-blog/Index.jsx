@@ -3,11 +3,30 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import Image from "next/future/image";
 import BlogImg from "./assets/blog.png";
-import postImg from "./assets/blog.avif";
 import Link from "next/link";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { getFullDate, ImageWithFallback } from "@/helpers/functions";
 
 const Index = () => {
+  const { contentBySlug } = useSelector((state) => state.content);
+
+  const handleShare = (platform) => {
+    if (typeof window === "undefined") return;
+
+    const currentUrl = window.location.href;
+    const shareLinks = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`,
+      whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+    };
+
+    if (shareLinks[platform]) {
+      window.open(shareLinks[platform], "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div className={styles["single-blog-section"]}>
       <Container>
@@ -15,64 +34,55 @@ const Index = () => {
           <Col xxl={9} lg={8}>
             <div className="blog-wrap">
               <div className="post-img">
-                <Image
-                  src={postImg}
-                  alt="Blog Title"
+                <ImageWithFallback
+                  src={contentBySlug?.cover_image}
+                  alt={contentBySlug?.title}
                   width={900}
                   height={430}
                 />
               </div>
               <div className="post-info d-flex align-items-center gap-3">
-                <span className="category">سلوك</span>
+                {/* <span className="category">سلوك</span> */}
                 <div className="d-flex align-items-center">
-                  <span className="date">Dec 20, 2023</span>
-                  <span className="comments">3 تعليقات</span>
+                  <span className="date">
+                    {getFullDate(contentBySlug?.created_at)}
+                  </span>
+                  {/* <span className="comments">3 تعليقات</span> */}
                 </div>
               </div>
               <div className="post-content">
-                <h1>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم</h1>
+                <h1>{contentBySlug?.title}</h1>
                 <div className="desc">
-                  <p>
-                    خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً،
-                    بل إن له جذور في الأدب اللاتيني الكلاسيكي منذ العام 45 قبل
-                    الميلاد، مما يجعله أكثر من 2000 عام في القدم. قام البروفيسور
-                    (Richard McClintock) وهو بروفيسور اللغة اللاتينية في جامعة
-                    هامبدن-سيدني في فيرجينيا بالبحث عن أصول كلمة لاتينية غامضة
-                    في نص لوريم إيبسوم وهي ، وخلال تتبعه لهذه الكلمة في الأدب
-                    اللاتيني اكتشف المصدر الغير قابل للشك. فلقد اتضح أن كلمات نص
-                    لوريم إيبسوم تأتي من (de Finibus Bonorum et Malorum) للمفكر
-                    شيشيرون (Cicero) والذي كتبه في عام 45 قبل الميلاد. هذا
-                    الكتاب هو بمثابة مقالة علمية مطولة في نظرية الأخلاق، وكان له
-                    شعبية كبيرة في عصر النهضة. السطر الأول من لوريم إيبسوم يأتي
-                    من سطر في القسم 1.20.32 من هذا الكتاب.
-                  </p>
-                  <p>
-                    هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة
-                    ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل
-                    توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة
-                    لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف ع
-                    فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح
-                    النشر المكتبي وبرامح تحرير صفحات الويب
-                  </p>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: contentBySlug?.body || "",
+                    }}
+                  />
                 </div>
                 <div className="post-share d-flex align-items-center gap-3">
                   <span>شارك المقال:</span>
                   <div className="social-icons d-flex align-items-center gap-2">
-                    <Link href="https://www.facebook.com/sharer/sharer.php?u=#">
-                      <a className="facebook" target="_blank" rel="noreferrer">
-                        <FaFacebookF />
-                      </a>
-                    </Link>
-                    <Link href="https://twitter.com/intent/tweet?url=#">
-                      <a className="twitter" target="_blank" rel="noreferrer">
-                        <FaXTwitter />
-                      </a>
-                    </Link>
-                    <Link href="https://www.linkedin.com/shareArticle?mini=true&url=#">
-                      <a className="linkedin" target="_blank" rel="noreferrer">
-                        <FaLinkedinIn />
-                      </a>
-                    </Link>
+                    <button
+                      className="social-btn facebook"
+                      onClick={() => handleShare("facebook")}
+                      aria-label="Share on Facebook"
+                    >
+                      <FaFacebookF />
+                    </button>
+                    <button
+                      className="social-btn twitter"
+                      onClick={() => handleShare("twitter")}
+                      aria-label="Share on Twitter"
+                    >
+                      <FaXTwitter />
+                    </button>
+                    <button
+                      className="social-btn linkedin"
+                      onClick={() => handleShare("linkedin")}
+                      aria-label="Share on LinkedIn"
+                    >
+                      <FaLinkedinIn />
+                    </button>
                   </div>
                 </div>
               </div>

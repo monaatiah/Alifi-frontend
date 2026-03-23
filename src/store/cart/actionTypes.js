@@ -59,3 +59,12 @@ export const CLEAR_OPEN_CART_SIDEBAR = "CLEAR_OPEN_CART_SIDEBAR";
 
 // ==================================================
 // ==================================================
+
+export const ADD_PRODUCT_TO_WISHLIST = "ADD_PRODUCT_TO_WISHLIST";
+export const ADD_PRODUCT_TO_WISHLIST_SUCCESS =
+  "ADD_PRODUCT_TO_WISHLIST_SUCCESS";
+export const ADD_PRODUCT_TO_WISHLIST_FAILURE =
+  "ADD_PRODUCT_TO_WISHLIST_FAILURE";
+
+// ==================================================
+// ==================================================

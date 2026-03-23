@@ -1,11 +1,11 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-const ProductDescription = () => {
+const ProductDescription = ({ singleProduct }) => {
   return (
     <div className="product-description">
       <Container>
-        <Row>
+        {/* <Row>
           <Col lg={12} className="mb-5">
             <div className="content">
               <h4>الوصف الكامل</h4>
@@ -78,7 +78,12 @@ const ProductDescription = () => {
               </ul>
             </div>
           </Col>
-        </Row>
+        </Row> */}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: singleProduct?.content,
+          }}
+        />
       </Container>
     </div>
   );

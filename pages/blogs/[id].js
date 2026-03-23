@@ -2,18 +2,11 @@ import React from "react";
 import { wrapper } from "../../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getPageData, getSettings } from "@/store/actions";
+import { getCategories, getContentBySlug, getSettings } from "@/store/actions";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
 });
-
-const BreadCrumbSection = dynamic(
-  () => import("@/components/breadcrumb-section/Index"),
-  {
-    ssr: false,
-  },
-);
 
 const SingleBlog = dynamic(() => import("@/components/single-blog/Index"), {
   ssr: false,
@@ -33,16 +26,16 @@ const ReslatedProducts = dynamic(
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
+const InnerHead = dynamic(() => import("@/components/inner-head/Index"), {
+  ssr: false,
+});
 
 const SingleProductsPage = () => {
   return (
     <>
       <Header />
-      <BreadCrumbSection
-        title="مدونة مفردة"
-        pageName="مدونة مفردة"
-        sector={{ name: "blogs", link: "/blogs" }}
-      />
+
+      <InnerHead />
       <SingleBlog />
       <BlogsSection
         noHeading
@@ -67,14 +60,21 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     const { id } = params;
 
     store.dispatch(
+      getContentBySlug({
+        cookies: {},
+        slug: id,
+      }),
+    );
+
+    store.dispatch(
       getSettings({
         cookies: {},
       }),
     );
+
     store.dispatch(
-      getPageData({
+      getCategories({
         cookies: {},
-        slug: "home",
       }),
     );
 

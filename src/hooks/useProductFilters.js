@@ -1,8 +1,9 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { getProducts } from "@/store/products/actions";
+import { getCategoryProducts } from "@/store/categories/actions";
 
-export const useProductFilters = () => {
+export const useProductFilters = ({ categorySlug = null } = {}) => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("");
@@ -46,6 +47,32 @@ export const useProductFilters = () => {
       ? [{ field: "created_at", direction: sortOrder }]
       : [];
 
+    const minPrice = priceRange.min > 0 ? priceRange.min : null;
+    const maxPrice = priceRange.max < 10000 ? priceRange.max : null;
+    const categorySort =
+      sortOrder === "asc"
+        ? "newest"
+        : sortOrder === "desc"
+          ? "oldest"
+          : "newest";
+
+    if (categorySlug) {
+      dispatch(
+        getCategoryProducts({
+          cookies: {},
+          slug: categorySlug,
+          min_price: minPrice,
+          max_price: maxPrice,
+          in_stock: null,
+          on_sale: null,
+          sort: categorySort,
+          per_page: 20,
+          page: currentPage,
+        }),
+      );
+      return;
+    }
+
     dispatch(
       getProducts({
         cookies: {},
@@ -55,7 +82,14 @@ export const useProductFilters = () => {
         page: currentPage,
       }),
     );
-  }, [dispatch, buildFilters, sortOrder, currentPage]);
+  }, [
+    dispatch,
+    buildFilters,
+    sortOrder,
+    currentPage,
+    categorySlug,
+    priceRange,
+  ]);
 
   const resetFilters = useCallback(() => {
     setSearchText("");
@@ -78,7 +112,6 @@ export const useProductFilters = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentPage,
     searchText,

@@ -11,7 +11,7 @@ const RelatedProducts = ({ singleProduct }) => {
   return (
     <div className="related-products">
       <Container>
-        <h3>المنتجات الأكثر مبيعًا</h3>
+        <h3>منتجات ذات صلة</h3>
         <div className="products-list">
           <button className="nav-btn prev-btn" aria-label="previous">
             <PrevArrow />

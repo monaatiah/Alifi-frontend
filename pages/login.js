@@ -2,7 +2,7 @@ import React from "react";
 import { wrapper } from "../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getPageData, getSettings } from "@/store/actions";
+import { getCategories, getPageData, getSettings } from "@/store/actions";
 import { useRouteProtection } from "@/helpers/useRouteProtection";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
@@ -47,6 +47,12 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
       getPageData({
         cookies: {},
         slug: "home",
+      }),
+    );
+
+    store.dispatch(
+      getCategories({
+        cookies: {},
       }),
     );
 

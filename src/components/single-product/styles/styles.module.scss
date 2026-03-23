@@ -11,6 +11,25 @@
           padding: 30px;
         }
         .product-images {
+          .single-image {
+            border-radius: 30px;
+            padding: 30px;
+            background-color: #fff;
+            margin-bottom: 15px;
+            height: 440px;
+            @media (max-width: 768px) {
+              padding: 15px;
+            }
+            @media (max-width: 480px) {
+              height: 300px;
+              border-radius: 10px;
+            }
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
           .product-main-image {
             .item {
               border-radius: 30px;
@@ -74,6 +93,12 @@
               font-size: 40px;
               @media (max-width: 1200px) {
                 font-size: 36px;
+              }
+              @media (max-width: 768px) {
+                font-size: 28px;
+              }
+              @media (max-width: 480px) {
+                font-size: 20px;
               }
             }
             .actions {
@@ -159,6 +184,37 @@
               }
             }
           }
+          .actions {
+            .share {
+              position: relative;
+              .share-list {
+                position: absolute;
+                top: 130%;
+                left: 0;
+                background-color: #fff;
+                border-radius: 50px;
+                padding: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transition: $transition;
+
+                &.active {
+                  opacity: 1;
+                  visibility: visible;
+                  top: 110%;
+                }
+              }
+            }
+          }
+          .out-of-stock {
+            background-color: #ff0000;
+            color: #fff;
+            font-weight: 700;
+            padding: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
       }
     }
@@ -234,8 +290,12 @@
     }
 
     .author-wrapper {
+      padding-bottom: 100px;
+      @media (max-width: 768px) {
+        padding-bottom: 50px;
+      }
       .product-author {
-        gap: 70px;
+        gap: 40px;
         @media (max-width: 768px) {
           gap: 20px;
         }
@@ -273,11 +333,9 @@
         .info {
           h3 {
             font-weight: 700;
-            font-size: 30px;
+            font-size: 25px;
             margin-bottom: 10px;
-            @media (max-width: 1200px) {
-              font-size: 24px;
-            }
+
             @media (max-width: 768px) {
               font-size: 18px;
             }
@@ -298,7 +356,7 @@
     }
 
     .related-products {
-      padding-block: 100px;
+      padding-block: 50px 100px;
       @media (max-width: 768px) {
         padding-block: 50px;
       }

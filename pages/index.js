@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import { wrapper } from "../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getPageData, getSettings } from "@/store/actions";
+import { getCategories, getPageData, getSettings } from "@/store/actions";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier, handleImageLink } from "@/helpers/functions";
@@ -66,6 +66,11 @@ const Home = () => {
     "blogs",
   );
 
+  const testimonialsData = getComponentByIdentifier(
+    pageData?.page_components,
+    "testimonials",
+  );
+
   return (
     <>
       <NextSeo
@@ -105,7 +110,7 @@ const Home = () => {
       <ServicesSection />
       <WhySection />
       <JoinUsSection />
-      <ReviewsSection />
+      <ReviewsSection testimonialsData={testimonialsData} />
       <BlogsSection
         title={blogsData?.data?.title}
         subTitle={blogsData?.data?.subtitle}
@@ -128,6 +133,12 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
         slug: "home",
       }),
     );
+    store.dispatch(
+      getCategories({
+        cookies: {},
+      }),
+    );
+
     store.dispatch(END);
     await store.sagaTask.toPromise();
     return {

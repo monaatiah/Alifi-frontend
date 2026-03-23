@@ -12,13 +12,15 @@ import { FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const Index = () => {
   const { settings } = useSelector((state) => state.settings);
+  const { user } = useSelector((state) => state.auth);
+  const { categories } = useSelector((state) => state.categories);
 
   return (
     <div className={styles["footer-section"]}>
       <Container>
         <div className="footer-top">
-          <Row className="align-items-center justify-content-between">
-            <Col lg={4}>
+          <Row className="justify-content-between">
+            <Col lg={3} xs={12}>
               <div className="footer-info">
                 <Image
                   src={settings?.logo || ""}
@@ -132,9 +134,9 @@ const Index = () => {
                 </div>
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={8} xs={12}>
               <Row>
-                <Col lg={4} xs={6}>
+                <Col lg={3} xs={6}>
                   <div className="footer-item">
                     <h4>روابط سريعة</h4>
                     <ul>
@@ -144,22 +146,22 @@ const Index = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link href={"/"}>
+                        <Link href={"/shop"}>
                           <a>المتجر</a>
                         </Link>
                       </li>
                       <li>
-                        <Link href={"/"}>
+                        <Link href={"/services"}>
                           <a>الخدمات</a>
                         </Link>
                       </li>
                       <li>
-                        <Link href={"/"}>
+                        <Link href={"/blogs"}>
                           <a>المقالات</a>
                         </Link>
                       </li>
                       <li>
-                        <Link href={"/"}>
+                        <Link href={"/contact"}>
                           <a>تواصل معنا</a>
                         </Link>
                       </li>
@@ -167,63 +169,57 @@ const Index = () => {
                   </div>
                 </Col>
 
-                <Col lg={4} xs={6}>
+                <Col lg={6} xs={6}>
                   <div className="footer-item">
                     <h4>الأقسام</h4>
-                    <ul>
-                      <li>
-                        <Link href={"/"}>
-                          <a>القطط</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>الكلاب</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>الطيور</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>الارانب والهامستر</a>
-                        </Link>
-                      </li>
+                    <ul className="d-flex gap-2 categories">
+                      {categories?.data?.map((item, idx) => (
+                        <li key={idx}>
+                          <Link href={`/categories/${item?.slug}`}>
+                            <a>{item?.name}</a>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </Col>
 
-                <Col lg={4} xs={6}>
+                <Col lg={3} xs={6}>
                   <div className="footer-item">
                     <h4> الحساب والمستخدم</h4>
                     <ul>
-                      <li>
-                        <Link href={"/"}>
-                          <a>تسجيل الدخول</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>إنشاء حساب</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>حسابي</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a>طلباتي</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/"}>
-                          <a> قائمة الرغبات</a>
-                        </Link>
-                      </li>
+                      {user ? (
+                        <>
+                          <li>
+                            <Link href={"/profile"}>
+                              <a>حسابي</a>
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/profile/orders"}>
+                              <a>طلباتي</a>
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/profile/wishlist"}>
+                              <a> قائمة الرغبات</a>
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <Link href={"/"}>
+                              <a>تسجيل الدخول</a>
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/"}>
+                              <a>إنشاء حساب</a>
+                            </Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   </div>
                 </Col>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import img from "./assets/img.png";
+import PlaceHolderImage from "@/assets/images/cover.png";
 import Image from "next/future/image";
 import Link from "next/link";
 import { Container } from "react-bootstrap";
@@ -12,12 +12,21 @@ const ProductAuthor = ({ singleProduct }) => {
       <Container>
         <div className="product-author d-flex align-items-center">
           <div className="img">
-            <Image
-              src={handleImageLink(singleProduct?.vendor?.logo) || img}
-              alt="author"
-              width={140}
-              height={140}
-            />
+            {singleProduct?.vendor?.logo ? (
+              <Image
+                src={handleImageLink(singleProduct?.vendor?.logo)}
+                alt="author"
+                width={140}
+                height={140}
+              />
+            ) : (
+              <Image
+                src={PlaceHolderImage}
+                alt="author"
+                width={140}
+                height={140}
+              />
+            )}
           </div>
           <div className="info">
             <h3>البائع: {singleProduct?.vendor?.name} </h3>

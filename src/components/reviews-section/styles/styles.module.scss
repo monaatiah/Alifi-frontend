@@ -52,6 +52,7 @@
         height: 60px;
         overflow: hidden;
         border-radius: 100%;
+        background-color: $secondary-color;
 
         @media (max-width: 1300px) {
           right: 105px;
@@ -71,7 +72,7 @@
         img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
         }
       }
       .rate {

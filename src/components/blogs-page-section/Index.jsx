@@ -1,20 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
 import Image from "next/future/image";
 import Link from "next/link";
-import userPlaceholder from "./assets/user.png";
+// import userPlaceholder from "./assets/user.png";
 import BlogImg from "./assets/blog.png";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { ImageWithFallback } from "@/helpers/functions";
+import Pagination from "../Shared/Pagination";
 
 const Index = () => {
-  const { pageData } = useSelector((state) => state.settings);
-  const blogsData = getComponentByIdentifier(
-    pageData?.page_components,
-    "blogs",
-  );
+  const { content } = useSelector((state) => state.content);
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <div className={styles["blogs-section"]}>
@@ -22,21 +20,21 @@ const Index = () => {
         <Row>
           <Col xxl={9} lg={8}>
             <div className="blogs-wrap">
-              {blogsData?.data?.blogs?.map((item) => (
+              {content?.data?.map((item) => (
                 <div className="block" key={item?.id}>
                   <div className="img">
-                    <Image
+                    <ImageWithFallback
                       src={item?.cover_image || ""}
                       alt={item?.title}
                       width={415}
                       height={260}
                     />
-                    <Link href={`/blog/${item?.id}`}>
+                    <Link href={`/blogs/${item?.slug}`}>
                       <a aria-label={item?.title}></a>
                     </Link>
-                    <span>
+                    {/* <span>
                       {item?.tags?.map((tag) => tag.name).join(", ") || ""}
-                    </span>
+                    </span> */}
                   </div>
                   <div className="info d-flex align-items-start">
                     <div className="date d-flex flex-column align-items-center justify-content-center">
@@ -58,7 +56,7 @@ const Index = () => {
                     </div>
                     <div className="info-data">
                       <h3>
-                        <Link href={`/blog/${item.id}`}>
+                        <Link href={`/blogs/${item.slug}`}>
                           <a>{item?.title}</a>
                         </Link>
                       </h3>
@@ -67,7 +65,7 @@ const Index = () => {
                           __html: item?.body?.substring(0, 100) + "...",
                         }}
                       />
-                      <div className="author d-flex align-items-center gap-3">
+                      {/* <div className="author d-flex align-items-center gap-3">
                         <div className="au-img">
                           <Image
                             src={item?.author?.avatar || userPlaceholder}
@@ -79,60 +77,18 @@ const Index = () => {
                         <span>
                           {item?.data?.author_name || item?.author?.name}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="global-pagination">
-              <ul>
-                <li>
-                  <button
-                    type="button"
-                    aria-label="previous page"
-                    className="action-btn"
-                  >
-                    <FaArrowRight />
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="active" aria-label="page 1">
-                    1
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 2">
-                    2
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 3">
-                    3
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 4">
-                    4
-                  </button>
-                </li>
-                <li>
-                  <button type="button" aria-label="page 5">
-                    5
-                  </button>
-                </li>
-
-                <li>
-                  <button
-                    type="button"
-                    aria-label="next page"
-                    className="action-btn next-btn"
-                  >
-                    <FaArrowLeft />
-                  </button>
-                </li>
-              </ul>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={content?.last_page}
+              maxPagesToShow={5}
+            />
           </Col>
           <Col xxl={3} lg={4}>
             <div className="blogs-sidebar">

@@ -82,7 +82,7 @@ const Index = () => {
         category: { id: "cat-7", name: "الألعاب والإكسسوارات" },
       },
     ],
-    []
+    [],
   );
 
   return (
