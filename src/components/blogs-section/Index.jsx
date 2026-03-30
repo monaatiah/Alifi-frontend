@@ -6,7 +6,8 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
-import userPlaceholder from "./assets/user.png";
+// import userPlaceholder from "./assets/user.png";
+import blogPlaceholder from "@/assets/images/logo.png";
 
 const Index = ({ noHeading, subTitle, title }) => {
   const { pageData } = useSelector((state) => state.settings);
@@ -29,12 +30,23 @@ const Index = ({ noHeading, subTitle, title }) => {
               <Col key={item?.id} lg={4} md={6} sm={12}>
                 <div className="block">
                   <div className="img">
-                    <Image
-                      src={item?.cover_image || ""}
-                      alt={item?.title}
-                      width={415}
-                      height={260}
-                    />
+                    {item?.cover_image ? (
+                      <Image
+                        src={item?.cover_image || ""}
+                        alt={item?.title}
+                        width={415}
+                        height={260}
+                      />
+                    ) : (
+                      <div className="placeholder d-flex align-items-center justify-content-center">
+                        <Image
+                          src={blogPlaceholder}
+                          alt={item?.title}
+                          width={415}
+                          height={260}
+                        />
+                      </div>
+                    )}
                     <Link href={`/blogs/${item?.slug}`}>
                       <a aria-label={item?.title}></a>
                     </Link>

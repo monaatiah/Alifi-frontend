@@ -129,6 +129,14 @@
           }
         }
       }
+      .placeholder {
+        background-color: #f7f7f7;
+        position: absolute;
+        inset: 0;
+        img {
+          object-fit: contain;
+        }
+      }
     }
     .load-more {
       margin-top: 70px;
