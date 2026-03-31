@@ -13,7 +13,7 @@ import ServiceImg from "./assets/service.png";
 import Image1 from "./assets/1.png";
 import Image2 from "./assets/2.png";
 import Image3 from "./assets/3.png";
-import ProductBlock from "./ProductBlock";
+import ProductBlock from "@/components/Shared/ProductBlock";
 
 const Index = () => {
   const products = useMemo(

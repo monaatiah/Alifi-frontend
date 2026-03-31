@@ -2,7 +2,12 @@ import React from "react";
 import { wrapper } from "../../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
-import { getCategories, getContentBySlug, getSettings } from "@/store/actions";
+import {
+  getCategories,
+  getContentBySlug,
+  getFormSchema,
+  getSettings,
+} from "@/store/actions";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
@@ -75,6 +80,13 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getCategories({
         cookies: {},
+      }),
+    );
+
+    store.dispatch(
+      getFormSchema({
+        cookies: {},
+        slug: "newsletter",
       }),
     );
 

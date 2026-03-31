@@ -26,9 +26,12 @@ import {
   MERGE_CART_FAILURE,
   OPEN_CART_SIDEBAR,
   CLEAR_OPEN_CART_SIDEBAR,
-  ADD_PRODUCT_TO_WISHLIST,
-  ADD_PRODUCT_TO_WISHLIST_SUCCESS,
-  ADD_PRODUCT_TO_WISHLIST_FAILURE,
+  TOGGLE_TO_WISHLIST,
+  TOGGLE_TO_WISHLIST_SUCCESS,
+  TOGGLE_TO_WISHLIST_FAILURE,
+  GET_WISHLIST,
+  GET_WISHLIST_SUCCESS,
+  GET_WISHLIST_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
@@ -258,21 +261,44 @@ const cart = (state = initialState, action) => {
     // ==================================================
     // ==================================================
 
-    case ADD_PRODUCT_TO_WISHLIST:
+    case TOGGLE_TO_WISHLIST:
       return {
         ...state,
         loading: true,
       };
 
-    case ADD_PRODUCT_TO_WISHLIST_SUCCESS:
+    case TOGGLE_TO_WISHLIST_SUCCESS:
       return {
         ...state,
-        wishlist: [...state.wishlist, action.payload],
         loading: false,
         error: "",
       };
 
-    case ADD_PRODUCT_TO_WISHLIST_FAILURE:
+    case TOGGLE_TO_WISHLIST_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    // ==================================================
+    // ==================================================
+
+    case GET_WISHLIST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        wishlist: action.payload,
+        loading: false,
+        error: "",
+      };
+
+    case GET_WISHLIST_FAILURE:
       return {
         ...state,
         error: action.payload,

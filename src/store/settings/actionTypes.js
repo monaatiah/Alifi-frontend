@@ -18,3 +18,17 @@ export const JOIN_US_FAILURE = "JOIN_US_FAILURE";
 
 // ==================================================
 // ==================================================
+
+export const GET_FORM_SCHEMA = "GET_FORM_SCHEMA";
+export const GET_FORM_SCHEMA_SUCCESS = "GET_FORM_SCHEMA_SUCCESS";
+export const GET_FORM_SCHEMA_FAILURE = "GET_FORM_SCHEMA_FAILURE";
+
+// ==================================================
+// ==================================================
+
+export const POST_FORM_SUBMISSION = "POST_FORM_SUBMISSION";
+export const POST_FORM_SUBMISSION_SUCCESS = "POST_FORM_SUBMISSION_SUCCESS";
+export const POST_FORM_SUBMISSION_FAILURE = "POST_FORM_SUBMISSION_FAILURE";
+
+// ==================================================
+// ==================================================

@@ -3,9 +3,7 @@
 .joinus-section {
   padding-block: 50px;
   overflow: hidden;
-  @media (max-width: 992px) {
-    margin-inline: -15px;
-  }
+
   @media (max-width: 625px) {
     margin: 0;
     padding-top: 0;

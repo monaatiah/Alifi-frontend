@@ -1,5 +1,8 @@
 import { HYDRATE } from "next-redux-wrapper";
 import {
+  GET_FORM_SCHEMA,
+  GET_FORM_SCHEMA_FAILURE,
+  GET_FORM_SCHEMA_SUCCESS,
   GET_PAGE_DATA,
   GET_PAGE_DATA_FAILURE,
   GET_PAGE_DATA_SUCCESS,
@@ -9,11 +12,15 @@ import {
   JOIN_US,
   JOIN_US_FAILURE,
   JOIN_US_SUCCESS,
+  POST_FORM_SUBMISSION,
+  POST_FORM_SUBMISSION_FAILURE,
+  POST_FORM_SUBMISSION_SUCCESS,
 } from "./actionTypes";
 
 const initialState = {
   pageData: {},
   settings: {},
+  formSchema: {},
   isLoggedIn: false,
   loading: false,
   error: "",
@@ -92,6 +99,51 @@ const settings = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
+        loading: false,
+      };
+
+    //=================================================
+    //=================================================
+
+    case GET_FORM_SCHEMA:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_FORM_SCHEMA_SUCCESS:
+      return {
+        ...state,
+        formSchema: action.payload,
+        loading: false,
+      };
+
+    case GET_FORM_SCHEMA_FAILURE:
+      return {
+        ...state,
+        error: action.payload.fields,
+        loading: false,
+      };
+
+    //=================================================
+    //=================================================
+
+    case POST_FORM_SUBMISSION:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case POST_FORM_SUBMISSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case POST_FORM_SUBMISSION_FAILURE:
+      return {
+        ...state,
+        error: action.payload.fields,
         loading: false,
       };
 

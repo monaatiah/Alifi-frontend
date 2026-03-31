@@ -65,9 +65,14 @@ export const mergeCartApi = async ({ cookies }) => {
   return response;
 };
 
-export const addProductToWishlistApi = async ({ cookies, product_id }) => {
-  const response = await server({ cookies }).post(`/wishlists/actions/toggle`, {
+export const toggleToWishlistApi = async ({ cookies, product_id }) => {
+  const response = await server({ cookies }).post(`/wishlist/toggle`, {
     product_id: product_id,
   });
+  return response;
+};
+
+export const getWishlistApi = async ({ cookies }) => {
+  const response = await server({ cookies }).get(`/wishlist/`);
   return response;
 };

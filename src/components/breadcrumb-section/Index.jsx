@@ -60,7 +60,7 @@ const Index = ({
               </ul>
             </div>
           </Col>
-          {!paymentPages && imageSrc && (
+          {!paymentPages && (
             <Col lg={6} xs={12}>
               <div className="img">
                 <Image

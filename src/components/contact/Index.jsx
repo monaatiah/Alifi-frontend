@@ -6,17 +6,48 @@ import SecMainTitle from "../Shared/SecMainTitle";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { CiClock1, CiMobile3 } from "react-icons/ci";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import AwardImg from "./assets/awards.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Image from "next/future/image";
 import ArrowRightIcon from "./assets/arrow-right.svg";
 import ArrowLeftIcon from "./assets/arrow-left.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { postFormSubmission } from "@/store/actions";
+import {
+  getComponentByIdentifier,
+  ImageWithFallback,
+} from "@/helpers/functions";
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const { settings, formSchema, pageData } = useSelector(
+    (state) => state.settings,
+  );
+  const prizesData = getComponentByIdentifier(
+    pageData?.page_components,
+    "prizes",
+  );
+
+  const onSubmit = (data) => {
+    dispatch(
+      postFormSubmission({
+        data,
+        slug: formSchema?.slug,
+        reset: reset,
+      }),
+    );
+  };
+
   return (
     <div className={styles["contact-section"]}>
       <Container>
@@ -34,8 +65,10 @@ const Index = () => {
                 <div className="info">
                   <h4>البريد الإلكتروني</h4>
                   <p>
-                    <Link href="mailto:info@domain.com">
-                      <a>info@domain.com</a>
+                    <Link
+                      href={`mailto:${settings?.contact_email?.split("/")[4]}`}
+                    >
+                      <a> {settings?.contact_email?.split("/")[4]}</a>
                     </Link>
                   </p>
                 </div>
@@ -49,8 +82,10 @@ const Index = () => {
                 <div className="info">
                   <h4> رقم التليفون</h4>
                   <p className="d-flex flex-column gap-1">
-                    <Link href="tel:+09 121 359 6224">
-                      <a>+09 121 359 6224</a>
+                    <Link
+                      href={`tel:${settings?.contact_phone?.split("/")[4]}`}
+                    >
+                      <a>{settings?.contact_phone?.split("/")[4]}</a>
                     </Link>
                     <span>خدمة عملاء متاحة 24/7 للرد على استفساراتك</span>
                   </p>
@@ -65,9 +100,19 @@ const Index = () => {
                 <div className="info">
                   <h4> ساعات العمل</h4>
                   <p className="d-flex flex-column gap-1">
-                    <span>9:00 AM - 5:00 PM</span>
                     <span>
-                      الاثنين - الجمعة &nbsp;|&nbsp; السبت - الأحد: مغلق
+                      {
+                        settings?.static_strings?.find(
+                          (str) => str?.key === "workTimes",
+                        )?.value
+                      }
+                    </span>
+                    <span>
+                      {
+                        settings?.static_strings?.find(
+                          (str) => str?.key === "workDays",
+                        )?.value
+                      }
                     </span>
                   </p>
                 </div>
@@ -77,15 +122,6 @@ const Index = () => {
         </div>
         <Row>
           <Col lg={6} sm={12}>
-            <div className="subscribe">
-              <h3>ابحث عن شخص يمشي كلبك أو يهتم بالحيوانات الأليفة</h3>
-              <div className="form-group">
-                <input type="email" placeholder="أدخل بريدك الإلكتروني" />
-                <button type="submit" className="btn">
-                  اشترك
-                </button>
-              </div>
-            </div>
             <div className="addresses">
               <ul>
                 <li>
@@ -98,80 +134,60 @@ const Index = () => {
                     45678
                   </p>
                 </li>
-                <li>
-                  <h4>
-                    <FaMapMarkerAlt />
-                    فرع المكتب :
-                  </h4>
-                  <p>789 شارع الحيوانات، مدينة الحيوان، دولة الحيوان 12345</p>
-                </li>
               </ul>
             </div>
           </Col>
           <Col lg={6} sm={12}>
             <div className="contact-form">
               <h3>احجز مكانك أو اكتشف المزيد</h3>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
-                  <Col lg={12}>
-                    <div className="form-group">
-                      <div className="d-flex align-items-center gap-4">
-                        <label>
-                          <input type="radio" name="type" />
-                          كلب
-                        </label>
-                        <label>
-                          <input type="radio" name="type" />
-                          قطة
-                        </label>
+                  {formSchema?.fields?.map((field) => (
+                    <Col lg={12} key={field?.id}>
+                      <div className="form-group">
+                        {field?.type === "textarea" ? (
+                          <textarea
+                            placeholder={field?.label}
+                            className="form-control"
+                            {...register(field?.key, {
+                              required: field?.required,
+                            })}
+                          />
+                        ) : field?.type === "select" ? (
+                          <select
+                            className="form-control form-select"
+                            {...register(field?.key, {
+                              required: field?.required,
+                            })}
+                          >
+                            <option value="">اختر خيارًا</option>
+                            {field?.options?.map((option, index) => (
+                              <option value={option?.value} key={index}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            type={field?.type}
+                            placeholder={field?.label}
+                            className="form-control"
+                            {...register(field?.key, {
+                              required: field?.required,
+                            })}
+                          />
+                        )}
+                        {errors[field?.key] && (
+                          <p className="error">
+                            {errors[field?.key]?.type === "required" &&
+                              "هذا الحقل مطلوب"}
+                            {errors[field?.key]?.type === "pattern" &&
+                              errors[field?.key]?.message}
+                          </p>
+                        )}
                       </div>
-                    </div>
-                  </Col>
-                  <Col lg={12}>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        placeholder="اسمك الكامل"
-                        className="form-control"
-                      />
-                    </div>
-                  </Col>
-                  <Col lg={6}>
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        placeholder="عنوان بريدك الإلكتروني"
-                        className="form-control"
-                      />
-                    </div>
-                  </Col>
-                  <Col lg={6}>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        placeholder="رقم الهاتف"
-                        className="form-control"
-                      />
-                    </div>
-                  </Col>
-                  <Col lg={12}>
-                    <div className="form-group">
-                      <select className="form-select form-control">
-                        <option>اختر الخدمة</option>
-                        <option value="1">المشي مع الكلاب</option>
-                        <option value="2">رعاية الحيوانات الأليفة</option>
-                      </select>
-                    </div>
-                  </Col>
-                  <Col lg={12}>
-                    <div className="form-group">
-                      <textarea
-                        rows="4"
-                        placeholder="اكتب رسالتك هنا..."
-                        className="form-control"
-                      ></textarea>
-                    </div>
-                  </Col>
+                    </Col>
+                  ))}
                   <Col lg={12}>
                     <div className="form-group d-flex justify-content-end">
                       <button type="submit" className="btn">
@@ -186,7 +202,7 @@ const Index = () => {
         </Row>
 
         <div className="awards">
-          <h3>الشركة الحائزة على جوائز</h3>
+          <h3>{prizesData?.data?.title || ""}</h3>
           <Swiper
             spaceBetween={30}
             slidesPerView={4}
@@ -218,36 +234,18 @@ const Index = () => {
               },
             }}
           >
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="award-item">
-                <Image src={AwardImg} alt="Award" width={170} height={170} />
-              </div>
-            </SwiperSlide>
+            {prizesData?.data?.items?.map((item, index) => (
+              <SwiperSlide key={index}>
+                <div className="award-item">
+                  <ImageWithFallback
+                    src={item?.image}
+                    alt={item?.title}
+                    width={170}
+                    height={170}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
           <div className="sw-navigation d-flex align-items-center justify-content-center">
             <button className="award-prev" aria-label="previous button">

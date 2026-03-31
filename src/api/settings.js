@@ -21,3 +21,16 @@ export const joinUsApi = async ({ cookies, data }) => {
   );
   return response.data;
 };
+
+export const getFormSchemaApi = async ({ cookies, slug }) => {
+  const response = await server({ cookies }).get(`/forms/${slug}/schema`);
+  return response.data;
+};
+
+export const postFormSubmissionApi = async ({ cookies, slug, data }) => {
+  const response = await server({ cookies }).post(
+    `/forms/${slug}/entries`,
+    data,
+  );
+  return response.data;
+};

@@ -5,6 +5,9 @@
   :global {
     .footer-top {
       padding-block: 50px;
+      .row {
+        row-gap: 45px;
+      }
       .footer-info {
         p {
           color: #fff;
@@ -77,6 +80,13 @@
             li {
               width: calc(50% - 10px);
             }
+          }
+        }
+      }
+      .col-lg-8 {
+        .col-12 {
+          @media (max-width: 768px) {
+            order: 1;
           }
         }
       }

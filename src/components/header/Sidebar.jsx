@@ -13,6 +13,7 @@ const Sidebar = ({ show, onClose }) => {
   const { asPath } = useRouter();
 
   const { settings } = useSelector((state) => state.settings);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div className={show ? "sidebar active" : "sidebar"}>
@@ -87,12 +88,21 @@ const Sidebar = ({ show, onClose }) => {
           </a>
         </Link>
       </div>
-      <Link href={"/login"}>
-        <a className="btn mt-4 w-100">
-          <UserIcon fill="#000" />
-          تسجيل الدخول / إنشاء حساب
-        </a>
-      </Link>
+      {user ? (
+        <Link href={"/profile"}>
+          <a className="btn mt-4 w-100">
+            <UserIcon fill="#000" />
+            حسابي
+          </a>
+        </Link>
+      ) : (
+        <Link href={"/login"}>
+          <a className="btn mt-4 w-100">
+            <UserIcon fill="#000" />
+            تسجيل الدخول / إنشاء حساب
+          </a>
+        </Link>
+      )}
     </div>
   );
 };

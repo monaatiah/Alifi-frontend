@@ -85,6 +85,13 @@
         }
       }
       .actions {
+        .wishlist-btn {
+          position: relative;
+          .item-count {
+            left: -10px;
+            top: -10px;
+          }
+        }
         .cart-btn {
           width: 45px;
           height: 45px;
@@ -94,18 +101,18 @@
             width: 35px;
             height: 35px;
           }
-          .item-count {
-            background-color: $secondary-color;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 12px;
-            font-weight: 700;
-            color: $primary-color;
-            left: -5px;
-            top: -5px;
-            font-style: normal;
-          }
+        }
+        .item-count {
+          background-color: $secondary-color;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          font-size: 12px;
+          font-weight: 700;
+          color: $primary-color;
+          left: -5px;
+          top: -5px;
+          font-style: normal;
         }
       }
     }

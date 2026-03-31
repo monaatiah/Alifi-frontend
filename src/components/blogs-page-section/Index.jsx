@@ -1,18 +1,39 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/future/image";
 import Link from "next/link";
 // import userPlaceholder from "./assets/user.png";
 import BlogImg from "./assets/blog.png";
 import { ImageWithFallback } from "@/helpers/functions";
 import Pagination from "../Shared/Pagination";
+import { useForm } from "react-hook-form";
+import { postFormSubmission } from "@/store/actions";
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
+
   const { content } = useSelector((state) => state.content);
+  const { formSchema } = useSelector((state) => state.settings);
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const onSubmit = (data) => {
+    dispatch(
+      postFormSubmission({
+        data,
+        slug: formSchema?.slug,
+        reset: reset,
+      }),
+    );
+  };
 
   return (
     <div className={styles["blogs-section"]}>
@@ -192,13 +213,27 @@ const Index = () => {
                 </div>
                 <div className="newsletter-box">
                   <p>اشترك في نشرتنا الإخبارية للحصول على آخر التحديثات.</p>
-                  <form>
-                    <input
-                      type="email"
-                      placeholder="أدخل بريدك الإلكتروني"
-                      required
-                      className="form-control"
-                    />
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    {formSchema?.fields?.map((field) => (
+                      <input
+                        type={field?.type}
+                        className="form-control"
+                        placeholder={field?.label}
+                        {...register(field?.key, {
+                          required: field?.required,
+                        })}
+                        key={field?.id}
+                      />
+                    ))}
+                    {errors[formSchema?.fields[0]?.key] && (
+                      <p className="error">
+                        {errors[formSchema?.fields[0]?.key]?.type ===
+                          "required" && "هذا الحقل مطلوب"}
+                        {errors[formSchema?.fields[0]?.key]?.type ===
+                          "pattern" &&
+                          errors[formSchema?.fields[0]?.key]?.message}
+                      </p>
+                    )}
                     <button type="submit" className="btn">
                       اشترك
                     </button>

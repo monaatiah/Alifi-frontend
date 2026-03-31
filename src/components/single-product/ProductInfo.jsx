@@ -10,7 +10,7 @@ import { handleImageLink, ImageWithFallback } from "@/helpers/functions";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductToWishlist, addToCart } from "@/store/actions";
+import { toggleToWishlist, addToCart } from "@/store/actions";
 import { useRouter } from "next/router";
 import {
   FaFacebook,
@@ -28,7 +28,7 @@ const ProductInfo = ({ singleProduct }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(singleProduct?.quantity > 0 ? 1 : 0);
 
-  const { loading } = useSelector((state) => state.cart || {});
+  const { loading, wishlist } = useSelector((state) => state.cart || {});
 
   const rating = Number(singleProduct?.reviews_avg_rating ?? 0);
   const normalizedRating = Math.max(0, Math.min(5, rating));
@@ -134,14 +134,14 @@ const ProductInfo = ({ singleProduct }) => {
               <div className="product-details">
                 <div className="title d-flex justify-content-between align-items-center gap-3">
                   <h1>{singleProduct?.name}</h1>
-                  <div className="actions d-flex align-items-center gap-4">
+                  <div className="actions d-flex align-items-center gap-3">
                     <div className="share">
                       <button
                         type="button"
                         aria-label="share button"
                         onClick={() => setShowShareOptions(!showShareOptions)}
                       >
-                        <GoShareAndroid size={30} />
+                        <GoShareAndroid size={25} />
                       </button>
                       <div
                         className={`share-list d-flex align-items-center flex-column gap-2 ${showShareOptions ? "active" : ""}`}
@@ -197,20 +197,49 @@ const ProductInfo = ({ singleProduct }) => {
                         </OverlayTrigger>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      aria-label="favorite button"
-                      onClick={() => {
-                        dispatch(
-                          addProductToWishlist({
-                            cookies: {},
-                            product_id: singleProduct?.id,
-                          }),
-                        );
-                      }}
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip>
+                          {wishlist?.data?.some(
+                            (w) => w?.id === singleProduct?.id,
+                          )
+                            ? "إزالة من المفضلة"
+                            : "إضافة إلى المفضلة"}
+                        </Tooltip>
+                      }
                     >
-                      <GoHeart size={30} />
-                    </button>
+                      <button
+                        type="button"
+                        aria-label="favorite button"
+                        onClick={() => {
+                          dispatch(
+                            toggleToWishlist({
+                              cookies: {},
+                              product_id: singleProduct?.id,
+                            }),
+                          );
+                        }}
+                        className={
+                          wishlist?.data?.some(
+                            (w) => w?.id === singleProduct?.id,
+                          )
+                            ? "wishlist-btn active"
+                            : "wishlist-btn"
+                        }
+                      >
+                        <GoHeart
+                          size={25}
+                          color={
+                            wishlist?.data?.some(
+                              (w) => w?.id === singleProduct?.id,
+                            )
+                              ? "#fff"
+                              : "#000"
+                          }
+                        />
+                      </button>
+                    </OverlayTrigger>
                   </div>
                 </div>
                 <div className="review d-flex align-items-center gap-3">

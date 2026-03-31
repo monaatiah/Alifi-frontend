@@ -5,10 +5,21 @@ import Image from "next/future/image";
 import BlogImg from "./assets/blog.png";
 import Link from "next/link";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getFullDate, ImageWithFallback } from "@/helpers/functions";
+import { postFormSubmission } from "@/store/actions";
+import { useForm } from "react-hook-form";
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const { formSchema } = useSelector((state) => state.settings);
   const { contentBySlug } = useSelector((state) => state.content);
 
   const handleShare = (platform) => {
@@ -25,6 +36,16 @@ const Index = () => {
     if (shareLinks[platform]) {
       window.open(shareLinks[platform], "_blank", "noopener,noreferrer");
     }
+  };
+
+  const onSubmit = (data) => {
+    dispatch(
+      postFormSubmission({
+        data,
+        slug: formSchema?.slug,
+        reset: reset,
+      }),
+    );
   };
 
   return (
@@ -190,13 +211,27 @@ const Index = () => {
                 </div>
                 <div className="newsletter-box">
                   <p>اشترك في نشرتنا الإخبارية للحصول على آخر التحديثات.</p>
-                  <form>
-                    <input
-                      type="email"
-                      placeholder="أدخل بريدك الإلكتروني"
-                      required
-                      className="form-control"
-                    />
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    {formSchema?.fields?.map((field) => (
+                      <input
+                        type={field?.type}
+                        className="form-control"
+                        placeholder={field?.label}
+                        {...register(field?.key, {
+                          required: field?.required,
+                        })}
+                        key={field?.id}
+                      />
+                    ))}
+                    {errors[formSchema?.fields[0]?.key] && (
+                      <p className="error">
+                        {errors[formSchema?.fields[0]?.key]?.type ===
+                          "required" && "هذا الحقل مطلوب"}
+                        {errors[formSchema?.fields[0]?.key]?.type ===
+                          "pattern" &&
+                          errors[formSchema?.fields[0]?.key]?.message}
+                      </p>
+                    )}
                     <button type="submit" className="btn">
                       اشترك
                     </button>

@@ -169,7 +169,7 @@ const Index = () => {
                   </div>
                 </Col>
 
-                <Col lg={6} xs={6}>
+                <Col lg={6} xs={12}>
                   <div className="footer-item">
                     <h4>الأقسام</h4>
                     <ul className="d-flex gap-2 categories">

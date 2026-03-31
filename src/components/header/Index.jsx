@@ -22,6 +22,7 @@ import { fetchUser, logout } from "@/store/actions";
 import {
   clearOpenCartSidebar,
   getUserCart,
+  getWishlist,
   openCartSidebar as openCartSidebarAction,
 } from "@/store/cart/actions";
 import Swal from "sweetalert2";
@@ -40,11 +41,14 @@ const Index = () => {
 
   const { settings } = useSelector((state) => state.settings);
   const { user } = useSelector((state) => state.auth);
-  const { cart, openCartSidebar } = useSelector((state) => state.cart || {});
+  const { cart, openCartSidebar, wishlist } = useSelector(
+    (state) => state.cart || {},
+  );
 
   useEffect(() => {
     if (cookies?.token) {
       dispatch(fetchUser(cookies));
+      dispatch(getWishlist({ cookies }));
     }
   }, []);
 
@@ -214,7 +218,7 @@ const Index = () => {
                 </li>
               </ul>
             </div>
-            <div className="actions d-flex align-items-center gap-2">
+            <div className="actions d-flex align-items-center gap-3">
               <button
                 className="search-btn border-0 bg-transparent"
                 type="button"
@@ -222,13 +226,19 @@ const Index = () => {
               >
                 <SearchIcon />
               </button>
-              <button
-                className="wishlist-btn border-0 bg-transparent"
-                type="button"
-                aria-label="Wishlist"
-              >
-                <HeartIcon />
-              </button>
+              {user && (
+                <Link href={"/profile/wishlist"}>
+                  <a
+                    className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"
+                    aria-label="Wishlist"
+                  >
+                    <HeartIcon />
+                    <i className="item-count d-flex align-items-center justify-content-center position-absolute">
+                      {wishlist?.data?.length || 0}
+                    </i>
+                  </a>
+                </Link>
+              )}
               <button
                 type="button"
                 className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"

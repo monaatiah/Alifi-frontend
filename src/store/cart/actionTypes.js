@@ -60,11 +60,16 @@ export const CLEAR_OPEN_CART_SIDEBAR = "CLEAR_OPEN_CART_SIDEBAR";
 // ==================================================
 // ==================================================
 
-export const ADD_PRODUCT_TO_WISHLIST = "ADD_PRODUCT_TO_WISHLIST";
-export const ADD_PRODUCT_TO_WISHLIST_SUCCESS =
-  "ADD_PRODUCT_TO_WISHLIST_SUCCESS";
-export const ADD_PRODUCT_TO_WISHLIST_FAILURE =
-  "ADD_PRODUCT_TO_WISHLIST_FAILURE";
+export const TOGGLE_TO_WISHLIST = "TOGGLE_TO_WISHLIST";
+export const TOGGLE_TO_WISHLIST_SUCCESS = "TOGGLE_TO_WISHLIST_SUCCESS";
+export const TOGGLE_TO_WISHLIST_FAILURE = "TOGGLE_TO_WISHLIST_FAILURE";
+
+// ==================================================
+// ==================================================
+
+export const GET_WISHLIST = "GET_WISHLIST";
+export const GET_WISHLIST_SUCCESS = "GET_WISHLIST_SUCCESS";
+export const GET_WISHLIST_FAILURE = "GET_WISHLIST_FAILURE";
 
 // ==================================================
 // ==================================================

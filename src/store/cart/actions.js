@@ -25,9 +25,12 @@ import {
   MERGE_CART_FAILURE,
   OPEN_CART_SIDEBAR,
   CLEAR_OPEN_CART_SIDEBAR,
-  ADD_PRODUCT_TO_WISHLIST,
-  ADD_PRODUCT_TO_WISHLIST_FAILURE,
-  ADD_PRODUCT_TO_WISHLIST_SUCCESS,
+  TOGGLE_TO_WISHLIST,
+  TOGGLE_TO_WISHLIST_FAILURE,
+  TOGGLE_TO_WISHLIST_SUCCESS,
+  GET_WISHLIST,
+  GET_WISHLIST_SUCCESS,
+  GET_WISHLIST_FAILURE,
 } from "./actionTypes";
 
 export const getUserCart = (payload) => {
@@ -237,23 +240,47 @@ export const clearOpenCartSidebar = () => {
 // ==================================================
 // ==================================================
 
-export const addProductToWishlist = (payload) => {
+export const toggleToWishlist = (payload) => {
   return {
-    type: ADD_PRODUCT_TO_WISHLIST,
+    type: TOGGLE_TO_WISHLIST,
     payload: payload,
   };
 };
 
-export const addProductToWishlistSuccess = (payload) => {
+export const toggleToWishlistSuccess = (payload) => {
   return {
-    type: ADD_PRODUCT_TO_WISHLIST_SUCCESS,
+    type: TOGGLE_TO_WISHLIST_SUCCESS,
     payload: payload,
   };
 };
 
-export const addProductToWishlistFailure = (payload) => {
+export const toggleToWishlistFailure = (payload) => {
   return {
-    type: ADD_PRODUCT_TO_WISHLIST_FAILURE,
+    type: TOGGLE_TO_WISHLIST_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const getWishlist = (payload) => {
+  return {
+    type: GET_WISHLIST,
+    payload: payload,
+  };
+};
+
+export const getWishlistSuccess = (payload) => {
+  return {
+    type: GET_WISHLIST_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const getWishlistFailure = (payload) => {
+  return {
+    type: GET_WISHLIST_FAILURE,
     payload: payload,
   };
 };

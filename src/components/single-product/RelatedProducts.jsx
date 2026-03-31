@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import ProductBlock from "./ProductBlock";
+import ProductBlock from "@/components/Shared/ProductBlock";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 

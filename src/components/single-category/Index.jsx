@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useSelector } from "react-redux";
 
-import ProductBlock from "./ProductBlock";
+import ProductBlock from "@/components/Shared/ProductBlock";
 import ShopSidebar from "./ShopSidebar";
 import Pagination from "@/components/Shared/Pagination";
 import LoadingState from "./LoadingState";

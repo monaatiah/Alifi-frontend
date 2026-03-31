@@ -6,7 +6,7 @@ import Pattern2 from "./assets/2.svg";
 import Pattern3 from "./assets/3.svg";
 
 import Link from "next/link";
-import ProductBlock from "./ProductBlock";
+import ProductBlock from "@/components/Shared/ProductBlock";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { useSelector } from "react-redux";
@@ -16,12 +16,12 @@ const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
   const productsData = getComponentByIdentifier(
     pageData?.page_components,
-    "product_tabs"
+    "product_tabs",
   );
 
   const categoryTabs = useMemo(
     () => productsData?.data?.category_tabs || [],
-    [productsData]
+    [productsData],
   );
 
   return (

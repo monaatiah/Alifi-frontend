@@ -25,6 +25,11 @@ import {
   removeCouponFailure,
   mergeCartSuccess,
   mergeCartFailure,
+  getWishlistSuccess,
+  getWishlistFailure,
+  getWishlist,
+  toggleToWishlistSuccess,
+  toggleToWishlistFailure,
 } from "./actions";
 import {
   getUserCartApi,
@@ -35,7 +40,8 @@ import {
   applyCouponApi,
   removeCouponApi,
   mergeCartApi,
-  addProductToWishlistApi,
+  toggleToWishlistApi,
+  getWishlistApi,
 } from "@/api/cart";
 import {
   GET_USER_CART,
@@ -46,7 +52,8 @@ import {
   APPLY_COUPON,
   REMOVE_COUPON,
   MERGE_CART,
-  ADD_PRODUCT_TO_WISHLIST,
+  TOGGLE_TO_WISHLIST,
+  GET_WISHLIST,
 } from "./actionTypes";
 
 function* getUserCartSaga({ payload }) {
@@ -252,16 +259,32 @@ function* mergeCartSaga({ payload }) {
 // ==================================================
 // ==================================================
 
-function* addProductToWishlistSaga({ payload }) {
+function* toggleToWishlistSaga({ payload }) {
   try {
-    const { data } = yield call(addProductToWishlistApi, payload);
+    const { data } = yield call(toggleToWishlistApi, payload);
     toast.success(data?.message || "تمت الإضافة إلى قائمة الرغبات");
+    yield put(getWishlist({ cookies: {} }));
+    yield put(toggleToWishlistSuccess(data?.wishlist));
   } catch (error) {
     console.log(error);
     toast.error(
       error?.response?.data?.message ||
         "حدث خطأ أثناء الإضافة إلى قائمة الرغبات",
     );
+    yield put(toggleToWishlistFailure(error?.message || "An error occurred"));
+  }
+}
+
+// ==================================================
+// ==================================================
+
+function* getWishlistSaga({ payload }) {
+  try {
+    const { data } = yield call(getWishlistApi, payload);
+    yield put(getWishlistSuccess(data));
+  } catch (error) {
+    console.log(error);
+    yield put(getWishlistFailure(error?.message || "An error occurred"));
   }
 }
 
@@ -292,8 +315,11 @@ export function* watchRemoveCoupon() {
 export function* watchMergeCart() {
   yield takeEvery(MERGE_CART, mergeCartSaga);
 }
-export function* watchAddProductToWishlist() {
-  yield takeLatest(ADD_PRODUCT_TO_WISHLIST, addProductToWishlistSaga);
+export function* watchToggleToWishlist() {
+  yield takeLatest(TOGGLE_TO_WISHLIST, toggleToWishlistSaga);
+}
+export function* watchGetWishlist() {
+  yield takeLatest(GET_WISHLIST, getWishlistSaga);
 }
 
 // ==================================================
@@ -309,7 +335,8 @@ function* cartSaga() {
     fork(watchApplyCoupon),
     fork(watchRemoveCoupon),
     fork(watchMergeCart),
-    fork(watchAddProductToWishlist),
+    fork(watchToggleToWishlist),
+    fork(watchGetWishlist),
   ]);
 }
 
