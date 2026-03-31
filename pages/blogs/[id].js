@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import {
   getCategories,
   getContentBySlug,
+  getContentCategories,
   getFormSchema,
   getSettings,
 } from "@/store/actions";
@@ -87,6 +88,16 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
       getFormSchema({
         cookies: {},
         slug: "newsletter",
+      }),
+    );
+
+    store.dispatch(
+      getContentCategories({
+        cookies: {},
+        filters: [{ field: "content_type_id", operator: "=", value: 2 }],
+
+        limit: 20,
+        page: 1,
       }),
     );
 

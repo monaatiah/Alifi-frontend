@@ -3,6 +3,9 @@ import {
   GET_CONTENT_BY_SLUG,
   GET_CONTENT_BY_SLUG_FAILURE,
   GET_CONTENT_BY_SLUG_SUCCESS,
+  GET_CONTENT_CATEGORIES,
+  GET_CONTENT_CATEGORIES_FAILURE,
+  GET_CONTENT_CATEGORIES_SUCCESS,
   GET_CONTENT_FAILURE,
   GET_CONTENT_SUCCESS,
 } from "./actionTypes";
@@ -48,6 +51,30 @@ export const getContentBySlugSuccess = (payload) => {
 export const getContentBySlugFailure = (payload) => {
   return {
     type: GET_CONTENT_BY_SLUG_FAILURE,
+    payload: payload,
+  };
+};
+
+// ==================================================
+// ==================================================
+
+export const getContentCategories = (payload) => {
+  return {
+    type: GET_CONTENT_CATEGORIES,
+    payload: payload,
+  };
+};
+
+export const getContentCategoriesSuccess = (payload) => {
+  return {
+    type: GET_CONTENT_CATEGORIES_SUCCESS,
+    payload: payload,
+  };
+};
+
+export const getContentCategoriesFailure = (payload) => {
+  return {
+    type: GET_CONTENT_CATEGORIES_FAILURE,
     payload: payload,
   };
 };

@@ -11,3 +11,10 @@ export const GET_CONTENT_BY_SLUG_FAILURE = "GET_CONTENT_BY_SLUG_FAILURE";
 
 // ==================================================
 // ==================================================
+
+export const GET_CONTENT_CATEGORIES = "GET_CONTENT_CATEGORIES";
+export const GET_CONTENT_CATEGORIES_SUCCESS = "GET_CONTENT_CATEGORIES_SUCCESS";
+export const GET_CONTENT_CATEGORIES_FAILURE = "GET_CONTENT_CATEGORIES_FAILURE";
+
+// ==================================================
+// ==================================================

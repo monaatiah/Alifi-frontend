@@ -20,7 +20,9 @@ const Index = () => {
   } = useForm();
 
   const { formSchema } = useSelector((state) => state.settings);
-  const { contentBySlug } = useSelector((state) => state.content);
+  const { contentBySlug, contentCategories } = useSelector(
+    (state) => state.content,
+  );
 
   const handleShare = (platform) => {
     if (typeof window === "undefined") return;
@@ -173,37 +175,25 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="widget">
-                <div className="widget-title">
-                  <h4>التصنيفات</h4>
-                </div>
-                <div className="blog-categories">
-                  <div className="d-flex align-items-center justify-content-between gap-3">
-                    <Link href="/blogs/categories/technology">
-                      <a>التكنولوجيا</a>
-                    </Link>
-                    <span>(10)</span>
+              {contentCategories?.data?.length > 0 && (
+                <div className="widget">
+                  <div className="widget-title">
+                    <h4>التصنيفات</h4>
                   </div>
-                  <div className="d-flex align-items-center justify-content-between gap-3">
-                    <Link href="/blogs/categories/lifestyle">
-                      <a>أسلوب الحياة</a>
-                    </Link>
-                    <span>(8)</span>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-3">
-                    <Link href="/blogs/categories/business">
-                      <a>الأعمال</a>
-                    </Link>
-                    <span>(5)</span>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-3">
-                    <Link href="/blogs/categories/health">
-                      <a>الصحة</a>
-                    </Link>
-                    <span>(7)</span>
+                  <div className="blog-categories">
+                    {contentCategories?.data?.map((category) => (
+                      <div
+                        className="d-flex align-items-center justify-content-between gap-3"
+                        key={category?.id}
+                      >
+                        <Link href={`/blogs/categories/${category?.slug}`}>
+                          <a>{category?.name}</a>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="widget newsletter-widget">
                 <div className="widget-title">

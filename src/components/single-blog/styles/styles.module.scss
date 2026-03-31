@@ -1,7 +1,7 @@
 @import "@/styles/variables.scss";
 
 .single-blog-section {
-  padding-block: 70px;
+  padding-block: 70px 0;
   @media (max-width: 768px) {
     padding-block: 50px 0;
   }
