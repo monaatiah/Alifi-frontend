@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { login } from "@/store/actions";
 import { useDispatch } from "react-redux";
 
@@ -11,6 +12,7 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 
 const Index = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     reset: resetLogin,
     handleSubmit: handleLoginSubmit,
@@ -26,6 +28,10 @@ const Index = () => {
         type: "login",
         data: data,
         reset: resetLogin,
+        redirectTo:
+          typeof router.query.redirectTo === "string"
+            ? router.query.redirectTo
+            : undefined,
       }),
     );
   };

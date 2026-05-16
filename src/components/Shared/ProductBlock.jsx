@@ -15,6 +15,8 @@ const ProductBlock = memo(({ item }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const { loading, wishlist } = useSelector((state) => state.cart || {});
+  const isService = item?.kind === "service";
+  const detailsHref = item?.href || `/products/${item?.slug}`;
 
   const handleIncrement = () => {
     if (quantity >= (item?.quantity || 1)) {
@@ -25,6 +27,10 @@ const ProductBlock = memo(({ item }) => {
   };
 
   const handleAddToCart = () => {
+    if (isService) {
+      return;
+    }
+
     dispatch(addToCart({ cookies: {}, productId: item?.id, quantity }));
   };
 
@@ -49,45 +55,49 @@ const ProductBlock = memo(({ item }) => {
             height={300}
           />
         )}
-        <Link href={`/products/${item?.slug}`}>
+        <Link href={detailsHref}>
           <a aria-label={item?.name}> </a>
         </Link>
-        <OverlayTrigger
-          placement="top"
-          overlay={
-            <Tooltip>
-              {wishlist?.data?.some((w) => w?.id === item?.id)
-                ? "إزالة من المفضلة"
-                : "إضافة إلى المفضلة"}
-            </Tooltip>
-          }
-        >
-          <button
-            className="wishlist-btn"
-            aria-label="add to wishlist"
-            onClick={() => {
-              dispatch(toggleToWishlist({ cookies: {}, product_id: item?.id }));
-            }}
-            style={{
-              background: wishlist?.data?.some((w) => w?.id === item?.id)
-                ? "#f75464"
-                : "inherit",
-            }}
+        {!isService && (
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                {wishlist?.data?.some((w) => w?.id === item?.id)
+                  ? "إزالة من المفضلة"
+                  : "إضافة إلى المفضلة"}
+              </Tooltip>
+            }
           >
-            <FaRegHeart
-              size={20}
-              color={
-                wishlist?.data?.some((w) => w?.id === item?.id)
-                  ? "#fff"
-                  : "#000"
-              }
-            />
-          </button>
-        </OverlayTrigger>
+            <button
+              className="wishlist-btn"
+              aria-label="add to wishlist"
+              onClick={() => {
+                dispatch(
+                  toggleToWishlist({ cookies: {}, product_id: item?.id }),
+                );
+              }}
+              style={{
+                background: wishlist?.data?.some((w) => w?.id === item?.id)
+                  ? "#f75464"
+                  : "inherit",
+              }}
+            >
+              <FaRegHeart
+                size={20}
+                color={
+                  wishlist?.data?.some((w) => w?.id === item?.id)
+                    ? "#fff"
+                    : "#000"
+                }
+              />
+            </button>
+          </OverlayTrigger>
+        )}
       </div>
       <div className="info">
         <div className="title">
-          <Link href={`/products/${item?.slug}`}>
+          <Link href={detailsHref}>
             <a>{item?.name}</a>
           </Link>
         </div>
@@ -103,33 +113,37 @@ const ProductBlock = memo(({ item }) => {
             {item?.price}
             <SaudiRiyalIcon width={20} height={20} stroke="#000" />
           </div>
-          <div className="quantity-control">
-            <button
-              onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
-            >
-              -
-            </button>
-            <span>{quantity}</span>
-            <button
-              onClick={handleIncrement}
-              disabled={quantity >= (item?.quantity || 1)}
-            >
-              +
-            </button>
-          </div>
+          {!isService && (
+            <div className="quantity-control">
+              <button
+                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+              >
+                -
+              </button>
+              <span>{quantity}</span>
+              <button
+                onClick={handleIncrement}
+                disabled={quantity >= (item?.quantity || 1)}
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
         <div className="btns">
-          <Link href={`/products/${item?.slug}`}>
-            <a>مزيد من التفاصيل</a>
+          <Link href={detailsHref}>
+            <a>{isService ? "مزيد من التفاصيل" : "مزيد من التفاصيل"}</a>
           </Link>
-          <button
-            className="add-to-cart"
-            aria-label="add to cart"
-            onClick={handleAddToCart}
-            disabled={loading}
-          >
-            <CartIcon />
-          </button>
+          {!isService && (
+            <button
+              className="add-to-cart"
+              aria-label="add to cart"
+              onClick={handleAddToCart}
+              disabled={loading}
+            >
+              <CartIcon />
+            </button>
+          )}
         </div>
       </div>
     </div>

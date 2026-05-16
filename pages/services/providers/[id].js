@@ -1,24 +1,28 @@
 import React from "react";
-import { wrapper } from "../../src/store";
+import { wrapper } from "../../../src/store";
 import { END } from "redux-saga";
 import dynamic from "next/dynamic";
+import { useSelector } from "react-redux";
 import {
   getCategories,
   getPageData,
   getSettings,
-  getSingleService,
+  getSingleServiceProvider,
 } from "@/store/actions";
 
 const Header = dynamic(() => import("@/components/header/Index"), {
   ssr: false,
 });
 
-const InnerHead = dynamic(() => import("@/components/inner-head/Index"), {
-  ssr: false,
-});
+const BreadCrumbSection = dynamic(
+  () => import("@/components/breadcrumb-section/Index"),
+  {
+    ssr: false,
+  },
+);
 
-const SingleService = dynamic(
-  () => import("@/components/single-service/Index"),
+const SingleProvider = dynamic(
+  () => import("@/components/single-provider/Index"),
   {
     ssr: false,
   },
@@ -31,41 +35,21 @@ const ReviewsSection = dynamic(
   },
 );
 
-const WorkHoursSection = dynamic(
-  () => import("@/components/work-hours/Index"),
-  {
-    ssr: false,
-  },
-);
-
-const Providers = dynamic(
-  () => import("@/components/services-providers/Index"),
-  {
-    ssr: false,
-  },
-);
-
-const ContactVendorSection = dynamic(
-  () => import("@/components/contact-vendor/Index"),
-  {
-    ssr: false,
-  },
-);
-
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
 
-const SingleServicePage = () => {
+const ShopPage = () => {
+  const { singleProvider } = useSelector((state) => state.services);
+  const providerName =
+    singleProvider?.provider?.name || singleProvider?.name || "صفحة البائع";
+
   return (
     <>
       <Header />
-      <InnerHead />
-      <SingleService />
+      <BreadCrumbSection title={providerName} pageName={providerName} />
+      <SingleProvider />
       <ReviewsSection />
-      <WorkHoursSection />
-      <Providers />
-      <ContactVendorSection />
       <Footer />
     </>
   );
@@ -83,9 +67,11 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     const { id } = params;
 
     store.dispatch(
-      getSingleService({
+      getSingleServiceProvider({
         cookies: {},
-        slug: id,
+        service_provider_slug: id,
+        page: 1,
+        per_page: 20,
       }),
     );
 
@@ -97,7 +83,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
     store.dispatch(
       getPageData({
         cookies: {},
-        slug: "service-details",
+        slug: "home",
       }),
     );
 
@@ -109,7 +95,6 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
 
     store.dispatch(END);
     await store.sagaTask.toPromise();
-
     return {
       props: {},
       revalidate: 1,
@@ -117,4 +102,4 @@ export const getStaticProps = wrapper.getStaticProps((store) => {
   };
 });
 
-export default SingleServicePage;
+export default ShopPage;

@@ -8,12 +8,11 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/future/image";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
-import Image1 from "./assets/1.png";
-
+import PlaceholderImage from "@/assets/images/cover.png";
 import FilterIcon from "./assets/filter.svg";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { getServices, getServicesCategories } from "@/store/actions";
+import { getServicesProviders, getServicesCategories } from "@/store/actions";
 
 const MapPicker = dynamic(() => import("@/components/Shared/MapPicker"), {
   ssr: false,
@@ -33,8 +32,12 @@ const EMPTY_FILTERS = {
 const Index = () => {
   const dispatch = useDispatch();
 
-  const { services, servicesPagination, servicesCategories, loading } =
-    useSelector((state) => state.services);
+  const {
+    providers,
+    servicesPagination: providersPagination,
+    servicesCategories: providersCategories,
+    loading,
+  } = useSelector((state) => state.services);
 
   const [showFilter, setShowFilter] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
@@ -44,21 +47,21 @@ const Index = () => {
   const [appliedFilters, setAppliedFilters] = useState(EMPTY_FILTERS);
 
   const normalizedCategories = useMemo(() => {
-    if (Array.isArray(servicesCategories)) {
-      return servicesCategories;
+    if (Array.isArray(providersCategories)) {
+      return providersCategories;
     }
 
-    if (Array.isArray(servicesCategories?.data)) {
-      return servicesCategories.data;
+    if (Array.isArray(providersCategories?.data)) {
+      return providersCategories.data;
     }
 
     return [];
-  }, [servicesCategories]);
+  }, [providersCategories]);
 
   const requestPayload = useMemo(() => {
     const payload = {
       page: currentPage,
-      limit: servicesPagination?.per_page || 20,
+      limit: providersPagination?.per_page || 20,
     };
 
     if (appliedFilters.name?.trim()) {
@@ -98,10 +101,10 @@ const Index = () => {
     }
 
     return payload;
-  }, [appliedFilters, currentPage, servicesPagination?.per_page]);
+  }, [appliedFilters, currentPage, providersPagination?.per_page]);
 
-  const sortedServices = useMemo(() => {
-    const list = Array.isArray(services) ? [...services] : [];
+  const sortedProviders = useMemo(() => {
+    const list = Array.isArray(providers) ? [...providers] : [];
 
     switch (sortBy) {
       case "newest":
@@ -127,12 +130,12 @@ const Index = () => {
       default:
         return list;
     }
-  }, [services, sortBy]);
+  }, [providers, sortBy]);
 
   const pages = useMemo(() => {
-    const lastPage = servicesPagination?.last_page || 1;
+    const lastPage = providersPagination?.last_page || 1;
     return Array.from({ length: lastPage }, (_, index) => index + 1);
-  }, [servicesPagination?.last_page]);
+  }, [providersPagination?.last_page]);
 
   const hasAppliedFilters = useMemo(
     () =>
@@ -206,14 +209,14 @@ const Index = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getServices(requestPayload));
+    dispatch(getServicesProviders(requestPayload));
   }, [dispatch, requestPayload]);
 
   return (
-    <div className={styles["shop-wrapper"]}>
+    <div className={styles["providers-wrapper"]}>
       <Container>
         <form
-          className="shop-filter d-flex justify-content-between align-items-center gap-3"
+          className="providers-filter d-flex justify-content-between align-items-center gap-3"
           onSubmit={handleSearchSubmit}
         >
           <div className="inputs-wrap d-flex align-items-center gap-3">
@@ -386,26 +389,25 @@ const Index = () => {
           </div>
         )}
 
-        <div className="services-wrap">
+        <div className="providers-wrap">
           <Row>
-            {sortedServices.map((service, idx) => {
-              const serviceTitle = service.title || service.name || "خدمة";
-              const serviceDescription =
-                service.short_description || service.description || "";
-              const serviceRate = Number(service.rating ?? service.rate ?? 0);
-              const serviceAddress =
-                service.address || service.location?.address || "غير متوفر";
-              const serviceVendor =
-                service.provider_name || service.provider?.name || "غير متوفر";
-              const servicePrice = Number(
-                service.base_price ?? service.price ?? 0,
-              );
-              const servicePath = service.slug || service.id;
-              const serviceImage =
-                (typeof service.cover_url === "string" && service.cover_url) ||
-                (typeof service.image === "string" && service.image) ||
-                service.image?.src ||
-                Image1.src;
+            {sortedProviders.map((provider, idx) => {
+              const providerTitle = provider.name || "خدمة توفرها";
+              const providerDescription = provider.description || "";
+              const providerRate = provider.reviews?.average_rating
+                ? Number(provider.reviews.average_rating)
+                : 0;
+              const reviewCount = provider.reviews?.count || 0;
+              const providerAddress =
+                provider.locations?.[0]?.address ||
+                provider.contact?.address ||
+                "غير متوفر";
+              const providerPrice = "";
+              const providerPath = provider.slug || provider.id;
+              const providerImage =
+                (typeof provider.profile_image_url === "string" &&
+                  provider.profile_image_url) ||
+                PlaceholderImage;
 
               return (
                 <Col
@@ -413,14 +415,14 @@ const Index = () => {
                   lg={6}
                   md={6}
                   sm={12}
-                  key={service.id || service.slug || idx}
+                  key={provider.id || provider.slug || idx}
                 >
-                  <div className="service-item d-flex align-items-center gap-3">
+                  <div className="provider-item d-flex align-items-center gap-3">
                     <div className="right d-flex flex-column gap-3 align-items-center">
                       <div className="img">
-                        <img
-                          src={serviceImage}
-                          alt={serviceTitle}
+                        <Image
+                          src={providerImage}
+                          alt={providerTitle}
                           width={100}
                           height={100}
                           loading="lazy"
@@ -431,49 +433,56 @@ const Index = () => {
                           <span key={index} className="star">
                             <GoStarFill
                               color={
-                                index < Math.round(serviceRate)
+                                providerRate > 0 &&
+                                index < Math.round(providerRate)
                                   ? "#f2782b"
-                                  : "#000"
+                                  : "#ccc"
                               }
                             />
                           </span>
                         ))}
+                        <span
+                          style={{ fontSize: "0.75rem", marginLeft: "4px" }}
+                        >
+                          {providerRate > 0
+                            ? `${providerRate.toFixed(1)} (${reviewCount})`
+                            : "بدون تقييمات"}
+                        </span>
                       </div>
                     </div>
                     <div className="left">
                       <div className="title">
-                        <Link href={`/services/${servicePath}`}>
-                          <a>{serviceTitle}</a>
+                        <Link href={`/services/providers/${providerPath}`}>
+                          <a>{providerTitle}</a>
                         </Link>
                       </div>
                       <div className="desc">
                         <p>
-                          {serviceDescription.length > 70
-                            ? `${serviceDescription.substring(0, 70)}...`
-                            : serviceDescription}
+                          {providerDescription.length > 70
+                            ? `${providerDescription.substring(0, 70)}...`
+                            : providerDescription}
                         </p>
                       </div>
                       <div className="extra d-flex align-items-center gap-3 justify-content-between">
                         <div>
-                          <div className="vendor">
-                            مقدم الخدمة: <span>{serviceVendor}</span>
-                          </div>
                           <div className="address">
-                            العنوان: <span>{serviceAddress}</span>
+                            العنوان: <span>{providerAddress}</span>
                           </div>
-                          <div className="address">
-                            السعر:{" "}
-                            <span>
-                              {servicePrice}{" "}
-                              <SaudiRiyalIcon
-                                width={15}
-                                height={15}
-                                stroke="#000"
-                              />
-                            </span>
-                          </div>
+                          {providerPrice && (
+                            <div className="address">
+                              السعر:{" "}
+                              <span>
+                                {providerPrice}{" "}
+                                <SaudiRiyalIcon
+                                  width={15}
+                                  height={15}
+                                  stroke="#000"
+                                />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                        <Link href={`/services/${servicePath}`}>
+                        <Link href={`/services/providers/${providerPath}`}>
                           <a aria-label="view details">عرض التفاصيل</a>
                         </Link>
                       </div>
@@ -483,11 +492,13 @@ const Index = () => {
               );
             })}
           </Row>
-          {loading && <p className="text-center mt-3">جاري تحميل الخدمات...</p>}
+          {loading && (
+            <p className="text-center mt-3">جاري تحميل مقدمي الخدمات...</p>
+          )}
 
-          {!loading && sortedServices.length === 0 && (
+          {!loading && sortedProviders.length === 0 && (
             <p className="text-center mt-3">
-              لا توجد خدمات مطابقة للفلاتر الحالية.
+              لا يوجد مقدمو خدمات مطابقون للفلاتر الحالية.
             </p>
           )}
 
@@ -527,11 +538,11 @@ const Index = () => {
                     aria-label="next page"
                     className="action-btn next-btn"
                     disabled={
-                      currentPage >= (servicesPagination?.last_page || 1)
+                      currentPage >= (providersPagination?.last_page || 1)
                     }
                     onClick={() =>
                       setCurrentPage((prev) =>
-                        prev < (servicesPagination?.last_page || 1)
+                        prev < (providersPagination?.last_page || 1)
                           ? prev + 1
                           : prev,
                       )
@@ -543,71 +554,6 @@ const Index = () => {
               </ul>
             </div>
           )}
-        </div>
-
-        <div className="extra-services">
-          <Row>
-            <Col md={6} lg={4}>
-              <div className="service-block">
-                <div className="img">
-                  <Image
-                    src={Image1}
-                    alt="service image"
-                    width={325}
-                    height={325}
-                  />
-                </div>
-                <div className="info">
-                  <h3>البحث عن أفضل غذاء</h3>
-                  <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص{" "}
-                  </p>
-                </div>
-              </div>
-            </Col>
-            <Col md={6} lg={4}>
-              <div className="service-block">
-                <div className="img">
-                  <Image
-                    src={Image1}
-                    alt="service image"
-                    width={325}
-                    height={325}
-                  />
-                </div>
-                <div className="info">
-                  <h3>البحث عن أفضل غذاء</h3>
-                  <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص{" "}
-                  </p>
-                </div>
-              </div>
-            </Col>
-            <Col md={6} lg={4}>
-              <div className="service-block">
-                <div className="img">
-                  <Image
-                    src={Image1}
-                    alt="service image"
-                    width={325}
-                    height={325}
-                  />
-                </div>
-                <div className="info">
-                  <h3>البحث عن أفضل غذاء</h3>
-                  <p>
-                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص{" "}
-                  </p>
-                </div>
-              </div>
-            </Col>
-          </Row>
         </div>
       </Container>
 

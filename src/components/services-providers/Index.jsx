@@ -9,6 +9,8 @@ import Image from "next/future/image";
 import Image1 from "./assets/1.png";
 import Image2 from "./assets/2.png";
 import Image3 from "./assets/3.png";
+import { useSelector } from "react-redux";
+import { handleImageLink } from "@/helpers/functions";
 
 const Index = () => {
   const services = useMemo(
@@ -57,75 +59,74 @@ const Index = () => {
     [],
   );
 
+  const { singleService } = useSelector((state) => state.services);
+
   return (
     <div className={styles["shop-wrapper"]}>
       <Container>
         <div className="section-head d-flex align-items-center gap-3 justify-content-between">
           <h3>مقدمو نفس الفئة</h3>
-          <Link href="/services">
-            <a className="btn"> إظهار الكل</a>
-          </Link>
         </div>
         <div className="services-wrap">
           <Row>
-            {services.map((service, idx) => (
-              <Col xxl={4} lg={6} md={6} sm={12} key={idx}>
-                <div className="service-item d-flex align-items-center gap-3">
-                  <div className="right d-flex flex-column gap-3 align-items-center">
-                    <div className="img">
-                      <Image
-                        src={service.image}
-                        alt={service.name}
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className="rate">
-                      {[...Array(5)].map((_, index) => (
-                        <span key={index} className="star">
-                          <GoStarFill
-                            color={
-                              index < Math.round(service.rate)
-                                ? "#f2782b"
-                                : "#000"
-                            }
-                          />
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="left">
-                    <div className="title">
-                      <Link href={`/services/${service.id}`}>
-                        <a>{service.name}</a>
-                      </Link>
-                    </div>
-                    <div className="desc">
-                      <p>
-                        {service.description.length > 50
-                          ? service.description.substring(0, 50) + "..."
-                          : service.description}
-                      </p>
-                    </div>
-                    <div className="extra d-flex align-items-center gap-3 justify-content-between">
-                      <div>
-                        <div className="vendor">
-                          مقدم الخدمة:
-                          <span>علي فهد</span>
-                        </div>
-                        <div className="address">
-                          العنوان:
-                          <span>{service.address}</span>
-                        </div>
+            {singleService?.related_service_providers?.length > 0 ? (
+              singleService.related_service_providers.map((provider, idx) => (
+                <Col xxl={4} lg={6} md={6} sm={12} key={idx}>
+                  <div className="service-item d-flex align-items-center gap-3">
+                    <div className="right d-flex flex-column gap-3 align-items-center">
+                      <div className="img">
+                        <Image
+                          src={handleImageLink(provider?.logo_url) || ""}
+                          alt={provider?.name}
+                          width={100}
+                          height={100}
+                        />
                       </div>
-                      <Link href={`/services/${service.id}`}>
-                        <a aria-label="view details">عرض التفاصيل</a>
-                      </Link>
+                      <div className="rate">
+                        {[...Array(5)].map((_, index) => (
+                          <span key={index} className="star">
+                            <GoStarFill
+                              color={
+                                index < Math.round(provider?.rate)
+                                  ? "#f2782b"
+                                  : "#000"
+                              }
+                            />
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="left">
+                      <div className="title">
+                        <Link href={`/services/providers/${provider?.slug}`}>
+                          <a>{provider?.name}</a>
+                        </Link>
+                      </div>
+                      <div className="desc">
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: provider?.short_description,
+                          }}
+                        />
+                      </div>
+                      <div className="extra d-flex align-items-center gap-3 justify-content-between">
+                        <div>
+                          <div className="address">
+                            العنوان:
+                            <span>{provider?.address}</span>
+                          </div>
+                        </div>
+                        <Link href={`/services/${provider?.slug}`}>
+                          <a aria-label="view details">عرض التفاصيل</a>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-            ))}
+                </Col>
+              ))
+            ) : (
+              <p>لا يوجد مقدمي خدمات لنفس الفئة</p>
+            )}
           </Row>
         </div>
       </Container>
