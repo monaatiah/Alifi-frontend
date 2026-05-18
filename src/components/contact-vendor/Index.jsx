@@ -8,7 +8,7 @@ import Image from "next/future/image";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
-import { joinUs } from "@/store/actions";
+import { submitServiceRequest } from "@/store/actions";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -20,31 +20,20 @@ const Index = () => {
   } = useForm();
 
   const { pageData } = useSelector((state) => state.settings);
+  const { singleService } = useSelector((state) => state.services);
   const joinData = getComponentByIdentifier(
     pageData?.page_components,
     "apply_vendor",
   );
 
   const onSubmit = (data) => {
-    const formattedData = {
-      mutate: [
-        {
-          operation: "create",
-          attributes: {
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            message: data.message,
-            request_type: "service_provider",
-            request_status: "pending",
-          },
-        },
-      ],
-    };
-
     dispatch(
-      joinUs({
-        data: formattedData,
+      submitServiceRequest({
+        marketplace_service_id: singleService?.id,
+        customer_name: data.name,
+        customer_phone: data.phone,
+        customer_email: data.email,
+        message: data.message,
         reset,
       }),
     );

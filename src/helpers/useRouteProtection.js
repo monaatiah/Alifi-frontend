@@ -10,11 +10,15 @@ export const useRouteProtection = (protectionType) => {
 
     const cookies = parseCookies();
     const token = cookies.token;
+    const redirectTo =
+      typeof router.query.redirectTo === "string"
+        ? router.query.redirectTo
+        : undefined;
 
     if (protectionType === "auth-only") {
       // Redirect to home if user is logged in (login and register pages)
       if (token) {
-        router.push("/");
+        router.replace(redirectTo || "/");
       }
     } else if (protectionType === "protected") {
       // Redirect to login if user is not logged in (profile and verify pages)
@@ -22,5 +26,5 @@ export const useRouteProtection = (protectionType) => {
         router.push("/login");
       }
     }
-  }, [router.isReady, protectionType]);
+  }, [protectionType, router]);
 };

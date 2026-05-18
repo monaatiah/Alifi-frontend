@@ -16,7 +16,15 @@ export const getFullDate = (date, locale) => {
 };
 //handle the image link if it is not a full link then add the base url
 export const handleImageLink = (image) => {
-  if (image?.includes("http")) {
+  if (!image) {
+    return "";
+  }
+
+  if (typeof image !== "string") {
+    return image?.src || image?.path || "";
+  }
+
+  if (image.includes("http")) {
     return image;
   } else {
     // eslint-disable-next-line no-undef

@@ -9,6 +9,7 @@ import SSRProvider from "react-bootstrap/SSRProvider";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.rtl.min.css";
 import "aos/dist/aos.css";
+import "flatpickr/dist/flatpickr.min.css";
 import "swiper/css";
 import "../styles/main.scss";
 
@@ -38,13 +39,23 @@ function MyApp({ Component, pageProps }) {
   });
 
   useEffect(() => {
-    router.events.on("routeChangeStart", () => {
+    const handleRouteChangeStart = () => {
       setProgress(true);
-    });
-    router.events.on("routeChangeComplete", () => {
+    };
+
+    const handleRouteChangeEnd = () => {
       setProgress(false);
-    });
-    router.events.on("routeChangeError");
+    };
+
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+    router.events.on("routeChangeComplete", handleRouteChangeEnd);
+    router.events.on("routeChangeError", handleRouteChangeEnd);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+      router.events.off("routeChangeComplete", handleRouteChangeEnd);
+      router.events.off("routeChangeError", handleRouteChangeEnd);
+    };
   }, [router]);
 
   useEffect(() => {

@@ -1,13 +1,13 @@
 @import "@/styles/variables.scss";
 
-.shop-wrapper {
+.providers-wrapper {
   padding-block: 80px;
   @media (max-width: 768px) {
     padding-block: 50px;
   }
 
   :global {
-    .shop-filter {
+    .providers-filter {
       background-color: $primary-color;
       border-radius: 50px;
       padding: 15px 25px;
@@ -107,7 +107,7 @@
         min-width: 120px;
       }
     }
-    .services-infos {
+    .providers-infos {
       margin-bottom: 100px;
       @media (max-width: 768px) {
         margin-bottom: 50px;
@@ -160,7 +160,7 @@
         }
       }
     }
-    .service-item {
+    .provider-item {
       border-radius: 15px;
       filter: drop-shadow(0px 4.10111px 4.10111px rgba(0, 0, 0, 0.25));
       border: 1px solid #a1a3ab00;
@@ -269,7 +269,7 @@
       }
     }
 
-    .services-wrap {
+    .providers-wrap {
       margin-top: 70px;
       @media (max-width: 768px) {
         margin-top: 30px;

@@ -8,6 +8,7 @@ import products from "./products/reducer";
 import cart from "./cart/reducer";
 import checkout from "./checkout/reducer";
 import content from "./content/reducer";
+import services from "./services/reducer";
 
 const rootReducer = combineReducers({
   meta,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   cart,
   checkout,
   content,
+  services,
 });
 
 export default rootReducer;

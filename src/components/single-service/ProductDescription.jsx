@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa6";
 import { PiCertificate } from "react-icons/pi";
 import { GiTrophyCup } from "react-icons/gi";
 
-const ProductDescription = () => {
+const ProductDescription = ({ singleService }) => {
   return (
     <div className="product-description">
       <Container>
@@ -12,11 +12,11 @@ const ProductDescription = () => {
           <Col lg={12} className="mb-5">
             <div className="content">
               <h4>الوصف الكامل</h4>
-              <p>
-                هذا المنتج مصنوع من مكونات طبيعية عالية الجودة، ويقدم تجربة
-                غذائية مشبعة وغنية بالقيم الغذائية. يساعد على دعم المناعة وتحسين
-                صحة الفراء، ويوفر ترطيبًا ممتازًا للقطط.
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: singleService?.description,
+                }}
+              />
             </div>
           </Col>
         </Row>

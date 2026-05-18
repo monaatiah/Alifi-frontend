@@ -38,6 +38,7 @@ function* loginSaga({ payload }) {
   try {
     const cookies = parseCookies();
     const isGuest = cookies.isGuest === "true";
+    const redirectTo = payload?.redirectTo;
 
     const { data, status } = yield call(authApi, payload);
     if (status === 200) {
@@ -53,7 +54,7 @@ function* loginSaga({ payload }) {
     }
 
     if (data?.customer?.email_verified) {
-      router.push("/");
+      router.push(redirectTo || "/");
     } else {
       router.push("/verify");
     }
