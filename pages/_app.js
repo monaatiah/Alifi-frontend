@@ -22,8 +22,9 @@ import { wrapper } from "../src/store";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const { locale, defaultLocale } = useRouter();
-  const messages = languages[locale];
-  const dir = locale === "ar" ? "rtl" : "ltr";
+  const activeLocale = locale || defaultLocale || "ar";
+  const messages = languages[activeLocale] || languages.ar;
+  const dir = activeLocale === "ar" ? "rtl" : "ltr";
 
   const [Progress, setProgress] = useState(false);
 
@@ -71,8 +72,8 @@ function MyApp({ Component, pageProps }) {
       {Progress && <TopBarProgress />}
       <IntlProvider
         messages={messages}
-        defaultLocale={defaultLocale}
-        locale={locale}
+        defaultLocale={defaultLocale || "ar"}
+        locale={activeLocale}
       >
         <SSRProvider>
           <div className="wrap">

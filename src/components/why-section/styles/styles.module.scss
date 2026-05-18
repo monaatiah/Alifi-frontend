@@ -1,9 +1,9 @@
 @import "@/styles/variables.scss";
 
 .why-section {
-  padding-block: 0 70px;
+  padding-block: 70px;
   @media (max-width: 768px) {
-    padding-block: 0 50px;
+    padding-block: 50px;
   }
   :global {
     .block {

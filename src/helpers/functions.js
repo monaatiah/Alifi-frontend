@@ -30,9 +30,16 @@ export const getId = (obj) => obj?._id || obj?.id;
 export const getComponentByIdentifier = (pageComponents, identifier) => {
   if (!pageComponents || !Array.isArray(pageComponents)) return null;
 
-  const component = pageComponents.find(
-    (comp) => comp?.component_identifier === identifier,
-  );
+  const component = pageComponents.find((comp) => {
+    const slug =
+      comp?.component_identifier ||
+      comp?.component?.identifier ||
+      comp?.component?.slug ||
+      comp?.component_slug ||
+      comp?.slug;
+
+    return slug === identifier;
+  });
 
   return component || null;
 };

@@ -1,0 +1,10 @@
+@import "@/styles/variables.scss";
+
+// STEP 4: Replace "template-section" with the component's CSS class name
+.template-section {
+  padding-block: 50px;
+
+  @media (max-width: 768px) {
+    padding-block: 30px;
+  }
+}

@@ -1,15 +1,13 @@
 @import "@/styles/variables.scss";
 
-.products-section {
+.our-vision-section {
   background-color: #7267c3;
   position: relative;
   padding-block: 100px 150px;
   z-index: 1;
   overflow: hidden;
-  margin-bottom: 70px;
   @media (max-width: 768px) {
     padding-block: 50px;
-    margin-bottom: 50px;
   }
 
   :global {

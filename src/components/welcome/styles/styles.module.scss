@@ -2,7 +2,10 @@
 
 .services-infos {
   :global {
-    padding-block: 70px 0;
+    padding-block: 70px;
+    @media (max-width: 768px) {
+      padding-block: 50px;
+    }
     .img {
       position: relative;
       padding-top: 100%;

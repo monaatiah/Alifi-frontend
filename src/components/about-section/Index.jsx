@@ -1,16 +1,15 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
 import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
+import { getComponentByIdentifier, ImageWithFallback } from "@/helpers/functions";
 
-const Index = () => {
+const Index = ({ identifier = "features_section" }) => {
   const { pageData } = useSelector((state) => state.settings);
-  const aboutData = getComponentByIdentifier(
-    pageData?.page_components,
-    "features_section"
-  );
+  const aboutData =
+    getComponentByIdentifier(pageData?.page_components, identifier) ||
+    getComponentByIdentifier(pageData?.page_components, "feature_grid") ||
+    getComponentByIdentifier(pageData?.page_components, "features_section");
 
   return (
     <div className={styles["about-section"]}>
@@ -24,7 +23,7 @@ const Index = () => {
             <Col lg={3} md={6} sm={12} key={index}>
               <div className="item">
                 <div className="icon">
-                  <Image
+                  <ImageWithFallback
                     src={item?.image || ""}
                     alt={item?.title}
                     width={100}

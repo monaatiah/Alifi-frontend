@@ -17,7 +17,7 @@ const Index = () => {
   );
 
   return (
-    <div className={styles["products-section"]}>
+    <div className={styles["our-vision-section"]}>
       <Pattern1 className="pattern-1" />
       <Pattern2 className="pattern-2" />
       <Pattern3 className="pattern-3" />

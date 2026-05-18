@@ -19,7 +19,10 @@ const Index = ({ noHeading, subTitle, title }) => {
   return (
     <div className={styles["blogs-section"]}>
       <Container>
-        <SecMainTitle secSubTitle={subTitle || ""} secTitle={title || ""} />
+        <SecMainTitle
+          secSubTitle={blogsData?.data?.subtitle || subTitle || ""}
+          secTitle={blogsData?.data?.title || title || ""}
+        />
         <div className="sec-body">
           {!noHeading && blogsData?.data?.description && (
             <p>{blogsData?.data?.description || ""}</p>

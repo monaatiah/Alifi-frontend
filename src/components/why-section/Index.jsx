@@ -2,10 +2,9 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 
-import Image from "next/future/image";
 import SecMainTitle from "../Shared/SecMainTitle";
 import { useSelector } from "react-redux";
-import { getComponentByIdentifier } from "@/helpers/functions";
+import { getComponentByIdentifier, ImageWithFallback } from "@/helpers/functions";
 
 const Index = () => {
   const { pageData } = useSelector((state) => state.settings);
@@ -26,7 +25,7 @@ const Index = () => {
             <Col key={index} md={6} lg={3}>
               <div className="block">
                 <div className="img">
-                  <Image
+                  <ImageWithFallback
                     src={item?.image}
                     alt={item?.title}
                     width={120}

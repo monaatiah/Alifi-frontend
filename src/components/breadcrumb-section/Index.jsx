@@ -9,8 +9,12 @@ import HeroImg from "./assets/hero.png";
 import Image from "next/future/image";
 import Link from "next/link";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { getComponentByIdentifier } from "@/helpers/functions";
 
 const Index = ({
+  identifier = "breadcrumb",
   title,
   description,
   pageName,
@@ -18,6 +22,36 @@ const Index = ({
   sector,
   imageSrc,
 }) => {
+  const router = useRouter();
+  const { pageData } = useSelector((state) => state.settings);
+
+  const breadcrumbData = getComponentByIdentifier(
+    pageData?.page_components,
+    identifier,
+  )?.data;
+
+  const routeName =
+    router?.asPath
+      ?.split("?")[0]
+      ?.split("/")
+      ?.filter(Boolean)
+      ?.slice(-1)[0]
+      ?.replace(/-/g, " ") || "";
+
+  const resolvedTitle =
+    title ||
+    breadcrumbData?.title ||
+    pageData?.meta?.title ||
+    pageData?.config?.title ||
+    pageData?.title ||
+    "";
+
+  const resolvedDescription =
+    description || breadcrumbData?.description || pageData?.meta?.description || "";
+
+  const resolvedPageName = pageName || breadcrumbData?.page_name || resolvedTitle || routeName;
+  const resolvedImage = imageSrc || breadcrumbData?.image || HeroImg;
+
   return (
     <div
       className={
@@ -37,8 +71,8 @@ const Index = ({
         <Row className="align-items-center">
           <Col lg={6} xs={12}>
             <div className="info">
-              <h3>{title}</h3>
-              {description && <p>{description}</p>}
+              <h3>{resolvedTitle}</h3>
+              {resolvedDescription && <p>{resolvedDescription}</p>}
               <ul className="d-flex align-items-center">
                 <li className="d-flex align-items-center">
                   <Link href="/">
@@ -56,7 +90,7 @@ const Index = ({
                     </Link>
                   </li>
                 )}
-                <li>{pageName}</li>
+                <li>{resolvedPageName}</li>
               </ul>
             </div>
           </Col>
@@ -64,7 +98,7 @@ const Index = ({
             <Col lg={6} xs={12}>
               <div className="img">
                 <Image
-                  src={imageSrc || HeroImg}
+                  src={resolvedImage}
                   alt="Breadcrumb Hero"
                   width={500}
                   height={250}

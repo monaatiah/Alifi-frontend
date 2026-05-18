@@ -1,0 +1,61 @@
+@import "@/styles/variables.scss";
+
+.prizes-section {
+  padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-top: 50px;
+  }
+  :global {
+    .sw-navigation {
+      gap: 160px;
+      margin-top: -35px;
+      z-index: 6;
+      position: relative;
+      button {
+        all: unset;
+        cursor: pointer;
+        transition: $transition;
+        &.swiper-button-disabled {
+          opacity: 0.3;
+          pointer-events: none;
+        }
+      }
+    }
+
+    .swiper {
+      padding-bottom: 80px !important;
+      @media (max-width: 768px) {
+        padding-bottom: 60px !important;
+      }
+
+      .swiper-pagination {
+        .swiper-pagination-bullet {
+          background-color: #d3d3d3;
+          &.swiper-pagination-bullet-active {
+            background-color: $primary-color;
+          }
+        }
+      }
+    }
+
+    h3 {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 40px;
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+    .award-item {
+      text-align: center;
+      img {
+        object-fit: contain;
+        @media (max-width: 768px) {
+          max-height: 100px;
+        }
+      }
+    }
+  }
+}

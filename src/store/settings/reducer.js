@@ -26,6 +26,33 @@ const initialState = {
   error: "",
 };
 
+const normalizePageData = (payload) => {
+  if (!payload || typeof payload !== "object") return {};
+
+  // API can return page object directly, or wrap it under `data`.
+  const page = payload.data && typeof payload.data === "object"
+    ? payload.data
+    : payload;
+  const pageConfig = page?.config && typeof page.config === "object"
+    ? page.config
+    : null;
+  const payloadConfig = payload?.config && typeof payload.config === "object"
+    ? payload.config
+    : null;
+
+  // Preserve extra top-level fields while ensuring common page fields are flat.
+  return {
+    ...payload,
+    ...page,
+    page_components:
+      page?.page_components ||
+      pageConfig?.page_components ||
+      payload?.page_components ||
+      payloadConfig?.page_components ||
+      [],
+  };
+};
+
 const settings = (state = initialState, action) => {
   switch (action.type) {
     case HYDRATE:
@@ -46,7 +73,7 @@ const settings = (state = initialState, action) => {
     case GET_PAGE_DATA_SUCCESS:
       return {
         ...state,
-        pageData: action.payload,
+        pageData: normalizePageData(action.payload),
         loading: false,
       };
 

@@ -8,6 +8,7 @@ import productsSaga from "./products/saga";
 import cartSaga from "./cart/saga";
 import checkoutSaga from "./checkout/saga";
 import contentSaga from "./content/saga";
+import pageSaga from "./page/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     cartSaga(),
     checkoutSaga(),
     contentSaga(),
+    pageSaga(),
   ]);
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Link from "next/link";
 import styles from "./styles/styles.module.scss";
@@ -6,20 +6,11 @@ import SecMainTitle from "../Shared/SecMainTitle";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { CiClock1, CiMobile3 } from "react-icons/ci";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import ArrowRightIcon from "./assets/arrow-right.svg";
-import ArrowLeftIcon from "./assets/arrow-left.svg";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { postFormSubmission } from "@/store/actions";
-import {
-  getComponentByIdentifier,
-  ImageWithFallback,
-} from "@/helpers/functions";
+import { getFormSchema, postFormSubmission } from "@/store/actions";
+import {} from "@/helpers/functions";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -30,13 +21,15 @@ const Index = () => {
     reset,
   } = useForm();
 
-  const { settings, formSchema, pageData } = useSelector(
-    (state) => state.settings,
-  );
-  const prizesData = getComponentByIdentifier(
-    pageData?.page_components,
-    "prizes",
-  );
+  useEffect(() => {
+    dispatch(
+      getFormSchema({
+        slug: "contact-us",
+      }),
+    );
+  }, [dispatch]);
+
+  const { settings, formSchema } = useSelector((state) => state.settings);
 
   const onSubmit = (data) => {
     dispatch(
@@ -200,62 +193,6 @@ const Index = () => {
             </div>
           </Col>
         </Row>
-
-        <div className="awards">
-          <h3>{prizesData?.data?.title || ""}</h3>
-          <Swiper
-            spaceBetween={30}
-            slidesPerView={4}
-            pagination={{ dynamicBullets: true, clickable: true }}
-            navigation={{
-              nextEl: ".award-next",
-              prevEl: ".award-prev",
-            }}
-            // autoplay={{ delay: 5000, disableOnInteraction: false }}
-            modules={[Pagination, Navigation, Autoplay]}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              768: {
-                slidesPerView: 2,
-              },
-              1024: {
-                slidesPerView: 3,
-              },
-              1200: {
-                slidesPerView: 4,
-              },
-              1366: {
-                slidesPerView: 4,
-              },
-              1920: {
-                slidesPerView: 4,
-              },
-            }}
-          >
-            {prizesData?.data?.items?.map((item, index) => (
-              <SwiperSlide key={index}>
-                <div className="award-item">
-                  <ImageWithFallback
-                    src={item?.image}
-                    alt={item?.title}
-                    width={170}
-                    height={170}
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="sw-navigation d-flex align-items-center justify-content-center">
-            <button className="award-prev" aria-label="previous button">
-              <ArrowRightIcon />
-            </button>
-            <button className="award-next" aria-label="next button">
-              <ArrowLeftIcon />
-            </button>
-          </div>
-        </div>
       </Container>
     </div>
   );
