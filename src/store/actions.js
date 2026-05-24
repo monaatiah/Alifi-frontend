@@ -7,3 +7,4 @@ export * from "./cart/actions";
 export * from "./checkout/actions";
 export * from "./content/actions";
 export * from "./page/actions";
+export * from "./services/actions";

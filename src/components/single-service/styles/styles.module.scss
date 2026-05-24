@@ -107,8 +107,11 @@
             font-weight: 500;
           }
 
-          .location {
+          .service-meta {
             margin-bottom: 30px;
+          }
+
+          .location {
             .icon {
               width: 40px;
               height: 40px;
@@ -124,6 +127,22 @@
               font-weight: 700;
               font-size: 18px;
             }
+          }
+
+          .category-badge,
+          .duration {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            background-color: rgba(161, 163, 171, 0.09);
+            color: $primary-color;
+            font-weight: 700;
+          }
+
+          .duration {
+            margin-bottom: 20px;
           }
 
           .price-range {
@@ -215,6 +234,56 @@
                   min-width: 100%;
                   max-width: 100%;
                   justify-content: space-between;
+                }
+
+                .schedule-state {
+                  margin-top: 10px;
+                }
+              }
+
+              .schedule-state {
+                background: #fff;
+                border: 1px dashed #d6d6d6;
+                border-radius: 12px;
+                color: #555;
+                padding: 12px;
+              }
+
+              .time-slots {
+                margin-top: 14px;
+
+                h5 {
+                  font-size: 15px;
+                  font-weight: 700;
+                  margin-bottom: 10px;
+                }
+
+                .slots-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+                  gap: 8px;
+
+                  button {
+                    min-height: 38px;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    background-color: #fff;
+                    color: $primary-color;
+                    font-weight: 700;
+                    transition: $transition;
+
+                    &:hover:not(:disabled),
+                    &.active {
+                      border-color: $primary-color;
+                      background-color: $primary-color;
+                      color: #fff;
+                    }
+
+                    &:disabled {
+                      cursor: not-allowed;
+                      opacity: 0.45;
+                    }
+                  }
                 }
               }
             }
@@ -358,6 +427,13 @@
       }
 
       .content {
+        &.details-block {
+          height: 100%;
+          padding: 20px;
+          background: rgba(161, 163, 171, 0.09);
+          border-radius: 15px;
+        }
+
         h4 {
           position: relative;
           font-weight: 700;

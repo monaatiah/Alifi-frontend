@@ -62,14 +62,29 @@
           }
         }
       }
+      .empty-state {
+        background-color: rgba(161, 163, 171, 0.0901960784);
+        border-radius: 15px;
+        padding: 20px;
+      }
     }
     .map {
       height: 400px;
       overflow: hidden;
       border-radius: 50px;
+      background-color: rgba(161, 163, 171, 0.0901960784);
       @media (max-width: 768px) {
         height: 300px;
         border-radius: 20px;
+      }
+      &.empty-map {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+        color: #555;
+        font-weight: 600;
       }
       iframe {
         height: 100%;

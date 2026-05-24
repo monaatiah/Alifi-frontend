@@ -32,6 +32,17 @@
           height: 100%;
           object-fit: cover;
         }
+        .provider-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $secondary-color;
+          color: #000;
+          font-size: 32px;
+          font-weight: 700;
+        }
       }
       .rate {
         display: flex;

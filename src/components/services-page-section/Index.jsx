@@ -23,7 +23,6 @@ const EMPTY_FILTERS = {
   name: "",
   lat: "",
   lng: "",
-  pet_id: "",
   min_price: "",
   max_price: "",
   rating: "",
@@ -75,10 +74,6 @@ const Index = () => {
 
     if (appliedFilters.lat !== "" && appliedFilters.lng !== "") {
       payload.radius_km = 15;
-    }
-
-    if (appliedFilters.pet_id) {
-      payload.pet_id = Number(appliedFilters.pet_id);
     }
 
     if (appliedFilters.category_slug?.trim()) {
@@ -298,22 +293,17 @@ const Index = () => {
             <div className="item">
               <select
                 className="form-select form-control"
-                value={filters.pet_id}
+                value={filters.category_slug}
                 onChange={(e) => {
-                  const selectedId = e.target.value;
-                  const selectedCategory = normalizedCategories.find(
-                    (category) => String(category.id) === selectedId,
-                  );
+                  const selectedSlug = e.target.value;
 
                   setFilters((prev) => ({
                     ...prev,
-                    pet_id: selectedId,
-                    category_slug: selectedCategory?.slug || "",
+                    category_slug: selectedSlug,
                   }));
                   setAppliedFilters((prev) => ({
                     ...prev,
-                    pet_id: selectedId,
-                    category_slug: selectedCategory?.slug || "",
+                    category_slug: selectedSlug,
                   }));
                   setCurrentPage(1);
                 }}
@@ -321,8 +311,8 @@ const Index = () => {
                 <option value="">الفئة</option>
                 {normalizedCategories.map((category) => (
                   <option
-                    key={category.id || category.slug}
-                    value={category.id || ""}
+                    key={category.slug || category.id}
+                    value={category.slug || ""}
                   >
                     {category.name}
                   </option>

@@ -12,6 +12,7 @@ export const getServicesApi = async ({
   max_price,
   name,
   rating,
+  category_slug,
 }) => {
   const body = {
     search: {
@@ -25,6 +26,7 @@ export const getServicesApi = async ({
       max_price: max_price,
       name: name,
       rating: rating,
+      category_slug: category_slug,
     },
   };
 
@@ -111,6 +113,27 @@ export const createBookingApi = async ({
   const response = await server({ cookies }).post(
     `/bookings/actions/create-booking`,
     body,
+  );
+
+  return response;
+};
+
+export const getProviderLocationBookingScheduleApi = async ({
+  cookies,
+  provider_location_id,
+  service_id,
+  from,
+  to,
+}) => {
+  const response = await server({ cookies }).get(
+    `/provider-locations/${provider_location_id}/booking-schedule`,
+    {
+      params: {
+        service_id,
+        from,
+        to,
+      },
+    },
   );
 
   return response;

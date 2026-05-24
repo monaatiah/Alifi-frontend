@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs } from "swiper";
-import Image from "next/future/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -33,7 +32,11 @@ import {
   FaWhatsapp,
   FaXTwitter,
 } from "react-icons/fa6";
-import { createBookingApi, getServiceProvidersApi } from "@/api/services";
+import {
+  createBookingApi,
+  getProviderLocationBookingScheduleApi,
+  getServiceProvidersApi,
+} from "@/api/services";
 import { createPetApi, searchPetsApi } from "@/api/pets";
 
 const Flatpickr = dynamic(() => import("react-flatpickr"), {
@@ -129,6 +132,53 @@ const normalizeFavouriteServices = (payload) => {
   return [];
 };
 
+const getLocationLabel = (location) => {
+  if (!location) {
+    return "";
+  }
+
+  return [location.address, location.city, location.state, location.country]
+    .filter(Boolean)
+    .join(", ");
+};
+
+const toDateKey = (date) => {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const dateKeyToDate = (dateKey) => {
+  if (!dateKey) {
+    return null;
+  }
+
+  const [year, month, day] = dateKey.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return null;
+  }
+
+  return new Date(year, month - 1, day);
+};
+
+const getCurrentMonthRange = () => {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  return {
+    from: toDateKey(firstDay),
+    to: toDateKey(lastDay),
+  };
+};
+
 const ProductInfo = ({ singleService }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -144,13 +194,16 @@ const ProductInfo = ({ singleService }) => {
   const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
   const [isLoadingPets, setIsLoadingPets] = useState(false);
   const [isLoadingProviders, setIsLoadingProviders] = useState(false);
+  const [isLoadingSchedule, setIsLoadingSchedule] = useState(false);
   const [didLoadPets, setDidLoadPets] = useState(false);
   const [didLoadProviders, setDidLoadProviders] = useState(false);
   const [providers, setProviders] = useState([]);
+  const [bookingSchedule, setBookingSchedule] = useState(null);
   const [showAddPetModal, setShowAddPetModal] = useState(false);
   const [isSubmittingPet, setIsSubmittingPet] = useState(false);
   const [userPets, setUserPets] = useState([]);
   const [selectedBookingDates, setSelectedBookingDates] = useState([]);
+  const [selectedBookingDateKey, setSelectedBookingDateKey] = useState("");
   const [petForm, setPetForm] = useState({
     name: "",
     species: "",
@@ -292,9 +345,80 @@ const ProductInfo = ({ singleService }) => {
   }, [embeddedLocationOptions, matchedProvider?.locations]);
 
   const addonOptions = useMemo(
-    () => singleService?.addons || singleService?.service_addons || [],
-    [singleService],
+    () => serviceData?.addons || serviceData?.service_addons || [],
+    [serviceData],
   );
+
+  const galleryImages = useMemo(() => {
+    const images = [
+      serviceData?.cover_url,
+      ...(Array.isArray(serviceData?.gallery_urls)
+        ? serviceData.gallery_urls
+        : []),
+    ].filter(Boolean);
+
+    return images.length > 0 ? images : [SliderImg.src || SliderImg];
+  }, [serviceData]);
+
+  const primaryLocationLabel = useMemo(
+    () => getLocationLabel(embeddedLocationOptions[0]),
+    [embeddedLocationOptions],
+  );
+
+  const reviews = useMemo(
+    () => (Array.isArray(serviceData?.reviews) ? serviceData.reviews : []),
+    [serviceData],
+  );
+
+  const reviewsCount =
+    Number(serviceData?.reviews_count || serviceData?.reviews_count_total || 0) ||
+    reviews.length;
+
+  const reviewAverage = useMemo(() => {
+    const explicitRating = Number(
+      serviceData?.reviews_avg_rating ?? serviceData?.rating ?? 0,
+    );
+
+    if (explicitRating) {
+      return explicitRating;
+    }
+
+    if (!reviews.length) {
+      return 0;
+    }
+
+    const total = reviews.reduce(
+      (sum, review) => sum + Number(review?.rating || review?.rate || 0),
+      0,
+    );
+
+    return total / reviews.length;
+  }, [reviews, serviceData]);
+
+  const availableDateKeys = useMemo(
+    () =>
+      Array.isArray(bookingSchedule?.available_dates)
+        ? bookingSchedule.available_dates
+        : [],
+    [bookingSchedule],
+  );
+
+  const enabledBookingDates = useMemo(
+    () => availableDateKeys.map(dateKeyToDate).filter(Boolean),
+    [availableDateKeys],
+  );
+
+  const selectedDateSlots = useMemo(() => {
+    if (!selectedBookingDateKey) {
+      return [];
+    }
+
+    const slots = bookingSchedule?.slots_by_date?.[selectedBookingDateKey];
+
+    return Array.isArray(slots) ? slots : [];
+  }, [bookingSchedule, selectedBookingDateKey]);
+
+  const scheduleRange = bookingSchedule?.schedule_range || {};
 
   useEffect(() => {
     setBookingForm((prev) => ({
@@ -467,7 +591,65 @@ const ProductInfo = ({ singleService }) => {
     }
   }, [bookingForm.location_id, locationOptions]);
 
-  const rating = Number(singleService?.reviews_avg_rating ?? 0);
+  useEffect(() => {
+    if (
+      !isBookingMode ||
+      !bookingForm.location_id ||
+      !bookingForm.service_id
+    ) {
+      setBookingSchedule(null);
+      setSelectedBookingDates([]);
+      setSelectedBookingDateKey("");
+      setBookingForm((prev) => ({ ...prev, scheduled_at: "" }));
+      return;
+    }
+
+    let isMounted = true;
+    const { from, to } = getCurrentMonthRange();
+
+    const loadSchedule = async () => {
+      setIsLoadingSchedule(true);
+      setBookingSchedule(null);
+      setSelectedBookingDates([]);
+      setSelectedBookingDateKey("");
+      setBookingForm((prev) => ({ ...prev, scheduled_at: "" }));
+
+      try {
+        const { data } = await getProviderLocationBookingScheduleApi({
+          cookies: {},
+          provider_location_id: bookingForm.location_id,
+          service_id: bookingForm.service_id,
+          from,
+          to,
+        });
+
+        if (!isMounted) {
+          return;
+        }
+
+        setBookingSchedule(data?.data || data || null);
+      } catch (error) {
+        if (isMounted) {
+          toast.error(
+            error?.response?.data?.message ||
+              "تعذر تحميل مواعيد الحجز المتاحة",
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingSchedule(false);
+        }
+      }
+    };
+
+    loadSchedule();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [bookingForm.location_id, bookingForm.service_id, isBookingMode]);
+
+  const rating = Number(reviewAverage ?? 0);
   const normalizedRating = Math.max(0, Math.min(5, rating));
   const roundedRating = Math.round(normalizedRating * 2) / 2;
   const stars = Array.from({ length: 5 }, (_, index) => {
@@ -502,9 +684,17 @@ const ProductInfo = ({ singleService }) => {
 
   const handleBookingInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "location_id") {
+      setBookingSchedule(null);
+      setSelectedBookingDates([]);
+      setSelectedBookingDateKey("");
+    }
+
     setBookingForm((prev) => ({
       ...prev,
       [name]: value,
+      ...(name === "location_id" ? { scheduled_at: "" } : {}),
     }));
   };
 
@@ -659,15 +849,15 @@ const ProductInfo = ({ singleService }) => {
                   spaceBetween={10}
                   className="product-main-image"
                 >
-                  {[1, 2, 3]?.map((item, index) => (
+                  {galleryImages.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="item">
-                        <Image
-                          // src={handleImageLink(item)}
-                          src={SliderImg}
-                          alt={singleService?.name || "Product Image"}
+                        <img
+                          src={item}
+                          alt={serviceData?.title || "Service image"}
                           width={420}
                           height={370}
+                          loading={index === 0 ? "eager" : "lazy"}
                         />
                       </div>
                     </SwiperSlide>
@@ -680,15 +870,15 @@ const ProductInfo = ({ singleService }) => {
                   modules={[Thumbs]}
                   className="product-thumbs"
                 >
-                  {[1, 2, 3]?.map((item, index) => (
+                  {galleryImages.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="item">
-                        <Image
-                          // src={handleImageLink(item)}
-                          src={SliderImg}
-                          alt={singleService?.name || "Product Image"}
+                        <img
+                          src={item}
+                          alt={serviceData?.title || "Service image thumbnail"}
                           width={100}
                           height={90}
+                          loading="lazy"
                         />
                       </div>
                     </SwiperSlide>
@@ -771,7 +961,7 @@ const ProductInfo = ({ singleService }) => {
                       </div>
                     </div>
                   </div>
-                  <h1>{singleService?.title}</h1>
+                  <h1>{serviceData?.title}</h1>
                 </div>
                 <div className="review d-flex align-items-center gap-3">
                   <div className="stars d-flex align-items-center gap-1">
@@ -788,29 +978,48 @@ const ProductInfo = ({ singleService }) => {
                       </span>
                     ))}
                   </div>
-                  <span>12 تقييمات</span>
+                  <span>{reviewsCount} تقييمات</span>
                 </div>
-                <div className="location d-flex align-items-center gap-3">
-                  <div className="icon">
-                    <FiMapPin />
+                {(primaryLocationLabel || serviceData?.category?.name) && (
+                  <div className="service-meta d-flex align-items-center gap-3 flex-wrap">
+                    {primaryLocationLabel && (
+                      <div className="location d-flex align-items-center gap-3">
+                        <div className="icon">
+                          <FiMapPin />
+                        </div>
+                        <span>{primaryLocationLabel}</span>
+                      </div>
+                    )}
+                    {serviceData?.category?.name && (
+                      <div className="category-badge">
+                        {serviceData.category.name}
+                      </div>
+                    )}
                   </div>
-                  <span>الرياض، السعودية</span>
-                </div>
+                )}
                 {!isBookingMode && (
                   <>
                     <div className="description">
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: singleService?.short_description,
+                          __html:
+                            serviceData?.short_description ||
+                            serviceData?.description ||
+                            "",
                         }}
                       />
                     </div>
+                    {serviceData?.duration_minutes && (
+                      <div className="duration">
+                        مدة الخدمة: {serviceData.duration_minutes} دقيقة
+                      </div>
+                    )}
                     <div className="price-range">
                       <h4>النطاق السعري</h4>
 
                       <p className="d-flex align-items-center gap-2">
                         <span>
-                          {singleService?.base_price}
+                          {serviceData?.base_price}
                           <SaudiRiyalIcon
                             width={20}
                             height={20}
@@ -874,23 +1083,79 @@ const ProductInfo = ({ singleService }) => {
                           value={selectedBookingDates}
                           options={{
                             inline: true,
-                            enableTime: true,
-                            minDate: "today",
-                            dateFormat: "Y-m-d H:i",
-                            time_24hr: false,
+                            enableTime: false,
+                            dateFormat: "Y-m-d",
+                            disableMobile: true,
+                            minDate: scheduleRange.from || undefined,
+                            maxDate: scheduleRange.to || undefined,
+                            enable: enabledBookingDates,
                           }}
                           onChange={(selectedDates) => {
                             const selectedDate = selectedDates?.[0] || null;
+                            const dateKey = selectedDate
+                              ? toDateKey(selectedDate)
+                              : "";
+
                             setSelectedBookingDates(selectedDates || []);
+                            setSelectedBookingDateKey(dateKey);
                             setBookingForm((prev) => ({
                               ...prev,
-                              scheduled_at: selectedDate
-                                ? selectedDate.toISOString()
-                                : "",
+                              scheduled_at: "",
                             }));
                           }}
                         />
+                        {isLoadingSchedule && (
+                          <div className="schedule-state">
+                            جاري تحميل المواعيد المتاحة...
+                          </div>
+                        )}
+                        {!isLoadingSchedule &&
+                          bookingForm.location_id &&
+                          bookingSchedule &&
+                          enabledBookingDates.length === 0 && (
+                            <div className="schedule-state">
+                              لا توجد مواعيد متاحة لهذا الموقع خلال الشهر الحالي.
+                            </div>
+                          )}
+                        {!isLoadingSchedule && !bookingForm.location_id && (
+                          <div className="schedule-state">
+                            اختر الموقع لعرض الأيام والمواعيد المتاحة.
+                          </div>
+                        )}
                       </div>
+                      {selectedBookingDateKey && (
+                        <div className="time-slots">
+                          <h5>الأوقات المتاحة</h5>
+                          {selectedDateSlots.length > 0 ? (
+                            <div className="slots-grid">
+                              {selectedDateSlots.map((slot) => (
+                                <button
+                                  type="button"
+                                  key={slot.start}
+                                  className={
+                                    bookingForm.scheduled_at === slot.start
+                                      ? "active"
+                                      : ""
+                                  }
+                                  disabled={slot.status !== "available"}
+                                  onClick={() =>
+                                    setBookingForm((prev) => ({
+                                      ...prev,
+                                      scheduled_at: slot.start,
+                                    }))
+                                  }
+                                >
+                                  {slot.label}
+                                </button>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="schedule-state">
+                              لا توجد أوقات متاحة لهذا اليوم.
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -987,14 +1252,17 @@ const ProductInfo = ({ singleService }) => {
                               className={`addon-item d-flex align-items-center gap-2 ${bookingForm.addon_ids.includes(Number(addon.id)) ? "selected" : ""}`}
                               onClick={() => handleAddonChange(addon.id)}
                             >
-                              <div className="img">
-                                <Image
-                                  src={addon?.logo_url || ""}
-                                  alt={addon.title || `Addon #${addon.id}`}
-                                  width={50}
-                                  height={50}
-                                />
-                              </div>
+                              {addon?.logo_url && (
+                                <div className="img">
+                                  <img
+                                    src={addon.logo_url}
+                                    alt={addon.title || `Addon #${addon.id}`}
+                                    width={50}
+                                    height={50}
+                                    loading="lazy"
+                                  />
+                                </div>
+                              )}
                               <div className="info d-flex flex-column align-items-start">
                                 <h4>{addon.title}</h4>
                                 <p>
