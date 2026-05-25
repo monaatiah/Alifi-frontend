@@ -27,13 +27,22 @@ import {
 } from "./actionTypes";
 import toast from "react-hot-toast";
 
+const getErrorPayload = (error) => {
+  return (
+    error?.response?.data?.message ||
+    error?.response?.data?.error ||
+    error?.message ||
+    "An error occurred"
+  );
+};
+
 function* getPageDataSaga({ payload }) {
   try {
     const { data } = yield call(getPageDataApi, payload);
     yield put(getPageDataSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(getPageDataFailure(error));
+    yield put(getPageDataFailure(getErrorPayload(error)));
   }
 }
 
@@ -46,7 +55,7 @@ function* getSettingsSaga({ payload }) {
     yield put(getSettingsSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(getSettingsFailure(error));
+    yield put(getSettingsFailure(getErrorPayload(error)));
   }
 }
 
@@ -63,7 +72,7 @@ function* joinUsSaga({ payload }) {
     toast.success("تم ارسال طلبك بنجاح");
   } catch (error) {
     console.log(error);
-    yield put(joinUsFailure(error));
+    yield put(joinUsFailure(getErrorPayload(error)));
     toast.error("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
   }
 }
@@ -77,7 +86,7 @@ function* getFormSchemaSaga({ payload }) {
     yield put(getFormSchemaSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(getFormSchemaFailure(error));
+    yield put(getFormSchemaFailure(getErrorPayload(error)));
   }
 }
 
