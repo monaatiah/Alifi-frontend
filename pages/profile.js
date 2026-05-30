@@ -20,13 +20,6 @@ const Profile = dynamic(() => import("@/components/profile/Index"), {
   ssr: false,
 });
 
-const ReviewsSection = dynamic(
-  () => import("@/components/reviews-section/Index"),
-  {
-    ssr: false,
-  },
-);
-
 const Footer = dynamic(() => import("@/components/footer/Index"), {
   ssr: false,
 });
@@ -38,7 +31,6 @@ const ShopPage = () => {
       <Header />
       <BreadCrumbSection title="صفحة البائع" pageName="صفحة البائع" />
       <Profile />
-      <ReviewsSection />
       <Footer />
     </>
   );

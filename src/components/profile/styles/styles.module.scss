@@ -128,6 +128,465 @@
         }
       }
     }
+    .profile-dashboard {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 20px;
+      color: #111111;
+
+      button {
+        border: 0;
+        font: inherit;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-2px);
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.65;
+        }
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+
+        h2 {
+          margin: 0;
+          padding: 0;
+          font-size: 22px;
+          line-height: 1.3;
+
+          &::after {
+            display: none;
+          }
+        }
+
+        button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          min-height: 38px;
+          padding: 8px 16px;
+          border-radius: 8px;
+          background-color: #ffffff;
+          color: #111111;
+          font-weight: 700;
+
+          svg {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+
+      .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 26px;
+
+        .stat-card {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          min-height: 136px;
+          padding: 26px 32px;
+          border-radius: 20px;
+          background-color: #eeeeee;
+
+          .stat-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: #c5ff35;
+            color: #111111;
+
+            svg {
+              width: 27px;
+              height: 27px;
+            }
+          }
+
+          div {
+            text-align: right;
+          }
+
+          h3 {
+            margin-bottom: 14px;
+            font-size: 18px;
+            font-weight: 800;
+          }
+
+          strong {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #ff7a2f;
+            color: #ffffff;
+            font-size: 18px;
+            line-height: 1;
+          }
+
+          p {
+            margin: 8px 0 0;
+            font-size: 13px;
+            font-weight: 700;
+          }
+        }
+      }
+
+      .quick-actions,
+      .bookings-panel {
+        border-radius: 20px;
+      }
+
+      .quick-actions {
+        padding: 26px;
+        background-color: #c5ff35;
+
+        .quick-actions-list {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 26px;
+
+          button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-height: 104px;
+            padding: 18px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #111111;
+            font-size: 18px;
+            font-weight: 800;
+
+            span {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background-color: #c5ff35;
+            }
+
+            svg {
+              width: 26px;
+              height: 26px;
+            }
+          }
+        }
+      }
+
+      .pets-panel,
+      .orders-panel {
+        padding: 26px;
+        border-radius: 20px;
+        background-color: #f4f4f4;
+      }
+
+      .pets-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+
+        .pet-card {
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr) auto;
+          align-items: center;
+          gap: 16px;
+          padding: 18px;
+          border: 2px solid transparent;
+          border-radius: 18px;
+          background-color: #ffffff;
+
+          &.is-editing {
+            border-color: #c5ff35;
+          }
+
+          .pet-avatar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background-color: #c5ff35;
+
+            svg {
+              width: 32px;
+              height: 32px;
+            }
+          }
+
+          .pet-info {
+            min-width: 0;
+          }
+
+          h3 {
+            margin-bottom: 4px;
+            font-size: 20px;
+            font-weight: 800;
+          }
+
+          p,
+          span {
+            display: block;
+            margin: 0;
+            color: #444444;
+            font-size: 14px;
+            line-height: 1.6;
+          }
+
+          .pet-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            button {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 38px;
+              height: 38px;
+              border-radius: 8px;
+              background-color: #f4f4f4;
+              color: #111111;
+
+              &:last-child {
+                color: #f04438;
+              }
+            }
+          }
+        }
+      }
+
+      .orders-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 20px;
+        align-items: stretch;
+
+        .orders-list {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .order-card {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          gap: 10px 18px;
+          width: 100%;
+          padding: 22px 28px;
+          border: 2px solid transparent;
+          border-radius: 16px;
+          background-color: #ffffff;
+          text-align: right;
+
+          &.is-active {
+            border-color: #c5ff35;
+          }
+
+          span {
+            color: #444444;
+            font-size: 14px;
+          }
+
+          strong {
+            font-size: 14px;
+            font-weight: 900;
+          }
+
+          em,
+          small {
+            padding: 7px 18px;
+            border-radius: 999px;
+            background-color: #f4f4f4;
+            font-style: normal;
+            font-weight: 800;
+          }
+
+          small {
+            text-align: left;
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        .order-details {
+          padding: 24px;
+          border-radius: 18px;
+          background-color: #ffffff;
+
+          .details-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 18px;
+            border-radius: 50%;
+            background-color: #c5ff35;
+
+            svg {
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: 900;
+          }
+
+          p {
+            margin-bottom: 8px;
+            color: #444444;
+          }
+
+          strong {
+            display: block;
+            margin-bottom: 18px;
+            font-size: 22px;
+          }
+
+          ul {
+            margin: 0;
+            padding: 0 18px 0 0;
+          }
+
+          li {
+            margin-bottom: 8px;
+            color: #444444;
+          }
+        }
+      }
+
+      .bookings-panel {
+        padding: 26px;
+        background-color: #ef8beb;
+
+        .bookings-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .booking-state {
+          padding: 18px;
+          border-radius: 18px;
+          background-color: #ffffff;
+          color: #444444;
+          font-weight: 800;
+          text-align: center;
+        }
+
+        .booking-card {
+          display: grid;
+          grid-template-columns: auto minmax(160px, 1fr) auto auto;
+          align-items: center;
+          gap: 18px;
+          min-height: 64px;
+          padding: 10px 18px;
+          border-radius: 18px;
+          background-color: #ffffff;
+
+          &.is-cancelled {
+            opacity: 0.7;
+          }
+
+          .booking-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: #c5ff35;
+
+            svg {
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          h3 {
+            margin-bottom: 4px;
+            font-size: 18px;
+            font-weight: 900;
+          }
+
+          .booking-title span {
+            color: #444444;
+            font-size: 13px;
+          }
+
+          .booking-date {
+            min-width: 140px;
+            color: #444444;
+            text-align: center;
+
+            span,
+            strong {
+              display: block;
+              font-size: 14px;
+              line-height: 1.35;
+            }
+          }
+
+          .booking-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            button {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: 6px;
+              min-height: 36px;
+              padding: 7px 12px;
+              border-radius: 8px;
+              background-color: #f4f4f4;
+              color: #111111;
+              font-weight: 800;
+
+              &:first-child {
+                color: #f04438;
+              }
+            }
+          }
+        }
+      }
+    }
     .services {
       margin-bottom: 70px;
       @media (max-width: 768px) {
@@ -208,6 +667,111 @@
           color: #fff;
           &:hover {
             color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .profile-section {
+    :global {
+      .profile-dashboard {
+        .dashboard-stats,
+        .quick-actions .quick-actions-list {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        .pets-list,
+        .orders-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .bookings-panel {
+          .booking-card {
+            grid-template-columns: auto minmax(0, 1fr);
+
+            .booking-date,
+            .booking-actions {
+              grid-column: 2;
+              justify-content: flex-start;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-section {
+    :global {
+      .profile-dashboard {
+        gap: 18px;
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+          margin-bottom: 18px;
+
+          h2 {
+            font-size: 19px;
+          }
+        }
+
+        .dashboard-stats {
+          .stat-card {
+            min-height: auto;
+            padding: 20px;
+          }
+        }
+
+        .quick-actions,
+        .pets-panel,
+        .orders-panel,
+        .bookings-panel {
+          padding: 18px;
+          border-radius: 16px;
+        }
+
+        .quick-actions {
+          .quick-actions-list button {
+            min-height: 92px;
+            font-size: 16px;
+          }
+        }
+
+        .pets-list {
+          .pet-card {
+            grid-template-columns: auto minmax(0, 1fr);
+
+            .pet-actions {
+              grid-column: 1 / -1;
+            }
+          }
+        }
+
+        .orders-layout {
+          .order-card {
+            grid-template-columns: 1fr;
+            padding: 18px;
+
+            small {
+              text-align: right;
+            }
+          }
+        }
+
+        .bookings-panel {
+          .booking-card {
+            padding: 14px;
+
+            .booking-actions {
+              flex-wrap: wrap;
+            }
           }
         }
       }
