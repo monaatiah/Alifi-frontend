@@ -6,24 +6,24 @@ export const useRouteProtection = (protectionType) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady) {
+      return;
+    }
 
     const cookies = parseCookies();
     const token = cookies.token;
-    const redirectTo =
-      typeof router.query.redirectTo === "string"
-        ? router.query.redirectTo
-        : undefined;
 
     if (protectionType === "auth-only") {
-      // Redirect to home if user is logged in (login and register pages)
+      // Logged-in users should not open auth pages.
       if (token) {
-        router.replace(redirectTo || "/");
+        router.replace("/");
       }
     } else if (protectionType === "protected") {
-      // Redirect to login if user is not logged in (profile and verify pages)
+      // Guests should be redirected to login before protected pages.
       if (!token) {
-        router.push("/login");
+        const currentPath = router.asPath || "/";
+        const loginPath = `/login?redirectTo=${encodeURIComponent(currentPath)}`;
+        router.replace(loginPath);
       }
     }
   }, [protectionType, router]);

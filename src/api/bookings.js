@@ -16,3 +16,28 @@ export const searchBookingsApi = async ({
 
   return response;
 };
+
+export const cancelBookingApi = async ({ cookies, bookingId }) => {
+  const response = await server({ cookies }).patch(
+    `/bookings/${bookingId}/cancel`,
+  );
+
+  return response;
+};
+
+export const submitBookingReviewApi = async ({
+  cookies,
+  bookingId,
+  rating,
+  comment,
+}) => {
+  const response = await server({ cookies }).post(
+    `/bookings/${bookingId}/review`,
+    {
+      rating,
+      comment,
+    },
+  );
+
+  return response;
+};

@@ -25,7 +25,7 @@ const Footer = dynamic(() => import("@/components/footer/Index"), {
 });
 
 const ShopPage = () => {
-  useRouteProtection("protected");
+  useRouteProtection("auth-only");
   return (
     <>
       <Header />
