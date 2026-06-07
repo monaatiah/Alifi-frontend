@@ -117,7 +117,7 @@ const PrizesSection = dynamic(() => import("@/components/prizes/Index"), {
 const NotFound = dynamic(() => import("@/components/not-found/Index"), {
   ssr: false,
 });
-const Empty = dynamic(() => import("@/components/empty/"), { ssr: false });
+const Empty = dynamic(() => import("@/components/empty/Index"), { ssr: false });
 
 /**
  * Main component registry
