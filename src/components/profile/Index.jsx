@@ -39,6 +39,7 @@ import {
 } from "@/api/pets";
 import { fetchUser } from "@/store/actions";
 import { parseCookies } from "nookies";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import CallIcon from "./assets/phone.svg";
 import ChatIcon from "./assets/chat.svg";
@@ -254,6 +255,7 @@ const toHrefPhone = (value) => {
 };
 
 const Index = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const token = parseCookies()?.token;
   const { user } = useSelector((state) => state.auth || {});
@@ -537,12 +539,6 @@ const Index = () => {
     setIsPetFormVisible(true);
   };
 
-  const quickActions = [
-    { label: "إضافة حيوان أليف", icon: <FiPlusCircle />, onClick: addPet },
-    { label: "احجز موعد", icon: <FiCalendar /> },
-    { label: "اطلب", icon: <FiClipboard /> },
-  ];
-
   const handleEditPet = (petId) => {
     const selectedPet = pets.find((pet) => pet.id === petId);
     if (!selectedPet) {
@@ -695,6 +691,24 @@ const Index = () => {
     setCancelOrderReason("");
     setIsCancelOrderModalOpen(true);
   };
+
+  const handleBookAppointment = () => {
+    router.push("/services");
+  };
+
+  const handleShopNow = () => {
+    router.push("/shop");
+  };
+
+  const quickActions = [
+    { label: "إضافة حيوان أليف", icon: <FiPlusCircle />, onClick: addPet },
+    {
+      label: "احجز موعد",
+      icon: <FiCalendar />,
+      onClick: handleBookAppointment,
+    },
+    { label: "اطلب", icon: <FiClipboard />, onClick: handleShopNow },
+  ];
 
   const handleCloseCancelOrderModal = () => {
     if (isCancellingOrder) {
@@ -892,7 +906,7 @@ const Index = () => {
               </div>
             ))}
           </div>
-
+          {/* 
           <section className="quick-actions">
             <div className="section-head">
               <h2>إجراءات سريعة</h2>
@@ -909,7 +923,7 @@ const Index = () => {
                 </button>
               ))}
             </div>
-          </section>
+          </section> */}
 
           <section className="pets-panel">
             <div className="section-head">
@@ -1239,7 +1253,11 @@ const Index = () => {
                       <button
                         type="button"
                         onClick={() => handleReviewBooking(booking.id)}
-                        disabled={booking.reviewed}
+                        disabled={
+                          booking.reviewed ||
+                          booking.rawStatus === "cancelled" ||
+                          booking.rawStatus === "canceled"
+                        }
                       >
                         {booking.reviewed ? <FiCheckCircle /> : <FiStar />}
                         {booking.reviewed ? "تم التقييم" : "تقييم"}

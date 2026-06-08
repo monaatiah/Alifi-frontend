@@ -126,8 +126,11 @@ const Index = () => {
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/profile">الملف الشخصي</Dropdown.Item>
-                  <Dropdown.Item href="/orders">طلباتي</Dropdown.Item>
+                  <Link href={"/profile"}>
+                    <a className="dropdown-item" type="button">
+                      الملف الشخصي
+                    </a>
+                  </Link>
                   <button
                     className="dropdown-item"
                     type="button"
