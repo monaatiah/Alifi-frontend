@@ -85,7 +85,6 @@ export const PAGE_LAYOUTS = {
   services: {
     components: [
       { slug: "header", order: 0, required: true },
-      { slug: "inner-head", order: 1, required: false },
       { slug: "services-page", order: 2, required: true },
       { slug: "footer", order: 3, required: true },
     ],
@@ -161,10 +160,9 @@ export const getPageLayout = (pageType, overrides = []) => {
 
   // If CMS provides specific component overrides
   if (Array.isArray(overrides) && overrides.length > 0) {
-    const customComponents = [
-      ...baseLayout.components,
-      ...overrides,
-    ].sort((a, b) => a.order - b.order);
+    const customComponents = [...baseLayout.components, ...overrides].sort(
+      (a, b) => a.order - b.order,
+    );
 
     return {
       ...baseLayout,
@@ -229,6 +227,6 @@ export const isValidPageConfig = (config) => {
   if (!config || typeof config !== "object") return false;
   if (!Array.isArray(config.components)) return false;
   return config.components.every(
-    (comp) => comp.slug && typeof comp.order === "number"
+    (comp) => comp.slug && typeof comp.order === "number",
   );
 };

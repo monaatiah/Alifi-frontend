@@ -371,8 +371,9 @@ const ProductInfo = ({ singleService }) => {
   );
 
   const reviewsCount =
-    Number(serviceData?.reviews_count || serviceData?.reviews_count_total || 0) ||
-    reviews.length;
+    Number(
+      serviceData?.reviews_count || serviceData?.reviews_count_total || 0,
+    ) || reviews.length;
 
   const reviewAverage = useMemo(() => {
     const explicitRating = Number(
@@ -592,11 +593,7 @@ const ProductInfo = ({ singleService }) => {
   }, [bookingForm.location_id, locationOptions]);
 
   useEffect(() => {
-    if (
-      !isBookingMode ||
-      !bookingForm.location_id ||
-      !bookingForm.service_id
-    ) {
+    if (!isBookingMode || !bookingForm.location_id || !bookingForm.service_id) {
       setBookingSchedule(null);
       setSelectedBookingDates([]);
       setSelectedBookingDateKey("");
@@ -631,8 +628,7 @@ const ProductInfo = ({ singleService }) => {
       } catch (error) {
         if (isMounted) {
           toast.error(
-            error?.response?.data?.message ||
-              "تعذر تحميل مواعيد الحجز المتاحة",
+            error?.response?.data?.message || "تعذر تحميل مواعيد الحجز المتاحة",
           );
         }
       } finally {
@@ -1114,7 +1110,8 @@ const ProductInfo = ({ singleService }) => {
                           bookingSchedule &&
                           enabledBookingDates.length === 0 && (
                             <div className="schedule-state">
-                              لا توجد مواعيد متاحة لهذا الموقع خلال الشهر الحالي.
+                              لا توجد مواعيد متاحة لهذا الموقع خلال الشهر
+                              الحالي.
                             </div>
                           )}
                         {!isLoadingSchedule && !bookingForm.location_id && (
@@ -1174,11 +1171,16 @@ const ProductInfo = ({ singleService }) => {
                           required
                         >
                           <option value="">اختر الحيوان الأليف</option>
-                          {petOptions.map((pet) => (
-                            <option key={pet.id} value={pet.id}>
-                              {pet.name || `#${pet.id}`}
-                            </option>
-                          ))}
+                          {petOptions.map((pet) => {
+                            if (pet.is_active === false) {
+                              return null;
+                            }
+                            return (
+                              <option key={pet.id} value={pet.id}>
+                                {pet.name || `#${pet.id}`}
+                              </option>
+                            );
+                          })}
                         </select>
                       ) : (
                         <div className="empty-pets-state">
