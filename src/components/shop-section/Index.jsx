@@ -18,20 +18,25 @@ import {
   ImageWithFallback,
 } from "@/helpers/functions";
 
-const Index = () => {
+const Index = ({ identifier = "categories_slider" }) => {
   const { categories } = useSelector((state) => state.categories);
   const { pageData } = useSelector((state) => state.settings);
   const categoriesData = getComponentByIdentifier(
     pageData?.page_components,
+    identifier,
+  );
+  const fallbackCategoriesData = getComponentByIdentifier(
+    pageData?.page_components,
     "categories_slider",
   );
+  const resolvedCategoriesData = categoriesData || fallbackCategoriesData;
 
   return (
     <div className={styles["shop-section"]}>
       <Container>
         <SecMainTitle
-          secSubTitle={categoriesData?.data?.subtitle}
-          secTitle={categoriesData?.data?.title}
+          secSubTitle={resolvedCategoriesData?.data?.subtitle}
+          secTitle={resolvedCategoriesData?.data?.title}
         />
         <div className="g-body">
           <Swiper
@@ -96,8 +101,8 @@ const Index = () => {
         </div>
 
         <div className="load-more">
-          <Link href={categoriesData?.data?.cta_link || "/"} passHref>
-            <a className="btn">{categoriesData?.data?.cta_title}</a>
+          <Link href={resolvedCategoriesData?.data?.cta_link || "/"} passHref>
+            <a className="btn">{resolvedCategoriesData?.data?.cta_title}</a>
           </Link>
         </div>
       </Container>

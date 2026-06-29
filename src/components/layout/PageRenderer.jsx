@@ -7,6 +7,7 @@
 
 import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
+import { useSelector } from "react-redux";
 import { getComponentBySlug } from "@/helpers/componentRegistry";
 import { PAGE_LAYOUTS } from "@/helpers/pageConfig";
 
@@ -67,12 +68,20 @@ export const PageRenderer = ({
   seo = {},
   slug = "",
 }) => {
+  const pageData = useSelector((state) => state?.settings?.pageData || {});
+
   const getIdentifier = (comp) =>
     comp?.component_identifier ||
     comp?.component?.identifier ||
     comp?.component?.slug ||
     comp?.component_slug ||
     comp?.slug;
+
+  const getNumericComponentId = (comp) => {
+    const value = comp?.component_id || comp?.component?.id || comp?.id;
+    const id = Number(value);
+    return Number.isFinite(id) ? id : null;
+  };
 
   const isInnerPage = slug !== "" && slug !== "home";
 
@@ -87,9 +96,49 @@ export const PageRenderer = ({
     [sortedComponents]
   );
 
+  const componentIdToIdentifier = useMemo(() => {
+    const map = new Map();
+
+    const addSource = (source) => {
+      if (!Array.isArray(source)) return;
+
+      source.forEach((entry) => {
+        const id = getNumericComponentId(entry);
+        const identifier = getIdentifier(entry);
+
+        if (id !== null && identifier && !map.has(id)) {
+          map.set(id, identifier);
+        }
+      });
+    };
+
+    addSource(pageData?.config?.components);
+    addSource(pageData?.config?.page_components);
+    addSource(pageData?.page_components);
+    addSource(pageComponents);
+
+    return map;
+  }, [pageData, pageComponents]);
+
+  const resolvedIdentifiers = useMemo(() => {
+    return sortedComponents
+      .map((component) => {
+        const directIdentifier = getIdentifier(component);
+        if (directIdentifier) return directIdentifier;
+
+        const componentId = Number(component?.component_id);
+        if (Number.isFinite(componentId)) {
+          return componentIdToIdentifier.get(componentId) || null;
+        }
+
+        return null;
+      })
+      .filter(Boolean);
+  }, [sortedComponents, componentIdToIdentifier]);
+
   const validCmsIdentifiers = useMemo(
-    () => cmsIdentifiers.filter((identifier) => Boolean(getComponentBySlug(identifier))),
-    [cmsIdentifiers]
+    () => resolvedIdentifiers.filter((identifier) => Boolean(getComponentBySlug(identifier))),
+    [resolvedIdentifiers]
   );
 
   // Some CMS payloads only include numeric component_id without identifier metadata.
@@ -109,10 +158,17 @@ export const PageRenderer = ({
     ? fallbackIdentifiers
     : validCmsIdentifiers;
 
-  const hasBreadcrumbInCMS = useMemo(
-    () => validCmsIdentifiers.includes("breadcrumb"),
-    [validCmsIdentifiers]
-  );
+  const hasBreadcrumbInCMS = useMemo(() => {
+    const breadcrumbAliases = new Set([
+      "breadcrumb",
+      "shop_hero",
+      "blogs_hero",
+      "categories_hero",
+      "hero_banner",
+    ]);
+
+    return validCmsIdentifiers.some((identifier) => breadcrumbAliases.has(identifier));
+  }, [validCmsIdentifiers]);
 
   return (
     <>

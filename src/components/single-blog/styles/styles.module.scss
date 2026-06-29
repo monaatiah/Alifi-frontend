@@ -1,9 +1,9 @@
 @import "@/styles/variables.scss";
 
 .single-blog-section {
-  padding-block: 70px 0;
+  padding-block: 70px;
   @media (max-width: 768px) {
-    padding-block: 50px 0;
+    padding-block: 50px;
   }
   :global {
     .blog-wrap {
@@ -46,7 +46,7 @@
 
             &.date {
               font-weight: 700;
-              color: $secondary-color;
+              color: $third-color;
               font-family: "anybody";
             }
             &.comments {
@@ -151,7 +151,7 @@
               .date {
                 font-weight: 600;
                 font-size: 16px;
-                color: $secondary-color;
+                color: $third-color;
               }
               .title {
                 a {

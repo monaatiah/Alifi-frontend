@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import BlogImg from "./assets/blog.png";
 import { ImageWithFallback } from "@/helpers/functions";
 import Pagination from "../Shared/Pagination";
 import { useForm } from "react-hook-form";
-import { postFormSubmission } from "@/store/actions";
+import { getFormSchema, postFormSubmission } from "@/store/actions";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -24,6 +24,14 @@ const Index = () => {
   const { formSchema } = useSelector((state) => state.settings);
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(
+      getFormSchema({
+        slug: "newsletter",
+      }),
+    );
+  }, [dispatch]);
 
   const onSubmit = (data) => {
     dispatch(
@@ -213,13 +221,13 @@ const Index = () => {
                         key={field?.id}
                       />
                     ))}
-                    {errors[formSchema?.fields[0]?.key] && (
+                    {errors[formSchema?.fields?.[0]?.key] && (
                       <p className="error">
-                        {errors[formSchema?.fields[0]?.key]?.type ===
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
                           "required" && "هذا الحقل مطلوب"}
-                        {errors[formSchema?.fields[0]?.key]?.type ===
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
                           "pattern" &&
-                          errors[formSchema?.fields[0]?.key]?.message}
+                          errors[formSchema?.fields?.[0]?.key]?.message}
                       </p>
                     )}
                     <button type="submit" className="btn">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import Image from "next/future/image";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { getFullDate, ImageWithFallback } from "@/helpers/functions";
-import { postFormSubmission } from "@/store/actions";
+import { getFormSchema, postFormSubmission } from "@/store/actions";
 import { useForm } from "react-hook-form";
 
 const Index = () => {
@@ -23,6 +23,14 @@ const Index = () => {
   const { contentBySlug, contentCategories } = useSelector(
     (state) => state.content,
   );
+
+  useEffect(() => {
+    dispatch(
+      getFormSchema({
+        slug: "newsletter",
+      }),
+    );
+  }, [dispatch]);
 
   const handleShare = (platform) => {
     if (typeof window === "undefined") return;
@@ -118,60 +126,45 @@ const Index = () => {
                   <h4>مقالات شائعة</h4>
                 </div>
                 <div className="recent-blogs">
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
+                  {contentBySlug?.related_contents?.length > 0 ? (
+                    contentBySlug.related_contents.map((item) => (
+                      <div className="d-flex align-items-center gap-3" key={item?.id}>
+                        <div className="img">
+                          <ImageWithFallback
+                            src={item?.cover_image || BlogImg}
+                            alt={item?.title || "Blog Title"}
+                            width={90}
+                            height={80}
+                          />
+                        </div>
+                        <div className="info">
+                          <div className="date">
+                            {getFullDate(item?.published_at || item?.created_at)}
+                          </div>
+                          <div className="title">
+                            <Link href={`/blogs/${item?.slug}`}>
+                              <a>{item?.title}</a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="d-flex align-items-center gap-3">
+                      <div className="img">
+                        <Image
+                          src={BlogImg}
+                          alt="Blog Title"
+                          width={90}
+                          height={80}
+                        />
+                      </div>
+                      <div className="info">
+                        <div className="date"></div>
+                        <div className="title">لا توجد مقالات مرتبطة حالياً</div>
                       </div>
                     </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -213,13 +206,13 @@ const Index = () => {
                         key={field?.id}
                       />
                     ))}
-                    {errors[formSchema?.fields[0]?.key] && (
+                    {errors[formSchema?.fields?.[0]?.key] && (
                       <p className="error">
-                        {errors[formSchema?.fields[0]?.key]?.type ===
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
                           "required" && "هذا الحقل مطلوب"}
-                        {errors[formSchema?.fields[0]?.key]?.type ===
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
                           "pattern" &&
-                          errors[formSchema?.fields[0]?.key]?.message}
+                          errors[formSchema?.fields?.[0]?.key]?.message}
                       </p>
                     )}
                     <button type="submit" className="btn">
