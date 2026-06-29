@@ -12,10 +12,12 @@ import { useProductFilters } from "../../hooks/useProductFilters";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ImageWithFallback } from "@/helpers/functions";
 import FilterWrap from "./FilterWrap";
 
 const Index = () => {
+  const router = useRouter();
   const { singleCategory, loading } = useSelector((state) => state.categories);
 
   const [showSidebar, setShowSidebar] = useState(false);
@@ -34,6 +36,12 @@ const Index = () => {
     setCurrentPage,
     resetFilters,
   } = useProductFilters({ categorySlug: singleCategory?.slug });
+
+  const handleCategoryClick = (event, slug) => {
+    event.preventDefault();
+    if (!slug) return;
+    router.push(`/categories/${slug}`);
+  };
 
   return (
     <div className={styles["shop-wrapper"]}>
@@ -80,13 +88,25 @@ const Index = () => {
                             height={325}
                           />
                           <Link href={`/categories/${item?.slug}`}>
-                            <a> </a>
+                            <a
+                              onClick={(event) =>
+                                handleCategoryClick(event, item?.slug)
+                              }
+                            >
+                              {" "}
+                            </a>
                           </Link>
                         </div>
                         <div className="info">
                           <h3>
                             <Link href={`/categories/${item?.slug}`}>
-                              <a>{item?.name}</a>
+                              <a
+                                onClick={(event) =>
+                                  handleCategoryClick(event, item?.slug)
+                                }
+                              >
+                                {item?.name}
+                              </a>
                             </Link>
                           </h3>
                         </div>

@@ -4,6 +4,7 @@ import styles from "./styles/styles.module.scss";
 import { useSelector } from "react-redux";
 import Image from "next/future/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { FiInstagram } from "react-icons/fi";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
@@ -11,9 +12,16 @@ import { MdOutlineMailOutline, MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const Index = () => {
+  const router = useRouter();
   const { settings } = useSelector((state) => state.settings);
   const { user } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.categories);
+
+  const handleCategoryClick = (event, slug) => {
+    event.preventDefault();
+    if (!slug) return;
+    router.push(`/categories/${slug}`);
+  };
 
   return (
     <div className={styles["footer-section"]}>
@@ -173,10 +181,16 @@ const Index = () => {
                   <div className="footer-item">
                     <h4>الأقسام</h4>
                     <ul className="d-flex gap-2 categories">
-                      {categories?.data?.map((item, idx) => (
-                        <li key={idx}>
+                      {categories?.data?.map((item) => (
+                        <li key={item?.id || item?.slug}>
                           <Link href={`/categories/${item?.slug}`}>
-                            <a>{item?.name}</a>
+                            <a
+                              onClick={(event) =>
+                                handleCategoryClick(event, item?.slug)
+                              }
+                            >
+                              {item?.name}
+                            </a>
                           </Link>
                         </li>
                       ))}

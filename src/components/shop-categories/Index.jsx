@@ -2,13 +2,21 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { useSelector } from "react-redux";
 import { ImageWithFallback } from "@/helpers/functions";
 
 const Index = () => {
+  const router = useRouter();
   const { categories } = useSelector((state) => state.categories);
+
+  const handleCategoryClick = (event, slug) => {
+    event.preventDefault();
+    if (!slug) return;
+    router.push(`/categories/${slug}`);
+  };
 
   return (
     <div className={styles["services-section"]}>
@@ -52,13 +60,25 @@ const Index = () => {
                       height={325}
                     />
                     <Link href={`/categories/${item?.slug}`}>
-                      <a> </a>
+                      <a
+                        onClick={(event) =>
+                          handleCategoryClick(event, item?.slug)
+                        }
+                      >
+                        {" "}
+                      </a>
                     </Link>
                   </div>
                   <div className="info">
                     <h3>
                       <Link href={`/categories/${item?.slug}`}>
-                        <a>{item?.name}</a>
+                        <a
+                          onClick={(event) =>
+                            handleCategoryClick(event, item?.slug)
+                          }
+                        >
+                          {item?.name}
+                        </a>
                       </Link>
                     </h3>
                   </div>

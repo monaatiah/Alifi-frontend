@@ -3,19 +3,27 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { ImageWithFallback } from "@/helpers/functions";
 
 const Index = () => {
+  const router = useRouter();
   const { categories } = useSelector((state) => state.categories);
+
+  const handleCategoryClick = (event, slug) => {
+    event.preventDefault();
+    if (!slug) return;
+    router.push(`/categories/${slug}`);
+  };
 
   return (
     <div className={styles["services-section"]}>
       <Container>
         <div className="services-list">
           <Row>
-            {categories?.data?.map((item, idx) => (
-              <Col lg={3} md={4} sm={6} xs={12} key={idx}>
+            {categories?.data?.map((item) => (
+              <Col lg={3} md={4} sm={6} xs={12} key={item?.id || item?.slug}>
                 <div className="service-block">
                   <div className="img">
                     <ImageWithFallback
@@ -25,13 +33,25 @@ const Index = () => {
                       height={325}
                     />
                     <Link href={`/categories/${item?.slug}`}>
-                      <a> </a>
+                      <a
+                        onClick={(event) =>
+                          handleCategoryClick(event, item?.slug)
+                        }
+                      >
+                        {" "}
+                      </a>
                     </Link>
                   </div>
                   <div className="info">
                     <h3>
                       <Link href={`/categories/${item?.slug}`}>
-                        <a>{item?.name}</a>
+                        <a
+                          onClick={(event) =>
+                            handleCategoryClick(event, item?.slug)
+                          }
+                        >
+                          {item?.name}
+                        </a>
                       </Link>
                     </h3>
                   </div>

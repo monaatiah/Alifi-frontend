@@ -11,7 +11,7 @@ import Pagination from "../Shared/Pagination";
 import { useForm } from "react-hook-form";
 import { getFormSchema, postFormSubmission } from "@/store/actions";
 
-const Index = () => {
+const Index = ({ categorySlug = null }) => {
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -24,6 +24,30 @@ const Index = () => {
   const { formSchema } = useSelector((state) => state.settings);
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const normalize = (value) => (value ? String(value).toLowerCase().trim() : "");
+
+  const matchesCategory = (item) => {
+    if (!categorySlug) return true;
+
+    const target = normalize(categorySlug);
+    const possibleValues = [
+      item?.category?.slug,
+      item?.category_slug,
+      item?.content_category?.slug,
+      item?.content_category_slug,
+      item?.content_categories?.[0]?.slug,
+      item?.content_categories?.[0]?.category?.slug,
+      item?.content_category?.name,
+      item?.category?.name,
+    ]
+      .map(normalize)
+      .filter(Boolean);
+
+    return possibleValues.includes(target);
+  };
+
+  const visibleContent = (content?.data || []).filter(matchesCategory);
 
   useEffect(() => {
     dispatch(
@@ -49,7 +73,7 @@ const Index = () => {
         <Row>
           <Col xxl={9} lg={8}>
             <div className="blogs-wrap">
-              {content?.data?.map((item) => (
+              {visibleContent.map((item) => (
                 <div className="block" key={item?.id}>
                   <div className="img">
                     <ImageWithFallback
@@ -126,60 +150,34 @@ const Index = () => {
                   <h4>مقالات شائعة</h4>
                 </div>
                 <div className="recent-blogs">
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
+                  {visibleContent.slice(0, 3).map((item) => (
+                    <div className="d-flex align-items-center gap-3" key={item?.id}>
+                      <div className="img">
+                        <ImageWithFallback
+                          src={item?.cover_image || BlogImg}
+                          alt={item?.title || "Blog Title"}
+                          width={90}
+                          height={80}
+                        />
+                      </div>
+                      <div className="info">
+                        <div className="date">
+                          {item?.published_at
+                            ? new Date(item.published_at).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              })
+                            : ""}
+                        </div>
+                        <div className="title">
+                          <Link href={`/blogs/${item?.slug}`}>
+                            <a>{item?.title}</a>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="img">
-                      <Image
-                        src={BlogImg}
-                        alt="Blog Title"
-                        width={90}
-                        height={80}
-                      />
-                    </div>
-                    <div className="info">
-                      <div className="date">March 15, 2026</div>
-                      <div className="title">
-                        <Link href="/blog/1">
-                          <a>عنوان المقال الشائع</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 

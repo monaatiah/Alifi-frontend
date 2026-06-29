@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import ArrowRightIcon from "./assets/arrow-right.svg";
 import ArrowLeftIcon from "./assets/arrow-left.svg";
@@ -19,6 +20,7 @@ import {
 } from "@/helpers/functions";
 
 const Index = ({ identifier = "categories_slider" }) => {
+  const router = useRouter();
   const { categories } = useSelector((state) => state.categories);
   const { pageData } = useSelector((state) => state.settings);
   const categoriesData = getComponentByIdentifier(
@@ -30,6 +32,12 @@ const Index = ({ identifier = "categories_slider" }) => {
     "categories_slider",
   );
   const resolvedCategoriesData = categoriesData || fallbackCategoriesData;
+
+  const handleCategoryClick = (event, slug) => {
+    event.preventDefault();
+    if (!slug) return;
+    router.push(`/categories/${slug}`);
+  };
 
   return (
     <div className={styles["shop-section"]}>
@@ -74,7 +82,10 @@ const Index = ({ identifier = "categories_slider" }) => {
               <SwiperSlide key={index}>
                 <div className="block">
                   <Link href={`/categories/${item?.slug}`} passHref>
-                    <a aria-label={item?.name}></a>
+                    <a
+                      aria-label={item?.name}
+                      onClick={(event) => handleCategoryClick(event, item?.slug)}
+                    ></a>
                   </Link>
                   <div className="icon">
                     <ImageWithFallback

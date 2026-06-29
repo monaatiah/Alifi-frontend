@@ -1,13 +1,8 @@
 @import "@/styles/variables.scss";
 
 .shop-wrapper {
-  padding-top: 50px;
-  @media (max-width: 768px) {
-    padding-top: 30px;
-  }
-  @media (max-width: 625px) {
-    padding-bottom: 50px;
-  }
+  padding-block: 50px;
+
   :global {
     .shop-filter {
       background-color: $primary-color;
