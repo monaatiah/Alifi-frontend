@@ -14,7 +14,7 @@
       "@/content/*": ["src/content/*"]
     }
   },
-  "include": ["src", "pages", "next.config.js"],
+  "include": ["src", "pages", "next.config.mjs"],
   "exclude": ["node_modules", ".next", "out", "build"],
   "typeAcquisition": {
     "enable": false

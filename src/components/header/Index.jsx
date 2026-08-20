@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./styles/style.module.scss";
@@ -102,17 +102,21 @@ const Index = () => {
         <Container>
           <div className="top-bar d-flex align-items-center gap-3 justify-content-between py-3">
             <div className="d-flex align-items-center gap-5">
-              <Link href={`tel:${settings?.contact_phone?.split("/")[4]}`}>
-                <a className="d-flex align-items-center gap-2 text-white">
-                  <PhoneIcon fill="#fff" />
-                  {settings?.contact_phone?.split("/")[4]}
-                </a>
+              <Link
+                href={`tel:${settings?.contact_phone?.split("/")[4]}`}
+                className="d-flex align-items-center gap-2 text-white">
+
+                <PhoneIcon fill="#fff" />
+                {settings?.contact_phone?.split("/")[4]}
+
               </Link>
-              <Link href={`mailto:${settings?.contact_email?.split("/")[4]}`}>
-                <a className="d-flex align-items-center gap-2 text-white">
-                  <EmailIcon fill="#fff" />
-                  {settings?.contact_email?.split("/")[4]}
-                </a>
+              <Link
+                href={`mailto:${settings?.contact_email?.split("/")[4]}`}
+                className="d-flex align-items-center gap-2 text-white">
+
+                <EmailIcon fill="#fff" />
+                {settings?.contact_email?.split("/")[4]}
+
               </Link>
             </div>
             {user ? (
@@ -126,10 +130,10 @@ const Index = () => {
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Link href={"/profile"}>
-                    <a className="dropdown-item" type="button">
+                  <Link href={"/profile"} className="dropdown-item" type="button">
+                    
                       الملف الشخصي
-                    </a>
+                    
                   </Link>
                   <button
                     className="dropdown-item"
@@ -141,11 +145,10 @@ const Index = () => {
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
-              <Link href={"/login"}>
-                <a className="d-flex align-items-center gap-2 text-white">
-                  <LuUserRound size={25} />
-                  تسجيل الدخول / إنشاء حساب
-                </a>
+              <Link href={"/login"} className="d-flex align-items-center gap-2 text-white">
+
+                <LuUserRound size={25} />تسجيل الدخول / إنشاء حساب
+                                
               </Link>
             )}
           </div>
@@ -160,63 +163,64 @@ const Index = () => {
             </button>
             <div className="logo">
               <Link href={"/"}>
-                <a>
-                  <Image
-                    src={settings?.logo || ""}
-                    alt="Logo"
-                    width={120}
-                    height={70}
-                  />
-                </a>
+
+                <Image
+                  src={settings?.logo || ""}
+                  alt="Logo"
+                  width={120}
+                  height={70}
+                />
+
               </Link>
             </div>
             <div className="menu flex-grow-1">
               <ul className="d-flex align-items-center gap-4 justify-content-center">
                 <li>
-                  <Link href={"/"}>
-                    <a
-                      className={
-                        asPath === "/"
-                          ? "d-flex align-items-center gap-2 active"
-                          : "d-flex align-items-center gap-2"
-                      }
-                    >
-                      <HomeIcon width={20} height={20} />
-                      الرئيسية
-                    </a>
+                  <Link
+                    href={"/"}
+                    className={
+                      asPath === "/"
+                        ? "d-flex align-items-center gap-2 active"
+                        : "d-flex align-items-center gap-2"
+                    }>
+
+                    <HomeIcon width={20} height={20} />الرئيسية
+                                        
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/about"}>
-                    <a className={asPath === "/about" ? "active" : ""}>
+                  <Link href={"/about"} className={asPath === "/about" ? "active" : ""}>
+                    
                       معلومات عنا
-                    </a>
+                    
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/services"}>
-                    <a className={asPath.includes("services") ? "active" : ""}>
+                  <Link
+                    href={"/services"}
+                    className={asPath.includes("services") ? "active" : ""}>
+                    
                       خدماتنا
-                    </a>
+                    
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/shop"}>
-                    <a className={asPath === "/shop" ? "active" : ""}>متجرنا</a>
+                  <Link href={"/shop"} className={asPath === "/shop" ? "active" : ""}>
+                    متجرنا
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/blogs"}>
-                    <a className={asPath.includes("blogs") ? "active" : ""}>
+                  <Link href={"/blogs"} className={asPath.includes("blogs") ? "active" : ""}>
+                    
                       اخر الاخبار
-                    </a>
+                    
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/contact"}>
-                    <a className={asPath === "/contact" ? "active" : ""}>
+                  <Link href={"/contact"} className={asPath === "/contact" ? "active" : ""}>
+                    
                       تواصل معنا
-                    </a>
+                    
                   </Link>
                 </li>
               </ul>
@@ -230,16 +234,16 @@ const Index = () => {
                 <SearchIcon />
               </button>
               {user && (
-                <Link href={"/profile/wishlist"}>
-                  <a
-                    className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"
-                    aria-label="Wishlist"
-                  >
-                    <HeartIcon />
-                    <i className="item-count d-flex align-items-center justify-content-center position-absolute">
-                      {wishlist?.data?.length || 0}
-                    </i>
-                  </a>
+                <Link
+                  href={"/profile/wishlist"}
+                  className="cart-btn border-0 position-relative  d-flex align-items-center justify-content-center"
+                  aria-label="Wishlist">
+
+                  <HeartIcon />
+                  <i className="item-count d-flex align-items-center justify-content-center position-absolute">
+                    {wishlist?.data?.length || 0}
+                  </i>
+
                 </Link>
               )}
               <button

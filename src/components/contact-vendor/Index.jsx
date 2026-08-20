@@ -4,7 +4,7 @@ import styles from "./styles/styles.module.scss";
 
 import Pattern1 from "./assets/1.png";
 import Pattern2 from "./assets/2.svg";
-import Image from "next/future/image";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";

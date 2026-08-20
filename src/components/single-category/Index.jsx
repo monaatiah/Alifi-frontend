@@ -87,26 +87,26 @@ const Index = () => {
                             width={325}
                             height={325}
                           />
-                          <Link href={`/categories/${item?.slug}`}>
-                            <a
-                              onClick={(event) =>
-                                handleCategoryClick(event, item?.slug)
-                              }
-                            >
-                              {" "}
-                            </a>
+                          <Link
+                            href={`/categories/${item?.slug}`}
+                            onClick={(event) =>
+                              handleCategoryClick(event, item?.slug)
+                            }>
+
+                            {" "}
+
                           </Link>
                         </div>
                         <div className="info">
                           <h3>
-                            <Link href={`/categories/${item?.slug}`}>
-                              <a
-                                onClick={(event) =>
-                                  handleCategoryClick(event, item?.slug)
-                                }
-                              >
-                                {item?.name}
-                              </a>
+                            <Link
+                              href={`/categories/${item?.slug}`}
+                              onClick={(event) =>
+                                handleCategoryClick(event, item?.slug)
+                              }>
+
+                              {item?.name}
+
                             </Link>
                           </h3>
                         </div>

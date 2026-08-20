@@ -4,6 +4,8 @@ const createJestConfig = nextJest({ dir: './' });
 
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/', '<rootDir>/.open-next/', '<rootDir>/.wrangler/'],
+  modulePathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/.open-next/', '<rootDir>/.wrangler/'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/styles/(.*)$': '<rootDir>/styles/$1',

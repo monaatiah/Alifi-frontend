@@ -436,8 +436,8 @@ const Index = () => {
                 لإكمال عملية الدفع، يرجى إضافة منتجات إلى سلة التسوق أولاً.
               </span>
             </div>
-            <Link href="/shop">
-              <a className="btn">الانتقال إلى المتجر</a>
+            <Link href="/shop" className="btn">
+              الانتقال إلى المتجر
             </Link>
           </div>
         ) : (

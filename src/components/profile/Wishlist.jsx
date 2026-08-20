@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { Container } from "react-bootstrap";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { parseCookies } from "nookies";
@@ -131,21 +131,21 @@ const Wishlist = () => {
                           >
                             <div className={styles["item-media"]}>
                               <Link href={`/products/${productSlug}`}>
-                                <a>
-                                  <Image
-                                    src={productImage}
-                                    alt={productName}
-                                    width={140}
-                                    height={140}
-                                  />
-                                </a>
+
+                                <Image
+                                  src={productImage}
+                                  alt={productName}
+                                  width={140}
+                                  height={140}
+                                />
+
                               </Link>
                             </div>
                             <div className={styles["item-body"]}>
-                              <Link href={`/products/${productSlug}`}>
-                                <a className={styles["item-title"]}>
-                                  {productName}
-                                </a>
+                              <Link href={`/products/${productSlug}`} className={styles["item-title"]}>
+
+                                {productName}
+
                               </Link>
                               <p className={styles["item-meta"]}>
                                 السعر: {productPrice} ر.س
@@ -194,21 +194,21 @@ const Wishlist = () => {
                           >
                             <div className={styles["item-media"]}>
                               <Link href={`/services/${serviceSlug}`}>
-                                <a>
-                                  <Image
-                                    src={serviceImage}
-                                    alt={serviceName}
-                                    width={140}
-                                    height={140}
-                                  />
-                                </a>
+
+                                <Image
+                                  src={serviceImage}
+                                  alt={serviceName}
+                                  width={140}
+                                  height={140}
+                                />
+
                               </Link>
                             </div>
                             <div className={styles["item-body"]}>
-                              <Link href={`/services/${serviceSlug}`}>
-                                <a className={styles["item-title"]}>
-                                  {serviceName}
-                                </a>
+                              <Link href={`/services/${serviceSlug}`} className={styles["item-title"]}>
+
+                                {serviceName}
+
                               </Link>
                               <p className={styles["item-meta"]}>
                                 السعر: {servicePrice} ر.س

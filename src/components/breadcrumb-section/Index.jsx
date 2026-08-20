@@ -6,7 +6,7 @@ import Pattern2 from "./assets/2.svg";
 import Pattern3 from "./assets/3.svg";
 
 import HeroImg from "./assets/hero.png";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
@@ -76,17 +76,17 @@ const Index = ({
               <ul className="d-flex align-items-center">
                 <li className="d-flex align-items-center">
                   <Link href="/">
-                    <a>
-                      <FormattedMessage id="home" />
-                    </a>
+
+                    <FormattedMessage id="home" />
+
                   </Link>
                 </li>
                 {sector && (
                   <li>
                     <Link href={sector?.link || ""}>
-                      <a>
-                        <FormattedMessage id={sector?.name} />
-                      </a>
+
+                      <FormattedMessage id={sector?.name} />
+
                     </Link>
                   </li>
                 )}

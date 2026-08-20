@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useSelector } from "react-redux";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -50,7 +50,7 @@ const Index = () => {
                     <Link
                       href={`tel:${settings?.contact_phone?.split("/")[4]}`}
                     >
-                      <a>{settings?.contact_phone?.split("/")[4]}</a>
+                      {settings?.contact_phone?.split("/")[4]}
                     </Link>
                   </li>
                   <li className="d-flex align-items-center gap-3">
@@ -59,7 +59,7 @@ const Index = () => {
                     <Link
                       href={`mailto:${settings?.contact_email?.split("/")[4]}`}
                     >
-                      <a>{settings?.contact_email?.split("/")[4]}</a>
+                      {settings?.contact_email?.split("/")[4]}
                     </Link>
                   </li>
                 </ul>
@@ -74,9 +74,9 @@ const Index = () => {
                         )?.url || "#"
                       }
                     >
-                      <a>
-                        <FiInstagram />
-                      </a>
+
+                      <FiInstagram />
+
                     </Link>
                   )}
                   {settings?.social_icons?.find(
@@ -89,9 +89,9 @@ const Index = () => {
                         )?.url || "#"
                       }
                     >
-                      <a>
-                        <FaFacebookF />
-                      </a>
+
+                      <FaFacebookF />
+
                     </Link>
                   )}
                   {settings?.social_icons?.find(
@@ -104,9 +104,9 @@ const Index = () => {
                         )?.url || "#"
                       }
                     >
-                      <a>
-                        <FaLinkedinIn />
-                      </a>
+
+                      <FaLinkedinIn />
+
                     </Link>
                   )}
                   {settings?.social_icons?.find(
@@ -119,9 +119,9 @@ const Index = () => {
                         )?.url || "#"
                       }
                     >
-                      <a>
-                        <FaXTwitter />
-                      </a>
+
+                      <FaXTwitter />
+
                     </Link>
                   )}
                   {settings?.social_icons?.find(
@@ -134,9 +134,9 @@ const Index = () => {
                         )?.url || "#"
                       }
                     >
-                      <a>
-                        <FaTiktok />
-                      </a>
+
+                      <FaTiktok />
+
                     </Link>
                   )}
                 </div>
@@ -150,27 +150,27 @@ const Index = () => {
                     <ul>
                       <li>
                         <Link href={"/"}>
-                          <a>الرئيسية</a>
+                          الرئيسية
                         </Link>
                       </li>
                       <li>
                         <Link href={"/shop"}>
-                          <a>المتجر</a>
+                          المتجر
                         </Link>
                       </li>
                       <li>
                         <Link href={"/services"}>
-                          <a>الخدمات</a>
+                          الخدمات
                         </Link>
                       </li>
                       <li>
                         <Link href={"/blogs"}>
-                          <a>المقالات</a>
+                          المقالات
                         </Link>
                       </li>
                       <li>
                         <Link href={"/contact"}>
-                          <a>تواصل معنا</a>
+                          تواصل معنا
                         </Link>
                       </li>
                     </ul>
@@ -183,14 +183,14 @@ const Index = () => {
                     <ul className="d-flex gap-2 categories">
                       {categories?.data?.map((item) => (
                         <li key={item?.id || item?.slug}>
-                          <Link href={`/categories/${item?.slug}`}>
-                            <a
-                              onClick={(event) =>
-                                handleCategoryClick(event, item?.slug)
-                              }
-                            >
-                              {item?.name}
-                            </a>
+                          <Link
+                            href={`/categories/${item?.slug}`}
+                            onClick={(event) =>
+                              handleCategoryClick(event, item?.slug)
+                            }>
+
+                            {item?.name}
+
                           </Link>
                         </li>
                       ))}
@@ -206,17 +206,17 @@ const Index = () => {
                         <>
                           <li>
                             <Link href={"/profile"}>
-                              <a>حسابي</a>
+                              حسابي
                             </Link>
                           </li>
                           <li>
                             <Link href={"/profile/orders"}>
-                              <a>طلباتي</a>
+                              طلباتي
                             </Link>
                           </li>
                           <li>
                             <Link href={"/profile/wishlist"}>
-                              <a> قائمة الرغبات</a>
+                               قائمة الرغبات
                             </Link>
                           </li>
                         </>
@@ -224,12 +224,12 @@ const Index = () => {
                         <>
                           <li>
                             <Link href={"/"}>
-                              <a>تسجيل الدخول</a>
+                              تسجيل الدخول
                             </Link>
                           </li>
                           <li>
                             <Link href={"/"}>
-                              <a>إنشاء حساب</a>
+                              إنشاء حساب
                             </Link>
                           </li>
                         </>
@@ -260,11 +260,12 @@ const Index = () => {
                   (item) => item.platform === "whatsapp",
                 )?.url || "#"
               }
-            >
-              <a target="_blank" rel="noopener noreferrer">
-                <FaWhatsapp size={30} color="#fff" />
-                <span>1</span>
-              </a>
+              target="_blank"
+              rel="noopener noreferrer">
+
+              <FaWhatsapp size={30} color="#fff" />
+              <span>1</span>
+
             </Link>
           </div>
         )}

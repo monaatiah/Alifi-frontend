@@ -61,7 +61,7 @@ const Index = () => {
                     <Link
                       href={`mailto:${settings?.contact_email?.split("/")[4]}`}
                     >
-                      <a> {settings?.contact_email?.split("/")[4]}</a>
+                       {settings?.contact_email?.split("/")[4]}
                     </Link>
                   </p>
                 </div>
@@ -78,7 +78,7 @@ const Index = () => {
                     <Link
                       href={`tel:${settings?.contact_phone?.split("/")[4]}`}
                     >
-                      <a>{settings?.contact_phone?.split("/")[4]}</a>
+                      {settings?.contact_phone?.split("/")[4]}
                     </Link>
                     <span>خدمة عملاء متاحة 24/7 للرد على استفساراتك</span>
                   </p>

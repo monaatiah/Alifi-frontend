@@ -3,7 +3,7 @@ import { Col, Container, Row, Table } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import BestSellerProducts from "./BestSellerProducts";
 
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
@@ -97,7 +97,7 @@ const Index = () => {
                           <div className="info">
                             <p>{item?.category?.name}</p>
                             <Link href={`/products/${item?.id}`}>
-                              <a>{item?.product?.name}</a>
+                              {item?.product?.name}
                             </Link>
                           </div>
                         </div>
@@ -284,11 +284,11 @@ const Index = () => {
                   </ul>
                 </div>
                 <div className="btns d-flex align-items-center justify-content-end gap-2">
-                  <Link href="/">
-                    <a className="btn">متابعة التسوق</a>
+                  <Link href="/" className="btn">
+                    متابعة التسوق
                   </Link>
-                  <Link href="/checkout">
-                    <a className="btn">إتمام عملية الشراء</a>
+                  <Link href="/checkout" className="btn">
+                    إتمام عملية الشراء
                   </Link>
                 </div>
               </div>
@@ -299,8 +299,8 @@ const Index = () => {
         <div className="empty-cart d-flex flex-column align-items-center justify-content-center">
           <EmptyCartIcon />
           <h4>سلة التسوق فارغة</h4>
-          <Link href="/">
-            <a className="btn">ابدأ التسوق</a>
+          <Link href="/" className="btn">
+            ابدأ التسوق
           </Link>
         </div>
       )}

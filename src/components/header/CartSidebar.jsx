@@ -4,7 +4,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyCartIcon from "./assets/images/empty.svg";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
-import Image from "next/future/image";
+import Image from "next/image";
 import { handleImageLink } from "@/helpers/functions";
 import Swal from "sweetalert2";
 import { removeFromCart } from "@/store/actions";
@@ -70,7 +70,7 @@ const CartSidebar = ({ show, onClose, openCartSidebar }) => {
                 </div>
                 <div className="info">
                   <Link href={`/products/${item?.product?.slug}`}>
-                    <a>{item?.product?.name}</a>
+                    {item?.product?.name}
                   </Link>
                   <p className="price d-flex align-items-center gap-4">
                     {item?.product?.sale_price ? (
@@ -118,8 +118,8 @@ const CartSidebar = ({ show, onClose, openCartSidebar }) => {
           <div className="empty-cart d-flex flex-column align-items-center justify-content-center">
             <EmptyCartIcon />
             <h4>سلة التسوق فارغة</h4>
-            <Link href="/shop">
-              <a className="btn">ابدأ التسوق</a>
+            <Link href="/shop" className="btn">
+              ابدأ التسوق
             </Link>
           </div>
         )}
@@ -158,11 +158,11 @@ const CartSidebar = ({ show, onClose, openCartSidebar }) => {
           </li>
         </ul>
         <div className="btns d-flex align-items-center justify-content-between gap-3">
-          <Link href="/cart">
-            <a className="btn">عرض السلة</a>
+          <Link href="/cart" className="btn">
+            عرض السلة
           </Link>
-          <Link href="/checkout">
-            <a className="btn">الدفع</a>
+          <Link href="/checkout" className="btn">
+            الدفع
           </Link>
         </div>
       </div>

@@ -81,11 +81,12 @@ const Index = ({ identifier = "categories_slider" }) => {
             {categories?.data?.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className="block">
-                  <Link href={`/categories/${item?.slug}`} passHref>
-                    <a
-                      aria-label={item?.name}
-                      onClick={(event) => handleCategoryClick(event, item?.slug)}
-                    ></a>
+                  <Link
+                    href={`/categories/${item?.slug}`}
+                    passHref
+                    aria-label={item?.name}
+                    onClick={(event) => handleCategoryClick(event, item?.slug)}>
+
                   </Link>
                   <div className="icon">
                     <ImageWithFallback
@@ -112,8 +113,11 @@ const Index = ({ identifier = "categories_slider" }) => {
         </div>
 
         <div className="load-more">
-          <Link href={resolvedCategoriesData?.data?.cta_link || "/"} passHref>
-            <a className="btn">{resolvedCategoriesData?.data?.cta_title}</a>
+          <Link
+            href={resolvedCategoriesData?.data?.cta_link || "/"}
+            passHref
+            className="btn">
+            {resolvedCategoriesData?.data?.cta_title}
           </Link>
         </div>
       </Container>

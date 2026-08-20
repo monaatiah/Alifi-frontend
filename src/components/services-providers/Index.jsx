@@ -78,7 +78,7 @@ const Index = () => {
                       <div className="left">
                         <div className="title">
                           <Link href={`/services/providers/${provider.slug}`}>
-                            <a>{providerName}</a>
+                            {providerName}
                           </Link>
                         </div>
                         <div className="desc">
@@ -90,10 +90,12 @@ const Index = () => {
                               التقييمات: <span>{reviewsCount}</span>
                             </div>
                           </div>
-                          <Link href={`/services/providers/${provider.slug}`}>
-                            <a aria-label="view provider details">
+                          <Link
+                            href={`/services/providers/${provider.slug}`}
+                            aria-label="view provider details">
+                            
                               عرض التفاصيل
-                            </a>
+                            
                           </Link>
                         </div>
                       </div>

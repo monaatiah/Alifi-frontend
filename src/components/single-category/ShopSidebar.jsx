@@ -2,7 +2,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import PriceRange from "./PriceRange";
 import Link from "next/link";
-import Image from "next/future/image";
+import Image from "next/image";
 import { handleImageLink } from "@/helpers/functions";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 
@@ -162,13 +162,13 @@ const ShopSidebar = ({
                     height={80}
                   />
                   <Link href={`/products/${product?.slug}`}>
-                    <a></a>
+
                   </Link>
                 </div>
                 <div className="info">
                   <h4>
                     <Link href={`/products/${product?.slug}`}>
-                      <a>{product.name}</a>
+                      {product.name}
                     </Link>
                   </h4>
                   <span className="price">

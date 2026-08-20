@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 import toast from "react-hot-toast";
@@ -418,7 +418,7 @@ const Index = () => {
                             <div className="info">
                               <p>{item?.category?.name}</p>
                               <Link href={`/products/${item?.id}`}>
-                                <a>{item?.product?.name}</a>
+                                {item?.product?.name}
                               </Link>
                             </div>
                           </div>
@@ -559,8 +559,8 @@ const Index = () => {
                 </ul>
               </div>
               <div className="btns d-flex align-items-center justify-content-end gap-2">
-                <Link href="/shop">
-                  <a className="btn">متابعة التسوق</a>
+                <Link href="/shop" className="btn">
+                  متابعة التسوق
                 </Link>
                 <button
                   className="btn btn-outline"

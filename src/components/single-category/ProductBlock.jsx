@@ -1,4 +1,4 @@
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,8 +38,8 @@ const ProductBlock = memo(({ item }) => {
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         />
-        <Link href={`/products/${item?.slug}`}>
-          <a aria-label={item?.name}> </a>
+        <Link href={`/products/${item?.slug}`} aria-label={item?.name}>
+           
         </Link>
         <button
           className="wishlist-btn"
@@ -56,7 +56,7 @@ const ProductBlock = memo(({ item }) => {
       <div className="info">
         <div className="title">
           <Link href={`/products/${item?.slug}`}>
-            <a>{item?.name}</a>
+            {item?.name}
           </Link>
         </div>
         <div className="description">
@@ -86,7 +86,7 @@ const ProductBlock = memo(({ item }) => {
         </div>
         <div className="btns">
           <Link href={`/products/${item?.slug}`}>
-            <a>مزيد من التفاصيل</a>
+            مزيد من التفاصيل
           </Link>
           <button
             className="add-to-cart"

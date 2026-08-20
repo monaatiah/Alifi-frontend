@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
+import Image from "next/image";
 import BlogImg from "./assets/blog.png";
 import Link from "next/link";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
@@ -143,7 +143,7 @@ const Index = () => {
                           </div>
                           <div className="title">
                             <Link href={`/blogs/${item?.slug}`}>
-                              <a>{item?.title}</a>
+                              {item?.title}
                             </Link>
                           </div>
                         </div>
@@ -180,7 +180,7 @@ const Index = () => {
                         key={category?.id}
                       >
                         <Link href={`/blogs/categories/${category?.slug}`}>
-                          <a>{category?.name}</a>
+                          {category?.name}
                         </Link>
                       </div>
                     ))}

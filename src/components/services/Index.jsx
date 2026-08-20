@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import SecMainTitle from "../Shared/SecMainTitle";
 
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
@@ -34,14 +34,14 @@ const Index = () => {
                     height={325}
                   />
                   <Link href={`/services/${item?.slug}`}>
-                    <a> </a>
+                     
                   </Link>
                 </div>
                 <div className="info">
                   <h3>{item.title}</h3>
                   <p>{item.desc}</p>
                   <Link href={`/services/${item?.slug}`}>
-                    <a>اعرف المزيد</a>
+                    اعرف المزيد
                   </Link>
                 </div>
               </div>

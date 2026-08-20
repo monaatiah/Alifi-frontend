@@ -1,12 +1,15 @@
 import axios from "axios";
 
-export default async function handler(req, res) {
-  try {
-    const res = await axios.get(`https://alifi.sa/api/settings`);
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-    res.send(res?.data?.data?.settings?.robots);
+export default async function handler(req, res) {
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+
+  try {
+    const { data } = await axios.get(`${API_URL}/settings`);
+    res.status(200).send(data?.data?.robots || "");
   } catch (error) {
-    //// console.log(error);
-    res.send("");
+    console.error("robots.txt fetch failed:", error?.message);
+    res.status(200).send("");
   }
 }

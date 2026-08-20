@@ -7,7 +7,7 @@ import Pattern3 from "./assets/3.svg";
 
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier, handleImageLink } from "@/helpers/functions";
-import Image from "next/future/image";
+import Image from "next/image";
 
 const Index = () => {
   const { pageData } = useSelector((state) => state.settings);

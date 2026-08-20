@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs } from "swiper";
-import Image from "next/future/image";
+import Image from "next/image";
 
 import { GoHeart, GoShareAndroid } from "react-icons/go";
 import { FaStarHalfAlt, FaStar } from "react-icons/fa";

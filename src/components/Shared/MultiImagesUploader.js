@@ -1,7 +1,7 @@
 import React from "react";
 
 import CloseIcon from "@/assets/images/close.svg";
-import Image from "next/future/image";
+import Image from "next/image";
 import server from "@/api/server";
 import { parseCookies } from "nookies";
 

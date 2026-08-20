@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Container, Modal } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import {
   FiCalendar,
@@ -874,20 +874,26 @@ const Index = () => {
           </div>
           <div className="action-btns d-flex align-items-center gap-4">
             <div className="icons d-flex align-items-center gap-2">
-              <Link href={telValue ? `tel:${telValue}` : "#"}>
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <CallIcon />
-                </a>
+              <Link
+                href={telValue ? `tel:${telValue}` : "#"}
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <CallIcon />
+
               </Link>
-              <Link href={userEmail ? `mailto:${userEmail}` : "#"}>
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <ChatIcon />
-                </a>
+              <Link
+                href={userEmail ? `mailto:${userEmail}` : "#"}
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <ChatIcon />
+
               </Link>
-              <Link href={telValue ? `https://wa.me/${telValue}` : "#"}>
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <WhatsAppIcon />
-                </a>
+              <Link
+                href={telValue ? `https://wa.me/${telValue}` : "#"}
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <WhatsAppIcon />
+
               </Link>
             </div>
           </div>

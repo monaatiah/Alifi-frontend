@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier, handleImageLink } from "@/helpers/functions";
 

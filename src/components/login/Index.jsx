@@ -82,7 +82,7 @@ const Index = () => {
                   </div>
                   <div className="forgot-password">
                     <Link href="/forgot-password">
-                      <a>هل نسيت كلمة المرور؟</a>
+                      هل نسيت كلمة المرور؟
                     </Link>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ const Index = () => {
                   <div className="hint">
                     ليس لديك حساب؟{" "}
                     <Link href="/register">
-                      <a>إنشاء حساب</a>
+                      إنشاء حساب
                     </Link>
                   </div>
                 </div>

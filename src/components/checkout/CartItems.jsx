@@ -30,7 +30,7 @@ const CartItems = ({ cart }) => {
                   <div className="info">
                     <p>{item?.category?.name}</p>
                     <Link href={`/products/${item?.product?.slug}`}>
-                      <a>{item?.product?.name}</a>
+                      {item?.product?.name}
                     </Link>
                   </div>
                 </div>
@@ -60,8 +60,8 @@ const CartItems = ({ cart }) => {
           <div className="empty-cart d-flex flex-column align-items-center justify-content-center">
             <EmptyCartIcon />
             <h4>سلة التسوق فارغة</h4>
-            <Link href="/">
-              <a className="btn">ابدأ التسوق</a>
+            <Link href="/" className="btn">
+              ابدأ التسوق
             </Link>
           </div>
         )}

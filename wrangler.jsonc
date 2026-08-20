@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "alifi-frontend",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-15",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // مطلوب لـ ISR (revalidate) — يسمح للـ worker باستدعاء نفسه من الـ queue
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "alifi-frontend"
+    }
+  ],
+
+  // كاش ISR — أنشئ الباكت أولًا:
+  // npx wrangler r2 bucket create alifi-frontend-cache
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "alifi-frontend-cache"
+    }
+  ],
+
+  // طابور إعادة التوليد الزمني (time-based revalidation)
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_CACHE_DO_QUEUE",
+        "class_name": "DOQueueHandler"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DOQueueHandler"]
+    }
+  ]
+
+  // لتفعيل تحسين الصور عبر Cloudflare Images (مدفوع):
+  // فعّل السطر التالي واضبط images.unoptimized = false في next.config.mjs
+  // "images": { "binding": "IMAGES" }
+}

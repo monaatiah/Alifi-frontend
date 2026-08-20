@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/future/image";
+import Image from "next/image";
 import PlaceholderImg from "@/assets/images/logo.png";
 
 // get the numeric date

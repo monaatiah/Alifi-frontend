@@ -7,7 +7,7 @@ import rootSaga from "../store/sagas";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 function bindMiddleware(middleware) {
   if (!IS_PRODUCTION) {
-    const { composeWithDevTools } = require("redux-devtools-extension");
+    const { composeWithDevTools } = require("@redux-devtools/extension");
     return composeWithDevTools(applyMiddleware(...middleware));
   }
   return applyMiddleware(...middleware);

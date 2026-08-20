@@ -1,7 +1,7 @@
 import React from "react";
 
 import PlaceHolderImage from "@/assets/images/cover.png";
-import Image from "next/future/image";
+import Image from "next/image";
 import { Container } from "react-bootstrap";
 import { handleImageLink } from "@/helpers/functions";
 

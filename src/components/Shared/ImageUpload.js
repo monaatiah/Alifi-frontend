@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Image from "next/future/image";
+import Image from "next/image";
 import UploadIcon from "@/assets/images/upload.svg";
 import RemoveIcon from "@/assets/images/close.svg";
 // import NoImage from "@/assets/images/noImage.png";

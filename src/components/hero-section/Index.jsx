@@ -60,11 +60,11 @@ const Index = () => {
                       <h1>{item?.title}</h1>
                       <p>{item?.description}</p>
                       <div className="d-flex align-items-center gap-4">
-                        <Link href={item?.button1_link || "/"}>
-                          <a className="btn">{item?.button1_title}</a>
+                        <Link href={item?.button1_link || "/"} className="btn">
+                          {item?.button1_title}
                         </Link>
-                        <Link href={item?.button2_link || "/"}>
-                          <a className="btn">{item?.button2_title}</a>
+                        <Link href={item?.button2_link || "/"} className="btn">
+                          {item?.button2_title}
                         </Link>
                       </div>
                     </div>

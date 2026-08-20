@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import SecMainTitle from "../Shared/SecMainTitle";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { getComponentByIdentifier } from "@/helpers/functions";
@@ -50,8 +50,8 @@ const Index = ({ noHeading, subTitle, title }) => {
                         />
                       </div>
                     )}
-                    <Link href={`/blogs/${item?.slug}`}>
-                      <a aria-label={item?.title}></a>
+                    <Link href={`/blogs/${item?.slug}`} aria-label={item?.title}>
+
                     </Link>
                     <span>
                       {item?.tags?.map((tag) => tag.name).join(", ") || ""}
@@ -78,7 +78,7 @@ const Index = ({ noHeading, subTitle, title }) => {
                     <div className="info-data">
                       <h3>
                         <Link href={`/blogs/${item?.slug}`}>
-                          <a>{item?.title}</a>
+                          {item?.title}
                         </Link>
                       </h3>
                       <p
@@ -106,8 +106,8 @@ const Index = ({ noHeading, subTitle, title }) => {
             ))}
           </Row>
           <div className="load-more">
-            <Link href="/blogs">
-              <a className="btn">اقرأ المزيد من المقالات</a>
+            <Link href="/blogs" className="btn">
+              اقرأ المزيد من المقالات
             </Link>
           </div>
         </div>

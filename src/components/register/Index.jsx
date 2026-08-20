@@ -118,7 +118,7 @@ const Index = () => {
                   <div className="hint">
                     لديك حساب بالفعل؟{" "}
                     <Link href="/login">
-                      <a>تسجيل الدخول</a>
+                      تسجيل الدخول
                     </Link>
                   </div>
                 </div>

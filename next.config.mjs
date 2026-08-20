@@ -1,13 +1,22 @@
-// next.config.js
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
+// next.config.mjs
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import bundleAnalyzer from "@next/bundle-analyzer";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-// الدومينات المسموحة للصور والفيديوهات
-const IMG_DOMAINS = ["localhost"];
-
 const isDev = process.env.NODE_ENV === "development";
-const isNetlify = process.env.NETLIFY === "true";
+
+// الدومينات المسموحة للصور والفيديوهات
+const REMOTE_IMAGE_PATTERNS = [
+  { protocol: "https", hostname: "my.alifi.pet" },
+  { protocol: "https", hostname: "alifi.sa" },
+  { protocol: "http", hostname: "localhost" },
+];
 
 const ContentSecurityPolicy = `
   default-src 'self';
@@ -41,20 +50,31 @@ const securityHeaders = [
   },
 ];
 
-module.exports = withBundleAnalyzer({
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+
+const nextConfig = {
+  // المشروع يعيش داخل ريبو Laravel — ثبّت جذر التتبّع على مجلد الواجهة
+  outputFileTracingRoot: projectRoot,
+  // OpenNext يجمّع الـ worker بشرط "edge-light"؛ تتبّع Next الافتراضي لا ينسخ
+  // ملفات emotion الخاصة بهذا الشرط (تصل عبر react-select) فيفشل الـ bundling.
+  outputFileTracingIncludes: {
+    "/**": ["./node_modules/@emotion/**"],
+  },
+  // next-redux-wrapper يستدعي useRouter؛ تركه خارج الحزمة (external) يمنحه نسخة
+  // ثانية من RouterContext فينهار الرندر داخل Cloudflare Worker.
+  transpilePackages: ["next-redux-wrapper"],
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
 
   images: {
-    domains: IMG_DOMAINS,
-    remotePatterns: [{ protocol: "https", hostname: "google.com" }],
+    remotePatterns: REMOTE_IMAGE_PATTERNS,
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 86400,
-    loader: "default",
-    unoptimized: isNetlify,
+    // Cloudflare Workers لا يوفّر محسّن صور Next افتراضيًا.
+    // فعّل الـ IMAGES binding في wrangler.jsonc قبل تحويلها إلى false.
+    unoptimized: true,
   },
 
   i18n: {
@@ -86,15 +106,6 @@ module.exports = withBundleAnalyzer({
           },
         ],
       },
-      {
-        source: "/_next/future/image/:all*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
     ];
   },
 
@@ -108,7 +119,7 @@ module.exports = withBundleAnalyzer({
   webpack(config, { dev, isServer }) {
     // ✅ خلي كل SVG React component افتراضيًا
     const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.(".svg"),
     );
     if (fileLoaderRule) fileLoaderRule.exclude = /\.svg$/i;
 
@@ -123,4 +134,12 @@ module.exports = withBundleAnalyzer({
 
     return config;
   },
-});
+};
+
+export default withBundleAnalyzer(nextConfig);
+
+// يتيح الوصول إلى bindings الخاصة بـ Cloudflare أثناء `next dev` فقط.
+// تشغيله خارج التطوير (build / jest) يفتح wrangler proxy لا ينتهي ويعلّق العملية.
+if (isDev) {
+  initOpenNextCloudflareForDev();
+}

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { GoStarFill } from "react-icons/go";
 import { useSelector } from "react-redux";
@@ -91,28 +91,32 @@ const Index = () => {
                   ? `/services/providers/${provider.slug}`
                   : "/profile"
               }
-            >
-              <a className="btn">زيارة الموقع</a>
+              className="btn">
+              زيارة الموقع
             </Link>
             <div className="icons d-flex align-items-center gap-2">
-              <Link href={providerPhone ? `tel:${providerPhone}` : "#"}>
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <CallIcon />
-                </a>
+              <Link
+                href={providerPhone ? `tel:${providerPhone}` : "#"}
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <CallIcon />
+
               </Link>
-              <Link href={providerEmail ? `mailto:${providerEmail}` : "#"}>
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <ChatIcon />
-                </a>
+              <Link
+                href={providerEmail ? `mailto:${providerEmail}` : "#"}
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <ChatIcon />
+
               </Link>
               <Link
                 href={
                   providerWhatsApp ? `https://wa.me/${providerWhatsApp}` : "#"
                 }
-              >
-                <a className="rounded-circle d-flex align-items-center justify-content-center">
-                  <WhatsAppIcon />
-                </a>
+                className="rounded-circle d-flex align-items-center justify-content-center">
+
+                <WhatsAppIcon />
+
               </Link>
             </div>
           </div>

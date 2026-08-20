@@ -6,7 +6,7 @@ import { MdMyLocation, MdClose } from "react-icons/md";
 import dynamic from "next/dynamic";
 
 import Link from "next/link";
-import Image from "next/future/image";
+import Image from "next/image";
 import SaudiRiyalIcon from "@/assets/images/saudi-riyal.svg";
 import PlaceholderImage from "@/assets/images/cover.png";
 import FilterIcon from "./assets/filter.svg";
@@ -453,7 +453,7 @@ const Index = () => {
                     <div className="left">
                       <div className="title">
                         <Link href={`/services/providers/${providerPath}`}>
-                          <a>{providerTitle}</a>
+                          {providerTitle}
                         </Link>
                       </div>
                       <div className="desc">
@@ -482,8 +482,8 @@ const Index = () => {
                             </div>
                           )}
                         </div>
-                        <Link href={`/services/providers/${providerPath}`}>
-                          <a aria-label="view details">عرض التفاصيل</a>
+                        <Link href={`/services/providers/${providerPath}`} aria-label="view details">
+                          عرض التفاصيل
                         </Link>
                       </div>
                     </div>

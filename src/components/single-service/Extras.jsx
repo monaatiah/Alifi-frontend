@@ -1,4 +1,4 @@
-import Image from "next/future/image";
+import Image from "next/image";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Image1 from "./assets/1.png";

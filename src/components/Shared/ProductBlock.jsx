@@ -1,4 +1,4 @@
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,8 +55,8 @@ const ProductBlock = memo(({ item }) => {
             height={300}
           />
         )}
-        <Link href={detailsHref}>
-          <a aria-label={item?.name}> </a>
+        <Link href={detailsHref} aria-label={item?.name}>
+           
         </Link>
         {!isService && (
           <OverlayTrigger
@@ -98,7 +98,7 @@ const ProductBlock = memo(({ item }) => {
       <div className="info">
         <div className="title">
           <Link href={detailsHref}>
-            <a>{item?.name}</a>
+            {item?.name}
           </Link>
         </div>
         {item?.description && (
@@ -132,7 +132,7 @@ const ProductBlock = memo(({ item }) => {
         </div>
         <div className="btns">
           <Link href={detailsHref}>
-            <a>{isService ? "مزيد من التفاصيل" : "مزيد من التفاصيل"}</a>
+            {isService ? "مزيد من التفاصيل" : "مزيد من التفاصيل"}
           </Link>
           {!isService && (
             <button

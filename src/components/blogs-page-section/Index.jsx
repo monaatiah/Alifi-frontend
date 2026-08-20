@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./styles/styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 // import userPlaceholder from "./assets/user.png";
 import BlogImg from "./assets/blog.png";
@@ -82,8 +82,8 @@ const Index = ({ categorySlug = null }) => {
                       width={415}
                       height={260}
                     />
-                    <Link href={`/blogs/${item?.slug}`}>
-                      <a aria-label={item?.title}></a>
+                    <Link href={`/blogs/${item?.slug}`} aria-label={item?.title}>
+
                     </Link>
                     {/* <span>
                       {item?.tags?.map((tag) => tag.name).join(", ") || ""}
@@ -110,7 +110,7 @@ const Index = ({ categorySlug = null }) => {
                     <div className="info-data">
                       <h3>
                         <Link href={`/blogs/${item.slug}`}>
-                          <a>{item?.title}</a>
+                          {item?.title}
                         </Link>
                       </h3>
                       <p
@@ -172,7 +172,7 @@ const Index = ({ categorySlug = null }) => {
                         </div>
                         <div className="title">
                           <Link href={`/blogs/${item?.slug}`}>
-                            <a>{item?.title}</a>
+                            {item?.title}
                           </Link>
                         </div>
                       </div>
@@ -193,7 +193,7 @@ const Index = ({ categorySlug = null }) => {
                         key={category?.id}
                       >
                         <Link href={`/blogs/categories/${category?.slug}`}>
-                          <a>{category?.name}</a>
+                          {category?.name}
                         </Link>
                       </div>
                     ))}
