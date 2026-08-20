@@ -70,6 +70,23 @@
     "jest-environment-jsdom": "^30.4.1",
     "wrangler": "^4.124.0"
   },
+  "overrides": {
+    "react-otp-input": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-flatpickr": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "workerd": true,
+    "sharp": true,
+    "@parcel/watcher": true,
+    "unrs-resolver": true
+  },
   "browserslist": {
     "production": [
       "defaults",
@@ -81,15 +98,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "overrides": {
-    "react-otp-input": {
-      "react": "$react",
-      "react-dom": "$react-dom"
-    },
-    "react-flatpickr": {
-      "react": "$react",
-      "react-dom": "$react-dom"
-    }
   }
 }
