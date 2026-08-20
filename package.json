@@ -1,0 +1,95 @@
+{
+  "name": "alifi",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev -p 2525",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  },
+  "dependencies": {
+    "@next/bundle-analyzer": "^15.5.23",
+    "@redux-devtools/extension": "^3.3.0",
+    "aos": "^2.3.4",
+    "axios": "^1.19.0",
+    "bootstrap": "^5.1.3",
+    "country-flag-icons": "^1.6.4",
+    "leaflet": "^1.9.4",
+    "lenis": "^1.3.13",
+    "next": "^15.5.23",
+    "next-redux-wrapper": "^8.1.0",
+    "next-seo": "^6.8.0",
+    "nookies": "^2.5.2",
+    "rc-rate": "^2.9.2",
+    "react": "^19.2.8",
+    "react-bootstrap": "^2.1.1",
+    "react-bootstrap-pagination-control": "^1.0.5",
+    "react-dom": "^19.2.8",
+    "react-flatpickr": "^4.0.11",
+    "react-google-recaptcha": "^3.1.0",
+    "react-hook-form": "^7.31.3",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.5.0",
+    "react-intl": "^7.1.14",
+    "react-otp-input": "^3.1.1",
+    "react-range": "^1.10.0",
+    "react-redux": "^9.2.0",
+    "react-select": "^5.10.2",
+    "react-select-country-list": "^2.2.3",
+    "react-topbar-progress-indicator": "^4.1.1",
+    "redux": "^5.0.1",
+    "redux-saga": "^1.1.3",
+    "sass": "^1.49.0",
+    "sharp": "^0.34.4",
+    "sweetalert2": "^11.26.18",
+    "swiper": "^7.4.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
+    "@svgr/webpack": "^8.0.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.5",
+    "@types/node": "^20.3.1",
+    "autoprefixer": "^10.5.4",
+    "eslint": "8.7.0",
+    "eslint-config-next": "^15.5.23",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "wrangler": "^4.124.0"
+  },
+  "browserslist": {
+    "production": [
+      "defaults",
+      "not IE 11",
+      "maintained node versions"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "overrides": {
+    "react-otp-input": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-flatpickr": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  }
+}

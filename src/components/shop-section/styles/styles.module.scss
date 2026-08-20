@@ -1,0 +1,98 @@
+@import "@/styles/variables.scss";
+
+.shop-section {
+  padding-block: 0 70px;
+  @media (max-width: 768px) {
+    padding-block: 0 50px;
+  }
+  :global {
+    .g-body {
+      position: relative;
+      .sw-navigation {
+        gap: 160px;
+        margin-top: -35px;
+        z-index: 6;
+        position: relative;
+        button {
+          all: unset;
+          cursor: pointer;
+          transition: $transition;
+          &.swiper-button-disabled {
+            opacity: 0.3;
+            pointer-events: none;
+          }
+        }
+      }
+
+      .swiper {
+        padding-bottom: 50px !important;
+        .swiper-slide {
+          padding-top: 35px;
+        }
+        .swiper-pagination {
+          .swiper-pagination-bullet {
+            background-color: #d3d3d3;
+            &.swiper-pagination-bullet-active {
+              background-color: $primary-color;
+            }
+          }
+        }
+      }
+      .block {
+        position: relative;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 5px solid #f8f8f8;
+        border-radius: 80px;
+        min-height: 170px;
+        transition: $transition;
+        &::before {
+          content: "";
+          position: absolute;
+          left: 20px;
+          top: -30px;
+          width: 70px;
+          height: 45px;
+          background-color: #f8f8f8;
+          border-radius: 33.5px;
+          rotate: -25deg;
+          transition: $transition;
+        }
+
+        a {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+        .icon {
+          width: 70px;
+          height: 70px;
+          margin: 0 auto 15px;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            font-size: 10px;
+          }
+        }
+        h3 {
+          font-size: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+        }
+
+        &:hover {
+          border-color: $secondary-color;
+          &::before {
+            background-color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}

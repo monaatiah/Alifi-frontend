@@ -1,0 +1,16 @@
+{
+  "fail": "^",
+  "home": "Home",
+  "wantToLogOut": "Are you sure you want to log out?",
+  "cancel": "Cancel",
+  "yes": "Yes",
+  "no": "No",
+  "verifyYourEmail": "Verify Your Email",
+  "enterVerificationCode": "Enter the verification code sent to your email",
+  "didntReceiveCode": "Didn't receive the code?",
+  "resendCode": "Resend Code",
+  "send": "Send",
+  "seconds": "Seconds",
+  "verify": "Verify",
+  "blogs": "Blogs"
+}

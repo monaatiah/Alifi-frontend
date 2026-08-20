@@ -1,0 +1,245 @@
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import styles from "./styles/styles.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import Link from "next/link";
+// import userPlaceholder from "./assets/user.png";
+import BlogImg from "./assets/blog.png";
+import { ImageWithFallback } from "@/helpers/functions";
+import Pagination from "../Shared/Pagination";
+import { useForm } from "react-hook-form";
+import { getFormSchema, postFormSubmission } from "@/store/actions";
+
+const Index = ({ categorySlug = null }) => {
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const { content, contentCategories } = useSelector((state) => state.content);
+  const { formSchema } = useSelector((state) => state.settings);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const normalize = (value) => (value ? String(value).toLowerCase().trim() : "");
+
+  const matchesCategory = (item) => {
+    if (!categorySlug) return true;
+
+    const target = normalize(categorySlug);
+    const possibleValues = [
+      item?.category?.slug,
+      item?.category_slug,
+      item?.content_category?.slug,
+      item?.content_category_slug,
+      item?.content_categories?.[0]?.slug,
+      item?.content_categories?.[0]?.category?.slug,
+      item?.content_category?.name,
+      item?.category?.name,
+    ]
+      .map(normalize)
+      .filter(Boolean);
+
+    return possibleValues.includes(target);
+  };
+
+  const visibleContent = (content?.data || []).filter(matchesCategory);
+
+  useEffect(() => {
+    dispatch(
+      getFormSchema({
+        slug: "newsletter",
+      }),
+    );
+  }, [dispatch]);
+
+  const onSubmit = (data) => {
+    dispatch(
+      postFormSubmission({
+        data,
+        slug: formSchema?.slug,
+        reset: reset,
+      }),
+    );
+  };
+
+  return (
+    <div className={styles["blogs-section"]}>
+      <Container>
+        <Row>
+          <Col xxl={9} lg={8}>
+            <div className="blogs-wrap">
+              {visibleContent.map((item) => (
+                <div className="block" key={item?.id}>
+                  <div className="img">
+                    <ImageWithFallback
+                      src={item?.cover_image || ""}
+                      alt={item?.title}
+                      width={415}
+                      height={260}
+                    />
+                    <Link href={`/blogs/${item?.slug}`} aria-label={item?.title}>
+
+                    </Link>
+                    {/* <span>
+                      {item?.tags?.map((tag) => tag.name).join(", ") || ""}
+                    </span> */}
+                  </div>
+                  <div className="info d-flex align-items-start">
+                    <div className="date d-flex flex-column align-items-center justify-content-center">
+                      <span>
+                        {new Date(item?.published_at).toLocaleDateString(
+                          "en-US",
+                          {
+                            day: "2-digit",
+                          },
+                        )}
+                      </span>
+                      {new Date(item?.published_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          year: "numeric",
+                        },
+                      )}
+                    </div>
+                    <div className="info-data">
+                      <h3>
+                        <Link href={`/blogs/${item.slug}`}>
+                          {item?.title}
+                        </Link>
+                      </h3>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: item?.body?.substring(0, 100) + "...",
+                        }}
+                      />
+                      {/* <div className="author d-flex align-items-center gap-3">
+                        <div className="au-img">
+                          <Image
+                            src={item?.author?.avatar || userPlaceholder}
+                            alt={item?.author?.name}
+                            width={50}
+                            height={50}
+                          />
+                        </div>
+                        <span>
+                          {item?.data?.author_name || item?.author?.name}
+                        </span>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={content?.last_page}
+              maxPagesToShow={5}
+            />
+          </Col>
+          <Col xxl={3} lg={4}>
+            <div className="blogs-sidebar">
+              <div className="widget">
+                <div className="widget-title">
+                  <h4>مقالات شائعة</h4>
+                </div>
+                <div className="recent-blogs">
+                  {visibleContent.slice(0, 3).map((item) => (
+                    <div className="d-flex align-items-center gap-3" key={item?.id}>
+                      <div className="img">
+                        <ImageWithFallback
+                          src={item?.cover_image || BlogImg}
+                          alt={item?.title || "Blog Title"}
+                          width={90}
+                          height={80}
+                        />
+                      </div>
+                      <div className="info">
+                        <div className="date">
+                          {item?.published_at
+                            ? new Date(item.published_at).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              })
+                            : ""}
+                        </div>
+                        <div className="title">
+                          <Link href={`/blogs/${item?.slug}`}>
+                            {item?.title}
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {contentCategories?.data?.length > 0 && (
+                <div className="widget">
+                  <div className="widget-title">
+                    <h4>التصنيفات</h4>
+                  </div>
+                  <div className="blog-categories">
+                    {contentCategories?.data?.map((category) => (
+                      <div
+                        className="d-flex align-items-center justify-content-between gap-3"
+                        key={category?.id}
+                      >
+                        <Link href={`/blogs/categories/${category?.slug}`}>
+                          {category?.name}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="widget newsletter-widget">
+                <div className="widget-title">
+                  <h4>النشرة الإخبارية</h4>
+                </div>
+                <div className="newsletter-box">
+                  <p>اشترك في نشرتنا الإخبارية للحصول على آخر التحديثات.</p>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    {formSchema?.fields?.map((field) => (
+                      <input
+                        type={field?.type}
+                        className="form-control"
+                        placeholder={field?.label}
+                        {...register(field?.key, {
+                          required: field?.required,
+                        })}
+                        key={field?.id}
+                      />
+                    ))}
+                    {errors[formSchema?.fields?.[0]?.key] && (
+                      <p className="error">
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
+                          "required" && "هذا الحقل مطلوب"}
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
+                          "pattern" &&
+                          errors[formSchema?.fields?.[0]?.key]?.message}
+                      </p>
+                    )}
+                    <button type="submit" className="btn">
+                      اشترك
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default Index;

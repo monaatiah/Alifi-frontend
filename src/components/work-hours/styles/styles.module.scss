@@ -1,0 +1,96 @@
+@import "@/styles/variables.scss";
+
+.work-hours-section {
+  padding-block: 70px;
+  @media (max-width: 768px) {
+    padding-block: 50px;
+  }
+  :global {
+    .info {
+      h3 {
+        position: relative;
+        font-weight: 700;
+        font-size: 30px;
+        margin-bottom: 30px;
+        @media (max-width: 1200px) {
+          font-size: 24px;
+        }
+        @media (max-width: 768px) {
+          font-size: 18px;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          height: 3px;
+          width: 60px;
+          background-color: #fa441d;
+        }
+      }
+      ul {
+        li {
+          &:not(:last-child) {
+            margin-bottom: 20px;
+          }
+          background-color: rgba(161, 163, 171, 0.0901960784);
+          border-radius: 15px;
+          padding: 20px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          h4 {
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 20px;
+            @media (max-width: 768px) {
+              font-size: 18px;
+            }
+            .icon {
+              width: 40px;
+              height: 40px;
+              background-color: $secondary-color;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              font-size: 25px;
+            }
+          }
+          p {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+      .empty-state {
+        background-color: rgba(161, 163, 171, 0.0901960784);
+        border-radius: 15px;
+        padding: 20px;
+      }
+    }
+    .map {
+      height: 400px;
+      overflow: hidden;
+      border-radius: 50px;
+      background-color: rgba(161, 163, 171, 0.0901960784);
+      @media (max-width: 768px) {
+        height: 300px;
+        border-radius: 20px;
+      }
+      &.empty-map {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+        color: #555;
+        font-weight: 600;
+      }
+      iframe {
+        height: 100%;
+        width: 100%;
+        border: 0;
+      }
+    }
+  }
+}

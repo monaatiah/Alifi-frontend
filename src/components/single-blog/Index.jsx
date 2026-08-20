@@ -1,0 +1,232 @@
+import React, { useEffect } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import styles from "./styles/styles.module.scss";
+import Image from "next/image";
+import BlogImg from "./assets/blog.png";
+import Link from "next/link";
+import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { getFullDate, ImageWithFallback } from "@/helpers/functions";
+import { getFormSchema, postFormSubmission } from "@/store/actions";
+import { useForm } from "react-hook-form";
+
+const Index = () => {
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const { formSchema } = useSelector((state) => state.settings);
+  const { contentBySlug, contentCategories } = useSelector(
+    (state) => state.content,
+  );
+
+  useEffect(() => {
+    dispatch(
+      getFormSchema({
+        slug: "newsletter",
+      }),
+    );
+  }, [dispatch]);
+
+  const handleShare = (platform) => {
+    if (typeof window === "undefined") return;
+
+    const currentUrl = window.location.href;
+    const shareLinks = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`,
+      whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+    };
+
+    if (shareLinks[platform]) {
+      window.open(shareLinks[platform], "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const onSubmit = (data) => {
+    dispatch(
+      postFormSubmission({
+        data,
+        slug: formSchema?.slug,
+        reset: reset,
+      }),
+    );
+  };
+
+  return (
+    <div className={styles["single-blog-section"]}>
+      <Container>
+        <Row>
+          <Col xxl={9} lg={8}>
+            <div className="blog-wrap">
+              <div className="post-img">
+                <ImageWithFallback
+                  src={contentBySlug?.cover_image}
+                  alt={contentBySlug?.title}
+                  width={900}
+                  height={430}
+                />
+              </div>
+              <div className="post-info d-flex align-items-center gap-3">
+                {/* <span className="category">سلوك</span> */}
+                <div className="d-flex align-items-center">
+                  <span className="date">
+                    {getFullDate(contentBySlug?.created_at)}
+                  </span>
+                  {/* <span className="comments">3 تعليقات</span> */}
+                </div>
+              </div>
+              <div className="post-content">
+                <h1>{contentBySlug?.title}</h1>
+                <div className="desc">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: contentBySlug?.body || "",
+                    }}
+                  />
+                </div>
+                <div className="post-share d-flex align-items-center gap-3">
+                  <span>شارك المقال:</span>
+                  <div className="social-icons d-flex align-items-center gap-2">
+                    <button
+                      className="social-btn facebook"
+                      onClick={() => handleShare("facebook")}
+                      aria-label="Share on Facebook"
+                    >
+                      <FaFacebookF />
+                    </button>
+                    <button
+                      className="social-btn twitter"
+                      onClick={() => handleShare("twitter")}
+                      aria-label="Share on Twitter"
+                    >
+                      <FaXTwitter />
+                    </button>
+                    <button
+                      className="social-btn linkedin"
+                      onClick={() => handleShare("linkedin")}
+                      aria-label="Share on LinkedIn"
+                    >
+                      <FaLinkedinIn />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+          <Col xxl={3} lg={4}>
+            <div className="blogs-sidebar">
+              <div className="widget">
+                <div className="widget-title">
+                  <h4>مقالات شائعة</h4>
+                </div>
+                <div className="recent-blogs">
+                  {contentBySlug?.related_contents?.length > 0 ? (
+                    contentBySlug.related_contents.map((item) => (
+                      <div className="d-flex align-items-center gap-3" key={item?.id}>
+                        <div className="img">
+                          <ImageWithFallback
+                            src={item?.cover_image || BlogImg}
+                            alt={item?.title || "Blog Title"}
+                            width={90}
+                            height={80}
+                          />
+                        </div>
+                        <div className="info">
+                          <div className="date">
+                            {getFullDate(item?.published_at || item?.created_at)}
+                          </div>
+                          <div className="title">
+                            <Link href={`/blogs/${item?.slug}`}>
+                              {item?.title}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="d-flex align-items-center gap-3">
+                      <div className="img">
+                        <Image
+                          src={BlogImg}
+                          alt="Blog Title"
+                          width={90}
+                          height={80}
+                        />
+                      </div>
+                      <div className="info">
+                        <div className="date"></div>
+                        <div className="title">لا توجد مقالات مرتبطة حالياً</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {contentCategories?.data?.length > 0 && (
+                <div className="widget">
+                  <div className="widget-title">
+                    <h4>التصنيفات</h4>
+                  </div>
+                  <div className="blog-categories">
+                    {contentCategories?.data?.map((category) => (
+                      <div
+                        className="d-flex align-items-center justify-content-between gap-3"
+                        key={category?.id}
+                      >
+                        <Link href={`/blogs/categories/${category?.slug}`}>
+                          {category?.name}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="widget newsletter-widget">
+                <div className="widget-title">
+                  <h4>النشرة الإخبارية</h4>
+                </div>
+                <div className="newsletter-box">
+                  <p>اشترك في نشرتنا الإخبارية للحصول على آخر التحديثات.</p>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    {formSchema?.fields?.map((field) => (
+                      <input
+                        type={field?.type}
+                        className="form-control"
+                        placeholder={field?.label}
+                        {...register(field?.key, {
+                          required: field?.required,
+                        })}
+                        key={field?.id}
+                      />
+                    ))}
+                    {errors[formSchema?.fields?.[0]?.key] && (
+                      <p className="error">
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
+                          "required" && "هذا الحقل مطلوب"}
+                        {errors[formSchema?.fields?.[0]?.key]?.type ===
+                          "pattern" &&
+                          errors[formSchema?.fields?.[0]?.key]?.message}
+                      </p>
+                    )}
+                    <button type="submit" className="btn">
+                      اشترك
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default Index;
