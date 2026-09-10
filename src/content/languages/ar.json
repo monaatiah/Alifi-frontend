@@ -12,5 +12,11 @@
   "send": "إرسال",
   "seconds": "ثواني",
   "verify": "تحقق",
-  "blogs": "المدونات"
+  "blogs": "المدونات",
+  "categoryEmptyTitle": "لا توجد منتجات في هذا التصنيف بعد",
+  "categoryEmptyHint": "عُد لاحقًا، أو تصفّح جميع المنتجات في هذه الأثناء.",
+  "browseAllProducts": "تصفّح جميع المنتجات",
+  "noMatchingProductsTitle": "لا توجد نتائج",
+  "noMatchingProductsHint": "لم نتمكن من العثور على منتجات تطابق الفلاتر المحددة.",
+  "clearFilters": "حذف الفلاتر"
 }

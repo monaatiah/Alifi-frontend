@@ -3,14 +3,20 @@ import { useDispatch } from "react-redux";
 import { getProducts } from "@/store/products/actions";
 import { getCategoryProducts } from "@/store/categories/actions";
 
+const DEFAULT_PRICE_RANGE = { min: 0, max: 10000 };
+
 export const useProductFilters = ({ categorySlug = null } = {}) => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+  const [priceRange, setPriceRange] = useState({ ...DEFAULT_PRICE_RANGE });
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const isFirstRender = useRef(true);
+
+  const isPriceRangeNarrowed =
+    priceRange.min > DEFAULT_PRICE_RANGE.min ||
+    priceRange.max < DEFAULT_PRICE_RANGE.max;
 
   const buildFilters = useCallback(() => {
     const filters = [{ field: "status", operator: "=", value: "published" }];
@@ -23,7 +29,7 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
       });
     }
 
-    if (priceRange.min > 0 || priceRange.max < 10000) {
+    if (isPriceRangeNarrowed) {
       filters.push(
         { field: "price", operator: ">=", value: priceRange.min },
         { field: "price", operator: "<=", value: priceRange.max },
@@ -39,7 +45,7 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
     }
 
     return filters;
-  }, [searchText, priceRange, selectedBrand]);
+  }, [searchText, priceRange, isPriceRangeNarrowed, selectedBrand]);
 
   const applyFilters = useCallback(() => {
     const filters = buildFilters();
@@ -47,8 +53,10 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
       ? [{ field: "created_at", direction: sortOrder }]
       : [];
 
-    const minPrice = priceRange.min > 0 ? priceRange.min : null;
-    const maxPrice = priceRange.max < 10000 ? priceRange.max : null;
+    const minPrice =
+      priceRange.min > DEFAULT_PRICE_RANGE.min ? priceRange.min : null;
+    const maxPrice =
+      priceRange.max < DEFAULT_PRICE_RANGE.max ? priceRange.max : null;
     const categorySort =
       sortOrder === "asc"
         ? "newest"
@@ -94,7 +102,7 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
   const resetFilters = useCallback(() => {
     setSearchText("");
     setSortOrder("");
-    setPriceRange({ min: 0, max: 10000 });
+    setPriceRange({ ...DEFAULT_PRICE_RANGE });
     setSelectedBrand(null);
     setCurrentPage(1);
   }, []);
@@ -121,6 +129,9 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
     selectedBrand,
   ]);
 
+  const hasActiveFilters =
+    Boolean(searchText.trim()) || Boolean(selectedBrand) || isPriceRangeNarrowed;
+
   return {
     searchText,
     setSearchText,
@@ -133,5 +144,6 @@ export const useProductFilters = ({ categorySlug = null } = {}) => {
     currentPage,
     setCurrentPage,
     resetFilters,
+    hasActiveFilters,
   };
 };

@@ -12,5 +12,11 @@
   "send": "Send",
   "seconds": "Seconds",
   "verify": "Verify",
-  "blogs": "Blogs"
+  "blogs": "Blogs",
+  "categoryEmptyTitle": "No products in this category yet",
+  "categoryEmptyHint": "Check back soon, or browse all products in the meantime.",
+  "browseAllProducts": "Browse all products",
+  "noMatchingProductsTitle": "No results",
+  "noMatchingProductsHint": "We couldn't find any products matching the selected filters.",
+  "clearFilters": "Clear filters"
 }
