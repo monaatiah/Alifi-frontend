@@ -90,7 +90,7 @@ const Index = () => {
             </Tab.Content>
           </div>
           <div className="load-more">
-            <Link href="/products" className="btn">
+            <Link href="/shop" className="btn">
               عرض جميع المنتجات المميزة
             </Link>
           </div>

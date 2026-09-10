@@ -55,7 +55,7 @@ const Index = () => {
       <Container>
         <h2 className="d-flex align-items-center gap-3 justify-content-between">
           المنتجات ذات الصلة
-          <Link href="/products" className="btn">
+          <Link href="/shop" className="btn">
             إظهار الكل
           </Link>
         </h2>
