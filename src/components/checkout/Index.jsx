@@ -19,6 +19,10 @@ import PaymentMethods from "./PaymentMethods";
 import CouponBox from "./CouponBox";
 import CartSummary from "./CartSummary";
 import Swal from "sweetalert2";
+import {
+  getLocalizedValue,
+  toPaymentMethodOptions,
+} from "@/helpers/checkoutOptions";
 
 const SAVED_CHECKOUT_VALUES_KEY = "saved_checkout_shipping_values";
 
@@ -39,33 +43,6 @@ const defaultShippingMethods = [
     price: 0,
   },
 ];
-
-const defaultPaymentMethods = [
-  {
-    code: "visa",
-    name: "visa",
-    display_name: "visa",
-    description: null,
-  },
-];
-
-const getLocalizedValue = (value, locale) => {
-  if (typeof value === "string") {
-    return value;
-  }
-
-  if (value && typeof value === "object") {
-    return (
-      value?.[locale] ||
-      value?.ar ||
-      value?.en ||
-      Object.values(value)?.[0] ||
-      ""
-    );
-  }
-
-  return "";
-};
 
 const mapToOptions = (items = [], locale, includeCountryCode = false) => {
   return items
@@ -194,24 +171,10 @@ const Index = () => {
       .filter((method) => method.value && method.label);
   }, [shippingMethods, locale]);
 
-  const paymentMethodOptions = useMemo(() => {
-    const source =
-      Array.isArray(paymentMethods) && paymentMethods.length
-        ? paymentMethods
-        : defaultPaymentMethods;
-
-    return source
-      .map((method) => ({
-        value: method?.code || method?.name || method?.id || "",
-        label:
-          getLocalizedValue(method?.display_name, locale) ||
-          getLocalizedValue(method?.description, locale) ||
-          getLocalizedValue(method?.name, locale) ||
-          method?.code ||
-          "",
-      }))
-      .filter((method) => method.value && method.label);
-  }, [paymentMethods, locale]);
+  const paymentMethodOptions = useMemo(
+    () => toPaymentMethodOptions(paymentMethods, locale),
+    [paymentMethods, locale],
+  );
 
   useEffect(() => {
     if (!selectedCountry?.value) {
@@ -378,6 +341,20 @@ const Index = () => {
   }, [regionOptions, savedShippingValues]);
 
   const submitForm = (data) => {
+    const paymentMethod =
+      getFirstValue(data, ["payment_method"]) ||
+      paymentMethodOptions?.[0]?.value;
+
+    if (!paymentMethod) {
+      Swal.fire({
+        icon: "error",
+        title: "خطأ",
+        text: "لا توجد طرق دفع متاحة حالياً.",
+        confirmButtonText: "حسناً",
+      });
+      return;
+    }
+
     const payload = {
       shipping_address: {
         name: getFirstValue(data, ["name"]),
@@ -404,10 +381,7 @@ const Index = () => {
         getFirstValue(data, ["shipping_method"]) ||
         shippingMethodOptions?.[0]?.value ||
         "Flat Rate",
-      payment_method:
-        getFirstValue(data, ["payment_method"]) ||
-        paymentMethodOptions?.[0]?.value ||
-        "cod",
+      payment_method: paymentMethod,
       notes: getFirstValue(data, ["notes"]),
     };
 
