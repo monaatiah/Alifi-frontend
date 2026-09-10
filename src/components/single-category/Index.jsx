@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { ImageWithFallback } from "@/helpers/functions";
 import FilterWrap from "./FilterWrap";
 
-const Index = () => {
+const CategoryListing = () => {
   const router = useRouter();
   const { singleCategory, loading } = useSelector((state) => state.categories);
 
@@ -35,6 +35,7 @@ const Index = () => {
     currentPage,
     setCurrentPage,
     resetFilters,
+    hasActiveFilters,
   } = useProductFilters({ categorySlug: singleCategory?.slug });
 
   const handleCategoryClick = (event, slug) => {
@@ -168,13 +169,26 @@ const Index = () => {
                 />
               </>
             ) : (
-              <EmptyState />
+              <EmptyState
+                hasActiveFilters={hasActiveFilters}
+                onResetFilters={resetFilters}
+              />
             )}
           </Col>
         </Row>
       </Container>
     </div>
   );
+};
+
+// Next keeps this page mounted when navigating between categories, so key the listing by
+// slug: each category starts on page 1 with default filters and fetches its own products.
+const Index = () => {
+  const categorySlug = useSelector(
+    (state) => state.categories.singleCategory?.slug,
+  );
+
+  return <CategoryListing key={categorySlug} />;
 };
 
 export default Index;
